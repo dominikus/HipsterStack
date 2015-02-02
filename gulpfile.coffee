@@ -1,9 +1,9 @@
-gulp = require('gulp')
-coffee = require('gulp-coffee')
-concat = require('gulp-concat')
-notify = require('gulp-notify')
-sourcemaps = require('gulp-sourcemaps')
-bower = require('main-bower-files')
+gulp = require 'gulp'
+coffee = require 'gulp-coffee'
+concat = require 'gulp-concat'
+notify = require 'gulp-notify'
+sourcemaps = require 'gulp-sourcemaps'
+bower = require 'main-bower-files'
 sass = require 'gulp-ruby-sass'
 fileinclude = require 'gulp-file-include'
 replace = require 'gulp-replace-task'
@@ -89,13 +89,13 @@ gulp.task 'includereplace', ->
 
 gulp.task 'uglify', ->
 	gulp.src config.target + '/js/main.js'
-	.pipe uglify
+	.pipe uglify()
 	.on "error", notify.onError "Error: <%= error.message %>"
 	.pipe gulp.dest config.target + '/js'
 
 gulp.task 'imagemin', ->
 	gulp.src config.target + '/assets/**/*.{png,jpg,gif}'
-	.pipe imagemin
+	.pipe imagemin()
 	.on "error", notify.onError "Error: <%= error.message %>"
 	.pipe gulp.dest config.target + '/assets'
 
