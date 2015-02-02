@@ -11,6 +11,8 @@ connect = require 'gulp-connect'
 del = require 'del'
 uglify = require 'gulp-uglify'
 imagemin = require 'gulp-imagemin'
+sequence = require 'run-sequence'
+sftp = require 'gulp-sftp'
 
 configDev =
 	"mode": "dev"	# dev|dist
@@ -36,6 +38,15 @@ configDist =
 config = configDev
 
 onError = (err) -> notify().write err
+
+
+gulp.task 'sftp-deploy', ->
+	gulp.src config.target + '/**/*!(.sass-cache)*'
+	.pipe sftp
+		host: 'starling.columba.uberspace.de'
+		port: 22
+		authKey: 'key1'
+		remotePath: '/var/www/virtual/starling/html/test'
 
 gulp.task 'bower', ->
 	gulp.src bower()
@@ -87,13 +98,13 @@ gulp.task 'includereplace', ->
 		patterns: [ json: config.variables ]
 	.pipe gulp.dest config.target + '/'
 
-gulp.task 'uglify', ->
-	gulp.src config.target + '/js/main.js'
+gulp.task 'uglify', ['initial-build'], ->
+	gulp.src config.target + '/js/**/*.js'
 	.pipe uglify()
 	.on "error", notify.onError "Error: <%= error.message %>"
 	.pipe gulp.dest config.target + '/js'
 
-gulp.task 'imagemin', ->
+gulp.task 'imagemin', ['initial-build'], ->
 	gulp.src config.target + '/assets/**/*.{png,jpg,gif}'
 	.pipe imagemin()
 	.on "error", notify.onError "Error: <%= error.message %>"
@@ -102,8 +113,8 @@ gulp.task 'imagemin', ->
 gulp.task 'clean', (cb) ->
 	del [ config.target ], cb
 
-gulp.task 'initial-build', ['clean'], () ->
-	gulp.start ['copy', 'includereplace', 'coffee', 'sass', 'bower']
+gulp.task 'initial-build', ['clean'], (cb) ->
+	sequence(['copy', 'includereplace', 'coffee', 'sass', 'bower'], cb)
 
 gulp.task 'connect', ['initial-build'], ->
 	connect.server
@@ -120,115 +131,18 @@ gulp.task 'watch', ['connect'], ->
 	gulp.watch 'src/data/**/*', ['copy']
 	gulp.watch 'src/**/*.html', ['includereplace']
 
-gulp.task 'minify', ['initial-build'], ->
-	gulp.start 'uglify'
+gulp.task 'minify', ['uglify', 'imagemin']
 
 # main tasks:
 gulp.task 'dev', ->
 	config = configDev
-	gulp.start 'watch'
+	sequence 'watch'
 
 gulp.task 'dist', ->
 	config = configDist
-	gulp.start 'minify'
+	sequence 'minify'
 
-
-# 		'config:dist'
-# 		'clean'
-# 		'copy'
-# 		'bower_concat'
-# 		'coffee'
-# 		'compass'
-# 		'includereplace'
-# 		'uglify'
-# 		'cssmin'
-# 		'imagemin'
-# 		'connect:default:keepalive'
-
-
-# 		"sftp-deploy":
-# 			default:
-# 				auth:
-# 					host: 'starling.columba.uberspace.de'
-# 					port: 22,
-# 					authKey: 'key1'
-
-# 				src: 'dist'
-# 				dest: '/var/www/virtual/starling/html/wef/transformation-maps/'
-# 				exclusions: ['.sass-cache']
-# 				progress: true
-
-
-
-# 		# dist
-
-
-# 		cssmin:
-# 			combine:
-# 				files:
-# 					'<%= grunt.config.get("environment") %>/css/styles.css': ['<%= grunt.config.get("environment") %>/css/styles.css']
-
-
-# 		uglify:
-# 			options:
-# 				compress:
-# 					drop_console: true
-# 				mangle: true
-# 			default:
-# 				files: [
-# 					'<%= grunt.config.get("environment") %>/js/libs.js' : '<%= grunt.config.get("environment") %>/js/libs.js'
-# 					'<%= grunt.config.get("environment") %>/js/main.js' : '<%= grunt.config.get("environment") %>/js/main.js'
-# 				]
-
-
-# 		imagemin:
-# 			default:
-# 				files: [
-# 					expand: true
-# 					cwd: '<%= grunt.config.get("environment") %>/assets/'
-# 					src: ['**/*.{png,jpg,gif}']
-# 					dest: '<%= grunt.config.get("environment") %>/assets/'
-# 				]
-
-# 	)
-
-# 	## setup
-# 	require('load-grunt-tasks')(grunt)
-
-# 	## tasks
-# 	grunt.registerTask('default', [
-# 		'config:dev'
-# 		'coffee'
-# 		'compass'
-# 	])
-
-# 	grunt.registerTask('dev', [
-# 		'config:dev'
-# 		'clean'
-# 		'copy'
-# 		'bower_concat'
-# 		'coffee'
-# 		'compass'
-# 		'includereplace'
-# 		'connect'
-# 		'watch'
-# 	])
-
-# 	grunt.registerTask('dist', [
-# 		'config:dist'
-# 		'clean'
-# 		'copy'
-# 		'bower_concat'
-# 		'coffee'
-# 		'compass'
-# 		'includereplace'
-# 		'uglify'
-# 		'cssmin'
-# 		'imagemin'
-# 		'connect:default:keepalive'
-# 	])
-
-# 	grunt.registerTask('ftp', [
-# 		'sftp-deploy'
-# 	])
+gulp.task 'ftp', ->
+	config = configDist
+	sequence 'sftp-deploy'
 
