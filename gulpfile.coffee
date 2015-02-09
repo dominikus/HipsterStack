@@ -130,16 +130,19 @@ gulp.task 'bump:minor', () ->
 		type: 'minor'
 	.pipe gulp.dest('./')
 
+errorHandler = (error) ->
+	console.log error.toString()
+	this.emit('end')
+
 gulp.task 'tag', () ->
 	pkg = require './package.json'
 	v = 'v' + pkg.version
 	message = 'Release ' + v
 
-	gulp.src './'
-	.pipe git.commit message
-	.pipe git.tag v, message
-	.pipe git.push 'origin', 'master', '--tags'
-	.pipe gulp.dest './'
+	git.commit message
+	git.tag v, message
+	git.push 'origin', 'master', {args: '--tags'}
+
 
 gulp.task 'clean', (cb) ->
 	del [ config.target ], cb
