@@ -15,6 +15,9 @@ sequence = require 'run-sequence'
 sftp = require 'gulp-sftp'
 bump = require 'gulp-bump'
 git = require 'gulp-git'
+Bust = require 'gulp-bust'
+
+bust = new Bust()
 
 
 configDev =
@@ -143,6 +146,7 @@ gulp.task 'watch', ['connect'], ->
 	gulp.watch 'src/**/*.html', ['includereplace']
 
 gulp.task 'minify', ['uglify', 'imagemin']
+
 
 # main tasks:
 gulp.task 'dev', ->
