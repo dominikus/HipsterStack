@@ -43,7 +43,7 @@ config = configDev
 onError = (err) -> notify().write err
 
 
-gulp.task 'sftp-deploy', ->
+gulp.task 'sftp-deploy', ['minify'], ->
 	gulp.src config.target + '/**/*!(.sass-cache)*'
 	.pipe sftp
 		host: 'starling.columba.uberspace.de'
@@ -53,12 +53,14 @@ gulp.task 'sftp-deploy', ->
 
 gulp.task 'bower', ->
 	gulp.src bower()
+	.pipe connect.reload()
 	.pipe concat "libs.js"
 	.pipe gulp.dest config.target + '/js'
 
 gulp.task 'coffee', ->
 	gulp.src ['src/coffee/main.coffee', 'src/coffee/**/!(main)*.coffee']
 	.pipe concat "main.js"
+	.pipe connect.reload()
 	.pipe sourcemaps.init()
 	.pipe coffee bare:false
 	.on "error", notify.onError "Error: <%= error.message %>"
@@ -79,6 +81,7 @@ gulp.task 'sass', ->
 			require('node-bourbon').includePaths[0]
 		]
 	.on "error", notify.onError "Error: <%= error.message %>"
+	.pipe connect.reload()
 	.pipe gulp.dest config.target + '/css'
 
 
@@ -92,6 +95,9 @@ gulp.task 'copy', ->
 	gulp.src "src/data/**/*"
 	.pipe gulp.dest config.target + '/data'
 
+	gulp.src "./"
+	.pipe connect.reload()
+
 gulp.task 'includereplace', ->
 	gulp.src "src/**/!(_)*.html"
 	.pipe fileinclude
@@ -99,6 +105,7 @@ gulp.task 'includereplace', ->
 		basepath: '@file'
 	.pipe replace
 		patterns: [ json: config.variables ]
+	.pipe connect.reload()
 	.pipe gulp.dest config.target + '/'
 
 gulp.task 'uglify', ['initial-build'], ->
@@ -112,36 +119,6 @@ gulp.task 'imagemin', ['initial-build'], ->
 	.pipe imagemin()
 	.on "error", notify.onError "Error: <%= error.message %>"
 	.pipe gulp.dest config.target + '/assets'
-
-gulp.task 'bump', () ->
-	gulp.src ['./package.json', './bower.json']
-	.pipe bump()
-	.pipe gulp.dest('./')
-
-gulp.task 'bump:major', () ->
-	gulp.src ['./package.json', './bower.json']
-	.pipe bump
-		type: 'major'
-	.pipe gulp.dest('./')
-
-gulp.task 'bump:minor', () ->
-	gulp.src ['./package.json', './bower.json']
-	.pipe bump
-		type: 'minor'
-	.pipe gulp.dest('./')
-
-errorHandler = (error) ->
-	console.log error.toString()
-	this.emit('end')
-
-gulp.task 'tag', () ->
-	pkg = require './package.json'
-	v = 'v' + pkg.version
-	message = 'Release ' + v
-
-	git.commit message
-	git.tag v, message
-	git.push 'origin', 'master', {args: '--tags'}
 
 
 gulp.task 'clean', (cb) ->
@@ -160,9 +137,9 @@ gulp.task 'watch', ['connect'], ->
 	gulp.watch 'bower_components/**', ['bower']
 	gulp.watch 'src/coffee/**', ['coffee']
 	gulp.watch 'src/sass/**', ['sass']
-	gulp.watch 'src/assets/**/*', ['copy']
+	gulp.watch 'src/assets/**', ['copy']
 	gulp.watch 'src/js/**/*', ['copy']
-	gulp.watch 'src/data/**/*', ['copy']
+	gulp.watch 'src/data/**', ['copy']
 	gulp.watch 'src/**/*.html', ['includereplace']
 
 gulp.task 'minify', ['uglify', 'imagemin']
@@ -180,3 +157,29 @@ gulp.task 'ftp', ->
 	config = configDist
 	sequence 'sftp-deploy'
 
+gulp.task 'bump', () ->
+	gulp.src ['./package.json', './bower.json']
+	.pipe bump()
+	.pipe gulp.dest('./')
+
+gulp.task 'bump:major', () ->
+	gulp.src ['./package.json', './bower.json']
+	.pipe bump
+		type: 'major'
+	.pipe gulp.dest('./')
+
+gulp.task 'bump:minor', () ->
+	gulp.src ['./package.json', './bower.json']
+	.pipe bump
+		type: 'minor'
+	.pipe gulp.dest('./')
+
+
+gulp.task 'tag', () ->
+	pkg = require './package.json'
+	v = 'v' + pkg.version
+	message = 'Release ' + v
+
+	git.commit message
+	git.tag v, message
+	git.push 'origin', 'master', {args: '--tags'}
