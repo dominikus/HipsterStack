@@ -13,6 +13,9 @@ uglify = require 'gulp-uglify'
 imagemin = require 'gulp-imagemin'
 sequence = require 'run-sequence'
 sftp = require 'gulp-sftp'
+bump = require 'gulp-bump'
+git = require 'gulp-git'
+
 
 configDev =
 	"mode": "dev"	# dev|dist
@@ -109,6 +112,34 @@ gulp.task 'imagemin', ['initial-build'], ->
 	.pipe imagemin()
 	.on "error", notify.onError "Error: <%= error.message %>"
 	.pipe gulp.dest config.target + '/assets'
+
+gulp.task 'bump', () ->
+	gulp.src ['./package.json', './bower.json']
+	.pipe bump()
+	.pipe gulp.dest('./')
+
+gulp.task 'bump:major', () ->
+	gulp.src ['./package.json', './bower.json']
+	.pipe bump
+		type: 'major'
+	.pipe gulp.dest('./')
+
+gulp.task 'bump:minor', () ->
+	gulp.src ['./package.json', './bower.json']
+	.pipe bump
+		type: 'minor'
+	.pipe gulp.dest('./')
+
+gulp.task 'tag', () ->
+	pkg = require './package.json'
+	v = 'v' + pkg.version
+	message = 'Release ' + v
+
+	gulp.src './'
+	.pipe git.commit message
+	.pipe git.tag v, message
+	.pipe git.push 'origin', 'master', '--tags'
+	.pipe gulp.dest './'
 
 gulp.task 'clean', (cb) ->
 	del [ config.target ], cb
