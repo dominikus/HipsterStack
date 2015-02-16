@@ -18,21 +18,11 @@
   "dependencies": {
     "underscore": "~1.6.0",
     "d3": "~3.4.1",
-    "jquery": "1.9.1",
-    "backbone": "~1.1.2",
-    "bootstrap-sass": "~3.3.3"
+    "jquery": "1.9.1"
   },
   "overrides": {
     "jquery": {
       "main": "jquery.min.js"
-    },
-    "backbone": {
-      "dependencies": {
-        "jquery": ">= 1.9.1"
-      }
-    },
-    "bootstrap-sass": {
-      "ignore": true
     }
   }
 }
