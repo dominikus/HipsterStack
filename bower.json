@@ -18,7 +18,8 @@
   "dependencies": {
     "underscore": "~1.6.0",
     "d3": "~3.4.1",
-    "jquery": "1.9.1"
+    "jquery": "1.9.1",
+    "backbone": "~1.1.2"
   },
   "overrides": {
     "jquery": {
