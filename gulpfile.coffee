@@ -19,6 +19,14 @@ Bust = require 'gulp-bust'
 
 bust = new Bust()
 
+pkg = require './package.json'
+
+banner = """
+#{pkg.name}
+authors: #{pkg.authors}
+version: #{pkg.version}
+date: #{new Date()}
+"""
 
 configDev =
 	"mode": "dev"	# dev|dist
@@ -29,6 +37,8 @@ configDev =
 		"GA_ID": "_"
 		"GA_URL": "_"
 		"FB_APP_ID": "_"
+		"BANNER": banner
+		"VERSION": pkg.version
 
 configDist =
 	"mode": "dist"	# dev|dist
@@ -39,6 +49,8 @@ configDist =
 		"GA_ID": "_"
 		"GA_URL": "_"
 		"FB_APP_ID": "_"
+		"BANNER": banner
+		"VERSION": pkg.version
 
 
 config = configDev
@@ -52,7 +64,14 @@ gulp.task 'sftp-deploy', ['minify'], ->
 		host: 'starling.columba.uberspace.de'
 		port: 22
 		authKey: 'key1'
-		remotePath: '/var/www/virtual/starling/html/test'
+		remotePath: "/var/www/virtual/starling/html/test/#{pkg.version}"
+
+	gulp.src config.target + '/.htaccess'
+		.pipe sftp
+			host: 'starling.columba.uberspace.de'
+			port: 22
+			authKey: 'key1'
+			remotePath: '/var/www/virtual/starling/html/test'
 
 gulp.task 'bower', ->
 	gulp.src bower()
@@ -102,7 +121,7 @@ gulp.task 'copy', ->
 	.pipe connect.reload()
 
 gulp.task 'includereplace', ->
-	gulp.src "src/**/!(_)*.html"
+	gulp.src ["src/**/!(_)*.html", "src/.htaccess"]
 	.pipe fileinclude
 		prefix: '@@'
 		basepath: '@file'

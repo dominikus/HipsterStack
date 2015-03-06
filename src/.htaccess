@@ -1,0 +1,4 @@
+RewriteEngine on
+RewriteRule latest 0.5.0 [L]
+
+Options +Indexes
