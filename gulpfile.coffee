@@ -58,20 +58,23 @@ config = configDev
 onError = (err) -> notify().write err
 
 
+remotePath = "/var/www/virtual/starling/html/#{pkg.name}"
+
 gulp.task 'sftp-deploy', ['minify'], ->
 	gulp.src config.target + '/**/*!(.sass-cache)*'
 	.pipe sftp
 		host: 'starling.columba.uberspace.de'
 		port: 22
 		authKey: 'key1'
-		remotePath: "/var/www/virtual/starling/html/test/#{pkg.version}"
+		remotePath: "#{remotePath}/#{pkg.version}"
 
 	gulp.src config.target + '/.htaccess'
 		.pipe sftp
 			host: 'starling.columba.uberspace.de'
 			port: 22
 			authKey: 'key1'
-			remotePath: '/var/www/virtual/starling/html/test'
+			remotePath: remotePath
+
 
 gulp.task 'bower', ->
 	gulp.src bower()
