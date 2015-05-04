@@ -1,7 +1,6 @@
 {
   "name": "PROJECT-NAME",
-  "version": "0.7.0",
-  "homepage": "https://github.com/dominikus/HipsterStack",
+  "version": "0.1.0",
   "authors": [
     "Moritz Stefaner <moritz@stefaner.eu>",
     "Dominikus Baur <do@minik.us>"
