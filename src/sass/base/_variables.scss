@@ -1,12 +1,12 @@
 // Typography
-$base-font-family: $helvetica;
+$base-font-family: $font;
 $heading-font-family: $base-font-family;
 
 // Font Sizes
-$base-font-size: 1em;
+$base-font-size: 2em;
 
 // Line height
-$base-line-height: 1.5;
+$base-line-height: 1.4;
 $heading-line-height: 1.2;
 
 // Other Sizes
@@ -24,7 +24,10 @@ $light-gray: #ddd;
 // Font Colors
 $base-background-color: #fff;
 $base-font-color: $dark-gray;
-$action-color: $blue;
+
+$action-color: #477dca;
+
+$bg: #32363c
 
 // Border
 $base-border-color: $light-gray;
@@ -33,3 +36,7 @@ $base-border: 1px solid $base-border-color;
 // Forms
 $form-box-shadow: inset 0 1px 3px rgba(#000, 0.06);
 $form-box-shadow-focus: $form-box-shadow, 0 0 5px adjust-color($action-color, $lightness: -5%, $alpha: -0.3);
+
+@mixin caps
+	text-transform: uppercase
+	letter-spacing: .09em

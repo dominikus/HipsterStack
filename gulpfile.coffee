@@ -33,7 +33,7 @@ configDev =
 	"target": "dev"	# dev|dist
 	"bowerDir": "bower_components"
 	"variables":
-		"SITE_NAME": "Site name"
+		"SITE_NAME": "SITENAME"
 		"GA_ID": "_"
 		"GA_URL": "_"
 		"FB_APP_ID": "_"
@@ -45,7 +45,7 @@ configDist =
 	"target": "dist"	# dev|dist
 	"bowerDir": "bower_components"
 	"variables":
-		"SITE_NAME": "Site name"
+		"SITE_NAME": "SITENAME"
 		"GA_ID": "_"
 		"GA_URL": "_"
 		"FB_APP_ID": "_"
@@ -56,7 +56,6 @@ configDist =
 config = configDev
 
 onError = (err) -> notify().write err
-
 
 remotePath = "/var/www/virtual/starling/html/#{pkg.name}"
 
@@ -83,7 +82,7 @@ gulp.task 'bower', ->
 	.pipe gulp.dest config.target + '/js'
 
 gulp.task 'coffee', ->
-	gulp.src ['src/coffee/main.coffee', 'src/coffee/**/!(main)*.coffee']
+	gulp.src ['src/coffee/**/!(main)*.coffee', 'src/coffee/main.coffee']
 	.pipe concat "main.js"
 	.pipe connect.reload()
 	.pipe sourcemaps.init()
