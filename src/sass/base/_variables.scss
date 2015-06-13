@@ -1,9 +1,12 @@
+$font: "Helvetica Neue", sans;
+$mono: Inconsolata, mono;
+
 // Typography
 $base-font-family: $font;
 $heading-font-family: $base-font-family;
 
 // Font Sizes
-$base-font-size: 2em;
+$base-font-size: 14px;
 
 // Line height
 $base-line-height: 1.4;
@@ -22,12 +25,16 @@ $medium-gray: #999;
 $light-gray: #ddd;
 
 // Font Colors
-$base-background-color: #fff;
-$base-font-color: $dark-gray;
-
+$bg: #24353d;
+$bg2: darken($bg, 5);
+$text: #F0F0F0;
 $action-color: #477dca;
 
-$bg: #32363c
+$base-background-color: $bg;
+$base-font-color: $text;
+
+
+
 
 // Border
 $base-border-color: $light-gray;
@@ -37,6 +44,7 @@ $base-border: 1px solid $base-border-color;
 $form-box-shadow: inset 0 1px 3px rgba(#000, 0.06);
 $form-box-shadow-focus: $form-box-shadow, 0 0 5px adjust-color($action-color, $lightness: -5%, $alpha: -0.3);
 
-@mixin caps
-	text-transform: uppercase
-	letter-spacing: .09em
+@mixin caps{
+	text-transform: uppercase;
+	letter-spacing: .09em;
+}
