@@ -1,13 +1,9 @@
 *sass-cache
-dist/*
 node_modules/*
+build/*
 *.sublime-project
 *.sublime-workspace
 js/build/*
 css/build/*
-
-/bower_components/
-
-/dev/
-
-/.ftppass
+bower_components/
+.ftppass
