@@ -8,9 +8,10 @@ import d3_request from "d3-request";
 
 import "../html/index.html";
 import "../sass/main.sass";
-import dataPath from "file!../data/data.tsv"
+import dataPath from "file!../data/data.tsv";
 
-d3_request.csv(dataPath, (d)=> {
+d3_request.tsv(dataPath, (d)=> {
+
 	ReactDOM.render(
 		<App data={d}/>,
 		document.getElementById('app')

@@ -6,11 +6,15 @@ module.exports = {
   entry: "./jsx/main.jsx",
   output: {
     path: path.join(__dirname, 'build'),
-    filename: 'js/app.js'
+    filename: 'js/app.js',
+    publicPath: "/"
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
-    modulesDirectories: ["src/jsx", "node_modules"]
+    modulesDirectories: ["src/jsx", "node_modules"],
+  },
+  node: {
+    fs: "empty"
   },
   module: {
     loaders: [
@@ -25,7 +29,7 @@ module.exports = {
       },
       {
         test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
-        loader: "file"
+        loader: "file?name=img/[name].[ext]"
       },
       {
         test: /\.html$/,
@@ -34,6 +38,10 @@ module.exports = {
       {
         test: /\.sass$/,
         loaders: ["style", "css", "sass?indentedSyntax"]
+      },
+      {
+        test: /\.json$/,
+        loader: 'json-loader'
       }
     ]
   },
