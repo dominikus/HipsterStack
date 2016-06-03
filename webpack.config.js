@@ -17,11 +17,7 @@ module.exports = {
       {
         exclude: /node_modules/,
         test: /\.jsx?$/,
-        loader: "babel-loader",
-        query: {
-          cacheDirectory: true,
-          presets: ['es2015', 'react']
-        }
+        loader: "babel"
       },
       {
         test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,

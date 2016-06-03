@@ -1,18 +1,39 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import _ from 'lodash';
+import {observable} from 'mobx';
+import {observer} from 'mobx-react';
+import DevTools from 'mobx-react-devtools';
 
-import App from 'App';
+const appState =  new class AppState {
+    @observable timer = 0;
 
-import d3_request from "d3-request";
+    constructor() {
+        setInterval(() => {
+            appState.timer += 1;
+        }, 1000);
+    }
 
-import "../html/index.html";
-import "../sass/main.sass";
-import dataPath from "file!../data/data.tsv"
+    resetTimer() {
+        this.timer = 0;
+    }
+}();
 
-d3_request.csv(dataPath, (d)=> {
-	ReactDOM.render(
-		<App data={d}/>,
-		document.getElementById('app')
-	);
-});
+@observer
+class TimerView extends Component {
+     render() {
+        return (
+            <div>
+                <button onClick={this.onReset}>
+                    Seconds passed: {this.props.appState.timer}
+                </button>
+                <DevTools />
+            </div>
+        );
+     }
+
+     onReset = () => {
+       this.props.appState.resetTimer();
+     }
+};
+
+ReactDOM.render(<TimerView appState={appState} />, document.getElementById('app'));
