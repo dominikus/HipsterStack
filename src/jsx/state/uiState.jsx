@@ -1,6 +1,6 @@
 import {observable, computed} from 'mobx';
 
-export const uiState =  new class UiState {
+class UiState {
 	@observable timer = 0;
 	@observable language = "en";
 	@observable currentView = "";
@@ -18,4 +18,6 @@ export const uiState =  new class UiState {
 	resetTimer() {
 		this.timer = 0;
 	}
-}();
+};
+const uiState = new UiState();
+export default uiState;

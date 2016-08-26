@@ -1,7 +1,7 @@
-import { Router } from 'director';
-import { autorun } from 'mobx';
+import {Router} from 'director';
+import {autorun} from 'mobx';
 
-import { uiState } from 'state/uiState';
+import uiState from 'state/uiState';
 
 let routes = {
 	":id": (id) => {
