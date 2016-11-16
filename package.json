@@ -33,7 +33,9 @@
   "dependencies": {
     "d3": "^4.3.0",
     "director": "^1.2.8",
+    "extract-loader": "^0.0.2",
     "gsap": "^1.19.0",
+    "html-loader": "^0.4.4",
     "lodash": "^4.17.2",
     "mobx": "^2.6.2",
     "mobx-react": "^3.5.9",

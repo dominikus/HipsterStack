@@ -4,6 +4,7 @@ class UiState {
 	@observable timer = 0;
 	@observable language = "en";
 	@observable currentView = "";
+	@observable dataLoaded = false;
 
 	constructor() {
 		setInterval(() => {

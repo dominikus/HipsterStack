@@ -28,16 +28,16 @@ module.exports = {
 				loader: "babel"
 			},
 			{
-				test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
-				loader: "file"
+				test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$|\.tsv$/,
+				loader: "file?name=[name]-[hash:6].[ext]"
 			},
 			{
-				test: /\.html$/,
-				loader: "file?name=[name].[ext]",
-			},
+        test: /\.html$/,
+        loader: 'file?name=[name].[ext]!extract-loader!html?interpolate=require'
+      },
 			{
 				test: /\.sass$/,
-				loaders: ["style", "css", "sass?indentedSyntax"]
+				loaders: ["style?name=[name]-[hash:6].[ext]", "css", "sass?indentedSyntax"]
 			}
 		]
 	},
