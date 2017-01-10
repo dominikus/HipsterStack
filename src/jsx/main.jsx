@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
-import DevTools from 'mobx-react-devtools';
 
 import {loadAllDataSets, getDataSet} from 'data/dataStore';
 
@@ -13,7 +12,7 @@ import uiState from "state/uiState"
 import App from 'App';
 
 ReactDOM.render(<App uiState={uiState}/>, document.getElementById('app'));
+
 loadAllDataSets().then((dataSets)=>{
-	console.table(getDataSet("first-dataset"));
 	uiState.dataLoaded = true;
 })
