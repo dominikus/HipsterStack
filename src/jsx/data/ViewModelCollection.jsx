@@ -1,20 +1,34 @@
 import {observer} from 'mobx-react'
-import {autorun, observable, map, toJS, extendObservable, action} from 'mobx'
+import {autorun, observe, observable, map, toJS, extendObservable, action} from 'mobx'
 import {assign, clone} from 'lodash'
 
 export default class ViewModelCollection {
-
-	constructor(template){
-		this.viewModels = new Map()
+	@observable viewModels = []
+	constructor(models, template){
+		this.viewModelMap = new Map()
 		this.template = template
+
+		observe(models, (e)=>{
+			// housekeeping
+			e.added.forEach(item=>{
+				// console.log("++", item)
+				this.viewModels.push(this.viewModelForObject(item))
+			})
+
+			e.removed.forEach(item=>{
+				// console.log("--", item)
+				this.viewModels.splice(this.viewModels.indexOf(this.viewModelMap.get(item)), 1)
+			})
+
+		}, true)
 	}
 
 	viewModelForObject(o){
-		let m = this.viewModels.get(o)
+		let m = this.viewModelMap.get(o)
 		if(!m){
 			// no model yet, create new
 			m = this.makeViewModel(o)
-			this.viewModels.set(o, m)
+			this.viewModelMap.set(o, m)
 		}
 		return m
 	}

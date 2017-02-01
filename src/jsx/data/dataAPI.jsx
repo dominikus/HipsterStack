@@ -51,22 +51,22 @@ autorun(()=>{
 	console.log('items', dataAPI.items)
 })
 
-// setInterval(()=>{
-// 	dataAPI.items[1].label += '.'
-// }, 300)
+setInterval(()=>{
+	dataAPI.items[1].label += '.'
+}, 300)
 
-// let counter = 0
-// setInterval(()=>{
-// 	dataAPI.addItem({
-// 		id: 'id_' + counter++,
-// 		label: counter,
-// 		x: counter*10,
-// 		y: Math.random()*100
-// 	})
-// }, 5000)
+let counter = 0
+setInterval(()=>{
+	dataAPI.addItem({
+		id: 'id_' + counter++,
+		label: counter,
+		x: counter*10,
+		y: Math.random()*100
+	})
+}, 1500)
 
-// setInterval(()=>{
-// 	dataAPI.items.splice(0, 1)
-// }, 2500)
+setInterval(()=>{
+	dataAPI.items.splice(0, 1)
+}, 2500)
 
 

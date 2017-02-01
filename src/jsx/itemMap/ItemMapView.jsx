@@ -77,8 +77,8 @@ class ItemMapView extends Component {
     this.itemSprites = []
 
     observe(viewModels, (x)=>{
-    	if(x.added.length) console.log('viewmodels added', x.added.length, x.added)
-    	if(x.removed.length) console.log('viewmodels removed', x.removed.length, x.removed)
+    	// if(x.added.length) console.log('viewmodels added', x.added.length, x.added)
+    	// if(x.removed.length) console.log('viewmodels removed', x.removed.length, x.removed)
 
     	x.added.forEach(vm=>{
     		// add item

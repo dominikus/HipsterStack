@@ -27,10 +27,6 @@ let padding = .05
 @observer
 class ItemMapComponent extends Component {
 
-	// could be moved to viewModelCollection?
-	// or better to manage here?
-	@observable viewModels = []
-
 	constructor(){
 		super()
 
@@ -42,7 +38,6 @@ class ItemMapComponent extends Component {
 			// zooming: false
 		}
 
-		this.viewModelCollection = new ViewModelCollection(itemViewModelTemplate);
 		observe(dataAPI, 'selectedItem', () => {
 			this.updateSelection(dataAPI.selectedItemId)
 		})
@@ -51,7 +46,9 @@ class ItemMapComponent extends Component {
 
 	componentWillMount() {
 		// initial update
-		observe(this.props.observableItems, e=>this.updateData(e), true)
+		this.viewModelCollection = new ViewModelCollection(this.props.observableItems, itemViewModelTemplate);
+		this.viewModels = this.viewModelCollection.viewModels;
+		observe(this.viewModelCollection.viewModels, e=>this.updateData(), true)
 	}
 
 	updateSelection(id) {
@@ -61,38 +58,26 @@ class ItemMapComponent extends Component {
 		})
 	}
 
-	@action updateData(e) {
+	@action updateData() {
 
-		let items = this.props.observableItems
-		console.log('ItemMapComponent data update', items.length, e.type, e.added, e.removed)
-
-		// housekeeping
-		e.added.forEach(item=>{
-			this.viewModels.push(this.viewModelCollection.viewModelForObject(item))
-		})
-
-		e.removed.forEach(item=>{
-			this.viewModels.splice(this.viewModels.indexOf(viewModel(item)), 1)
-		})
+		const vms = this.viewModels
 
 		// visual mapping
 		const SIZE = Math.min(W, H) * SCALE_FACTOR
-		const xScale = scaleLinear().domain(extent(items, n=>n.x)).range([(W-SIZE)/2 + padding*SIZE, (W-SIZE)/2 +(1-padding)*SIZE])
-		const yScale = scaleLinear().domain(extent(items, n=>n.y)).range([(H-SIZE)/2 + padding*SIZE, (H-SIZE)/2 + (1-padding)*SIZE])
+		const xScale = scaleLinear().domain(extent(vms, n=>n.__data.x)).range([(W-SIZE)/2 + padding*SIZE, (W-SIZE)/2 +(1-padding)*SIZE])
+		const yScale = scaleLinear().domain(extent(vms, n=>n.__data.y)).range([(H-SIZE)/2 + padding*SIZE, (H-SIZE)/2 + (1-padding)*SIZE])
 
 		// property updates
-		items.forEach((n)=>{
+		vms.forEach(vm=>{
 
-			const x            = xScale(n.x)
-			const y            = yScale(n.y)
+			const x            = xScale(vm.__data.x)
+			const y            = yScale(vm.__data.y)
 
-			const {id, label} = n
-
-			const vm = this.viewModelCollection.viewModelForObject(n)
+			const {label} = vm.__data
 			TweenMax.killTweensOf(vm)
 
 			// direct changes
-			vm.update( {label})
+			vm.update({label})
 
 			// animated changes
 			TweenMax.to(vm, 1, {
@@ -110,7 +95,7 @@ class ItemMapComponent extends Component {
 			<div ref='view' key='item-map-component'>
 				<ItemMapView
 					key='item-map-view'
-					viewModels={this.viewModels}
+					viewModels={ this.viewModels}
 					scale={this.state.scale}
 					translate={this.state.translate}
 					// continuousUpdates={this.state.isAnimating}
