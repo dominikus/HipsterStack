@@ -37,11 +37,11 @@
     "director": "^1.2.8",
     "gsap": "^1.19.0",
     "lodash": "^4.17.2",
-    "mobx": "^2.6.2",
+    "mobx": "3.0",
     "mobx-react": "^3.5.9",
     "mobx-utils": "^1.1.2",
     "open-color": "^1.4.0",
-    "pixi.js": "^4.1.1",
+    "pixi.js": "^4.3.4",
     "react": "^15.3.2",
     "react-dom": "^15.3.2"
   }

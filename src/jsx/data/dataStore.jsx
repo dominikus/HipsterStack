@@ -3,6 +3,31 @@ import {defaults, identity, find} from 'lodash';
 
 // import config from 'config/config';
 
+let dataSets = [];
+
+// DATA SETS
+
+import dataPath from "data/data.tsv"
+console.log(dataPath)
+dataSets.push({
+  "url": dataPath,
+  "id": "items",
+  "parser": tsvParse,
+  "parseItem": (d)=> defaults({
+    "value": +d.value,
+    "x": +d.x,
+    "y": +d.y
+  }, d)
+});
+
+function postProcess(){
+  dataSets.forEach((d) => {
+    // post loading actions
+  });
+}
+
+// Loading logic
+
 let allDataLoaded = false;
 let isLoading = false;
 let q = queue();
@@ -53,28 +78,8 @@ export const loadAllDataSets = ()=>{
   });
 }
 
-function postProcess(){
-  dataSets.forEach((d) => {
-
-  });
-}
 
 export const getDataSet = (id)=>{
   let dataSet = find(dataSets, (x)=>x.id == id);
   return dataSet.result;
 }
-
-let dataSets = [];
-
-// SHARED
-
-import dataPath from "data/data.tsv"
-console.log(dataPath)
-dataSets.push({
-  "url": dataPath,
-  "id": "first-dataset",
-  "parser": tsvParse,
-  "parseItem": (d)=> defaults({
-    "value": +d.value
-  }, d)
-});
