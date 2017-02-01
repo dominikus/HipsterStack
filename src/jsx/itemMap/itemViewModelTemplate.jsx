@@ -1,4 +1,4 @@
-export default const itemViewModelTemplate = {
+const itemViewModelTemplate = {
 	x : 0,
 	y : 0,
 	scale : 1,
@@ -6,3 +6,4 @@ export default const itemViewModelTemplate = {
 	label: '',
   selected: false,
 }
+export default itemViewModelTemplate

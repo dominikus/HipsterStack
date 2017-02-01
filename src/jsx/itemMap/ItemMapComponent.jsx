@@ -11,12 +11,12 @@ import {keyBy, assign,compact} from 'lodash'
 
 import {TweenMax} from 'gsap'
 
-import {viewModel} from 'data/ViewModels'
+import ViewModelCollection from 'data/ViewModelCollection'
 import dataAPI from 'data/dataAPI'
 import uiState from 'state/uiState'
 
 import ItemMapView from './ItemMapView'
-import ItemViewModelTemplate from './ItemViewModelTemplate'
+import itemViewModelTemplate from './ItemViewModelTemplate'
 
 
 export const W       = 600
@@ -27,7 +27,10 @@ let padding = .05
 @observer
 class ItemMapComponent extends Component {
 
+	// could be moved to viewModelCollection?
+	// or better to manage here?
 	@observable viewModels = []
+
 	constructor(){
 		super()
 
@@ -39,6 +42,7 @@ class ItemMapComponent extends Component {
 			// zooming: false
 		}
 
+		this.viewModelCollection = new ViewModelCollection(itemViewModelTemplate);
 		observe(dataAPI, 'selectedItem', () => {
 			this.updateSelection(dataAPI.selectedItemId)
 		})
@@ -64,7 +68,7 @@ class ItemMapComponent extends Component {
 
 		// housekeeping
 		e.added.forEach(item=>{
-			this.viewModels.push(viewModel(item, itemViewModelTemplate))
+			this.viewModels.push(this.viewModelCollection.viewModelForObject(item))
 		})
 
 		e.removed.forEach(item=>{
@@ -84,7 +88,7 @@ class ItemMapComponent extends Component {
 
 			const {id, label} = n
 
-			const vm = viewModel(n)
+			const vm = this.viewModelCollection.viewModelForObject(n)
 			TweenMax.killTweensOf(vm)
 
 			// direct changes

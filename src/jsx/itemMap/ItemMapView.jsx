@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom'
 import {toJS, observe, autorun} from 'mobx'
 import {observer} from 'mobx-react'
 
-import * as PIXI from 'pixi.js'
-
 import {toPairs, find} from 'lodash'
+
+import * as PIXI from 'pixi.js'
 
 export const BG_COL = 0xFFFFFF
 
@@ -18,7 +18,7 @@ let textStyle = {
 	'align': 'center',
 	'lineHeight': 18,
 	'wordWrap': true,
-	'wordWrapWidth': 80
+	'wordWrapWidth': 80,
 }
 
 const hex = (hashColor)=> {
@@ -28,16 +28,6 @@ const hex = (hashColor)=> {
 const toPixiColor = ({r,g,b})=> {
 	return Math.floor(((r << 16) + (g << 8) + b))
 }
-
-export const itemViewModelTemplate = {
-	x : 0,
-	y : 0,
-	scale : 1,
-	color: 0x999999,
-	label: '',
-  selected: false,
-}
-
 
 let index = 0
 
@@ -206,7 +196,6 @@ class ItemSprite extends PIXI.Container {
     event.stopPropagation()
 		console.table(toPairs(toJS(this.viewModel).__data))
 		console.table(toPairs(toJS(this.viewModel)))
-		// should be props.onItemClick o.ä.
 		this.clickAction(this.viewModel.id)
 	}
 }
