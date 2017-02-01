@@ -46,7 +46,7 @@ class ItemMapComponent extends Component {
 
 	componentWillMount() {
 		// initial update
-		this.viewModelCollection = new ViewModelCollection(this.props.observableItems, itemViewModelTemplate);
+		this.viewModelCollection = new ViewModelCollection(this.props.models, itemViewModelTemplate);
 		this.viewModels = this.viewModelCollection.viewModels;
 		observe(this.viewModelCollection.viewModels, e=>this.updateData(), true)
 	}
@@ -95,7 +95,7 @@ class ItemMapComponent extends Component {
 			<div ref='view' key='item-map-component'>
 				<ItemMapView
 					key='item-map-view'
-					viewModels={ this.viewModels}
+					viewModels={this.viewModels}
 					scale={this.state.scale}
 					translate={this.state.translate}
 					// continuousUpdates={this.state.isAnimating}

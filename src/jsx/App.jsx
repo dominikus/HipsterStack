@@ -28,7 +28,7 @@ class App extends Component {
 				<h1>Selection: {dataAPI.selectedItemLabel}</h1>
 				<h2>num items: {dataAPI.numItems}</h2>
 				{dataAPI.dataReady ?
-					<ItemMapComponent observableItems={dataAPI.items}/>
+					<ItemMapComponent models={dataAPI.items}/>
 					:
 					<h2>Loading…</h2>
 				}
