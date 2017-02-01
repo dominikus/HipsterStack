@@ -60,15 +60,15 @@ autorun(()=>{
 // 	dataAPI.items[1].label += "."
 // }, 300);
 
-let counter = 0
-setInterval(()=>{
-	dataAPI.addItem({
-		id: "id_" + counter++,
-		label: counter,
-		x: counter*10,
-		y: Math.random()*100
-	});
-}, 5000);
+// let counter = 0
+// setInterval(()=>{
+// 	dataAPI.addItem({
+// 		id: "id_" + counter++,
+// 		label: counter,
+// 		x: counter*10,
+// 		y: Math.random()*100
+// 	});
+// }, 5000);
 
 // setInterval(()=>{
 // 	dataAPI.items.splice(0, 1);

@@ -45,7 +45,7 @@ class ItemMapComponent extends Component {
 
 	componentWillMount() {
 		// initial update
-		observe(this.props.items, (e)=>this.updateData(e), true)
+		observe(this.props.observableItems, e=>this.updateData(e), true)
 	}
 
 	updateSelection(id) {
@@ -57,7 +57,7 @@ class ItemMapComponent extends Component {
 
 	@action updateData(e) {
 
-		let {items} = this.props;
+		let items = this.props.observableItems;
 		console.log("ItemMapComponent data update", items.length, e.type, e.added, e.removed)
 
 		// housekeeping
@@ -107,7 +107,7 @@ class ItemMapComponent extends Component {
 					viewModels={this.viewModels}
 					scale={this.state.scale}
 					translate={this.state.translate}
-					continuousUpdates={this.state.isAnimating}
+					// continuousUpdates={this.state.isAnimating}
 					// zooming={this.state.zooming}
 					width={W}
 					height={H}
