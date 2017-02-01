@@ -1,8 +1,8 @@
-import {observer} from 'mobx-react';
-import {autorun, observable, map, toJS, extendObservable, action} from 'mobx';
-import {assign, clone} from 'lodash';
+import {observer} from 'mobx-react'
+import {autorun, observable, map, toJS, extendObservable, action} from 'mobx'
+import {assign, clone} from 'lodash'
 
-export const viewModels = new Map();
+export const viewModels = new Map()
 
 // get viewModel for object o,
 // if needed, creates it based on template
@@ -10,13 +10,13 @@ export const viewModels = new Map();
 // (otherwise use makeViewModel and manage them yourself)
 
 export function viewModel(o, template={}){
-	let m = viewModels.get(o);
+	let m = viewModels.get(o)
 	if(!m){
 		// no model yet, create new
-		m = makeViewModel(template, o);
-		viewModels.set(o, m);
+		m = makeViewModel(template, o)
+		viewModels.set(o, m)
 	}
-	return m;
+	return m
 }
 
 // make a new viewModel with observable properties

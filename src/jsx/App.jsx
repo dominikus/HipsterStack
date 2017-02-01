@@ -1,28 +1,25 @@
-import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
-// import DevTools from 'mobx-react-devtools';
+import React, {Component} from 'react'
+import ReactDOM from 'react-dom'
+import {observer} from 'mobx-react'
 
-import uiState from "state/uiState"
-import dataAPI from "data/dataAPI"
-import {loadAllDataSets, getDataSet} from 'data/dataStore';
-import {observer} from 'mobx-react';
+import { startRouter } from 'router'
+import dataAPI from 'data/dataAPI'
+import {loadAllDataSets, getDataSet} from 'data/dataStore'
 
-import { startRouter } from 'router';
-
-import ItemMapComponent from "itemMap/ItemMapComponent";
+import ItemMapComponent from 'itemMap/ItemMapComponent'
 
 @observer
 class App extends Component {
 	constructor(){
-		super();
-		startRouter();
-		this.loadData();
+		super()
+		startRouter()
+		this.loadData()
 	}
 
 	loadData(){
-		loadAllDataSets().then((dataSets)=>{
-			uiState.dataLoaded = true;
-		})
+		loadAllDataSets().then(()=>
+			dataAPI.init(getDataSet('items'))
+		)
 	}
 
 	render() {
@@ -36,8 +33,8 @@ class App extends Component {
 					<h2>Loading…</h2>
 				}
 			</div>
-		);
+		)
 	}
-};
+}
 
-export default App;
+export default App

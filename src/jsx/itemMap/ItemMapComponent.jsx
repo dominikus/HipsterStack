@@ -1,33 +1,35 @@
-import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
+import React, {Component} from 'react'
+import ReactDOM from 'react-dom'
 
-import {observer} from 'mobx-react';
-import {autorun, observe, observable, action} from 'mobx';
+import {observer} from 'mobx-react'
+import {autorun, observe, observable, action} from 'mobx'
 
-import * as d3 from 'd3';
+import * as d3 from 'd3'
 
-import {scaleLinear, scaleSqrt, extent, zoom, select, event, hcl} from 'd3';
-import {keyBy, assign,compact} from 'lodash';
+import {scaleLinear, scaleSqrt, extent, zoom, select, event, hcl} from 'd3'
+import {keyBy, assign,compact} from 'lodash'
 
-import {TweenMax} from 'gsap';
+import {TweenMax} from 'gsap'
 
-import {viewModel} from 'data/ViewModels';
-import dataAPI from 'data/dataAPI';
-import uiState from "state/uiState";
+import {viewModel} from 'data/ViewModels'
+import dataAPI from 'data/dataAPI'
+import uiState from 'state/uiState'
 
-import ItemMapView, {itemViewModelTemplate} from "./ItemMapView";
+import ItemMapView from './ItemMapView'
+import ItemViewModelTemplate from './ItemViewModelTemplate'
 
-export const W       = 600;
-export const H       = 400;
-let SCALE_FACTOR = 1;
-let padding = .05;
+
+export const W       = 600
+export const H       = 400
+let SCALE_FACTOR = 1
+let padding = .05
 
 @observer
 class ItemMapComponent extends Component {
 
-	@observable viewModels = [];
+	@observable viewModels = []
 	constructor(){
-		super();
+		super()
 
 		this.state = {
 			viewModels: [],
@@ -37,9 +39,9 @@ class ItemMapComponent extends Component {
 			// zooming: false
 		}
 
-		observe(dataAPI, "selectedItem", () => {
-			this.updateSelection(dataAPI.selectedItemId);
-		});
+		observe(dataAPI, 'selectedItem', () => {
+			this.updateSelection(dataAPI.selectedItemId)
+		})
 
 	}
 
@@ -49,16 +51,16 @@ class ItemMapComponent extends Component {
 	}
 
 	updateSelection(id) {
-		console.log("update selection", id);
+		console.log('update selection', id)
 		this.viewModels.forEach(item => {
-			item.selected = item.id == id;
-		});
+			item.selected = item.id == id
+		})
 	}
 
 	@action updateData(e) {
 
-		let items = this.props.observableItems;
-		console.log("ItemMapComponent data update", items.length, e.type, e.added, e.removed)
+		let items = this.props.observableItems
+		console.log('ItemMapComponent data update', items.length, e.type, e.added, e.removed)
 
 		// housekeeping
 		e.added.forEach(item=>{
@@ -70,40 +72,40 @@ class ItemMapComponent extends Component {
 		})
 
 		// visual mapping
-		const SIZE = Math.min(W, H) * SCALE_FACTOR;
-		const xScale = scaleLinear().domain(extent(items, n=>n.x)).range([(W-SIZE)/2 + padding*SIZE, (W-SIZE)/2 +(1-padding)*SIZE]);
-		const yScale = scaleLinear().domain(extent(items, n=>n.y)).range([(H-SIZE)/2 + padding*SIZE, (H-SIZE)/2 + (1-padding)*SIZE]);
+		const SIZE = Math.min(W, H) * SCALE_FACTOR
+		const xScale = scaleLinear().domain(extent(items, n=>n.x)).range([(W-SIZE)/2 + padding*SIZE, (W-SIZE)/2 +(1-padding)*SIZE])
+		const yScale = scaleLinear().domain(extent(items, n=>n.y)).range([(H-SIZE)/2 + padding*SIZE, (H-SIZE)/2 + (1-padding)*SIZE])
 
 		// property updates
 		items.forEach((n)=>{
 
-			const x            = xScale(n.x);
-			const y            = yScale(n.y);
+			const x            = xScale(n.x)
+			const y            = yScale(n.y)
 
-			const {id, label} = n;
+			const {id, label} = n
 
-			const vm = viewModel(n);
-			TweenMax.killTweensOf(vm);
+			const vm = viewModel(n)
+			TweenMax.killTweensOf(vm)
 
 			// direct changes
-			vm.update( {label});
+			vm.update( {label})
 
 			// animated changes
 			TweenMax.to(vm, 1, {
 				x,
 				y,
 				ease: Power2.easeOut,
-			});
-		});
+			})
+		})
 	}
 
 	render() {
-		console.log("ItemMapComponent render")
+		console.log('ItemMapComponent render')
 		return (
 
-			<div ref="view" key="item-map-component">
+			<div ref='view' key='item-map-component'>
 				<ItemMapView
-					key="item-map-view"
+					key='item-map-view'
 					viewModels={this.viewModels}
 					scale={this.state.scale}
 					translate={this.state.translate}
@@ -114,24 +116,25 @@ class ItemMapComponent extends Component {
 					setSelectedItemId={id => uiState.selectedItemId = id}
 				/>
 				</div>
-		);
+		)
 	 }
 
 	 componentDidMount(prevProps, prevState) {
 
 	 	// set up zoom behavior
+	 	// TODO: implement bounds
 		select(this.refs.view).call(
 			zoom()
-			.on("zoom", (d)=>{
+			.on('zoom', (d)=>{
 				this.setState({
 					scale: event.transform.k,
 					translate: [event.transform.x, event.transform.y]
 				})
 			})
-			// .on("start", ()=> this.setState({zooming: true}))
-			// .on("end", ()=> this.setState({zooming: false}))
-		);
+			// .on('start', ()=> this.setState({zooming: true}))
+			// .on('end', ()=> this.setState({zooming: false}))
+		)
 	 }
-};
+}
 
-export default ItemMapComponent;
+export default ItemMapComponent

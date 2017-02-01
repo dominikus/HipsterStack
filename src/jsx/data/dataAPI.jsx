@@ -1,24 +1,19 @@
-import {observable, computed, autorun, action, observe} from 'mobx';
-import uiState from 'state/uiState';
-import {getDataSet} from "data/dataStore"
+import {observable, computed, autorun, action, observe} from 'mobx'
+import uiState from 'state/uiState'
+import {getDataSet} from 'data/dataStore'
 
-import {keyBy} from "lodash"
+import {keyBy} from 'lodash'
 
 class DataAPI {
 
-	@observable dataReady = false;
+	@observable dataReady = false
 
 	// deep observable - all items are observable
-	@observable items = [];
+	@observable items = []
 
-	constructor(){
-		autorun(()=>{
-			if(uiState.dataLoaded){
-					this.addItems(getDataSet("items"))
-					this.dataReady = true;
-				}
-			}
-		);
+	init(items){
+		this.addItems(items)
+		this.dataReady = true
 	}
 
 	@action addItems(a){
@@ -30,7 +25,7 @@ class DataAPI {
 	}
 
 	@computed get numItems(){
-		return this.items.length;
+		return this.items.length
 	}
 
 	@computed get selectedItemId(){
@@ -42,36 +37,36 @@ class DataAPI {
 	}
 
 	@computed get selectedItemLabel(){
-		return this.selectedItem ? this.selectedItem.label : ""
+		return this.selectedItem ? this.selectedItem.label : ''
 	}
 
 }
 
-let dataAPI = new DataAPI();
-export default dataAPI;
+let dataAPI = new DataAPI()
+export default dataAPI
 
 // TESTING
 
 autorun(()=>{
-	console.log("items", dataAPI.items)
+	console.log('items', dataAPI.items)
 })
 
 // setInterval(()=>{
-// 	dataAPI.items[1].label += "."
-// }, 300);
+// 	dataAPI.items[1].label += '.'
+// }, 300)
 
 // let counter = 0
 // setInterval(()=>{
 // 	dataAPI.addItem({
-// 		id: "id_" + counter++,
+// 		id: 'id_' + counter++,
 // 		label: counter,
 // 		x: counter*10,
 // 		y: Math.random()*100
-// 	});
-// }, 5000);
+// 	})
+// }, 5000)
 
 // setInterval(()=>{
-// 	dataAPI.items.splice(0, 1);
-// }, 2500);
+// 	dataAPI.items.splice(0, 1)
+// }, 2500)
 
 

@@ -1,12 +1,10 @@
-import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
+import React, {Component} from 'react'
+import ReactDOM from 'react-dom'
 
-import {loadAllDataSets} from 'data/dataStore';
+import 'html/index.html'
+import 'sass/main.sass'
 
-import "html/index.html";
-import "sass/main.sass";
+import App from 'App'
 
-import App from 'App';
-
-ReactDOM.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'))
 

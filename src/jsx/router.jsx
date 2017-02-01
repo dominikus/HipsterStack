@@ -1,28 +1,31 @@
-import {Router} from 'director';
-import {autorun} from 'mobx';
+import {Router} from 'director'
+import {autorun} from 'mobx'
 
-import uiState from 'state/uiState';
+import uiState from 'state/uiState'
 
-let routes = {
-	":id": (id) => {
-  	uiState.currentView = id
+const routes = {
+	':id': (id) => {
+  	uiState.selectedItemId = id
+  },
+  '/': () => {
+  	uiState.selectedItemId = null
   },
 }
 
-let config = {
-	notfound: () => "",
+const config = {
+	notfound: () => '',
   html5history: true
-};
+}
 
-const router = new Router(routes).configure(config);
+const router = new Router(routes).configure(config)
 
 export function startRouter() {
-  router.init();
+  router.init()
 }
 
 autorun(()=>{
-	const path = uiState.path;
+	const path = uiState.path
 	if (path !== window.location.pathname) {
-		window.history.pushState(null, null, path);
+		window.history.pushState(null, null, path)
 	}
-});
+})

@@ -1,25 +1,21 @@
-import {observable, computed, toJS, action} from 'mobx';
-import {assign, clone} from 'lodash';
+import {observable, computed, toJS, action} from 'mobx'
+import {assign, clone} from 'lodash'
 
 class UiState {
-	@observable currentView = "";
-	@observable dataLoaded = false;
-	@observable selectedItemId = null;
-
-	constructor() {
-	}
+	@observable currentView = ''
+	@observable selectedItemId = null
 
 	@computed get path() {
-		return `${this.selectedItemId}`;
+		return `${this.selectedItemId || '/'}`
 	}
 
 	@computed get jsObject() {
-		return toJS(this);
+		return toJS(this)
 	}
 
 	@action update(o) {
-		assign(this, o);
+		assign(this, o)
 	}
-};
-const uiState = new UiState();
-export default uiState;
+}
+const uiState = new UiState()
+export default uiState
