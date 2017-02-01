@@ -7,6 +7,7 @@ import {autorun, observe, observable, action} from 'mobx'
 import * as d3 from 'd3'
 
 import {scaleLinear, scaleSqrt, extent, zoom, select, event, hcl} from 'd3'
+
 import {keyBy, assign,compact} from 'lodash'
 
 import {TweenMax} from 'gsap'
@@ -19,8 +20,8 @@ import ItemMapView from './ItemMapView'
 import itemViewModelTemplate from './ItemViewModelTemplate'
 
 
-export const W       = 600
-export const H       = 400
+export const W = 600
+export const H = 400
 let SCALE_FACTOR = 1
 let padding = .05
 
@@ -46,15 +47,15 @@ class ItemMapComponent extends Component {
 
 	componentWillMount() {
 		// initial update
-		this.viewModelCollection = new ViewModelCollection(this.props.models, itemViewModelTemplate);
-		this.viewModels = this.viewModelCollection.viewModels;
-		observe(this.viewModelCollection.viewModels, e=>this.updateData(), true)
+		this.viewModelCollection = new ViewModelCollection(this.props.models, itemViewModelTemplate)
+		this.viewModels = this.viewModelCollection.viewModels
+		observe(this.viewModels, e=>this.updateData(), true)
 	}
 
 	updateSelection(id) {
 		console.log('update selection', id)
 		this.viewModels.forEach(item => {
-			item.selected = item.id == id
+			item.selected = (item.id == id)
 		})
 	}
 
@@ -70,8 +71,8 @@ class ItemMapComponent extends Component {
 		// property updates
 		vms.forEach(vm=>{
 
-			const x            = xScale(vm.__data.x)
-			const y            = yScale(vm.__data.y)
+			const x = xScale(vm.__data.x)
+			const y = yScale(vm.__data.y)
 
 			const {label} = vm.__data
 			TweenMax.killTweensOf(vm)
