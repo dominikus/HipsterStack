@@ -12,12 +12,10 @@ import {keyBy, assign,compact} from 'lodash'
 
 import {TweenMax} from 'gsap'
 
-import ViewModelCollection from 'data/ViewModelCollection'
 import dataAPI from 'data/dataAPI'
 import uiState from 'state/uiState'
 
 import ItemMapView from './ItemMapView'
-import itemViewModelTemplate from './ItemViewModelTemplate'
 
 
 export const W = 600
@@ -46,9 +44,8 @@ class ItemMapComponent extends Component {
 	}
 
 	componentWillMount() {
-		// initial update
-		this.viewModelCollection = new ViewModelCollection(this.props.models, itemViewModelTemplate)
-		this.viewModels = this.viewModelCollection.viewModels
+
+		this.viewModels = dataAPI.items
 		observe(this.viewModels, e=>this.updateData(), true)
 	}
 
@@ -65,20 +62,20 @@ class ItemMapComponent extends Component {
 
 		// visual mapping
 		const SIZE = Math.min(W, H) * SCALE_FACTOR
-		const xScale = scaleLinear().domain(extent(vms, n=>n.__data.x)).range([(W-SIZE)/2 + padding*SIZE, (W-SIZE)/2 +(1-padding)*SIZE])
-		const yScale = scaleLinear().domain(extent(vms, n=>n.__data.y)).range([(H-SIZE)/2 + padding*SIZE, (H-SIZE)/2 + (1-padding)*SIZE])
+		const xScale = scaleLinear().domain(extent(vms, n=>n.x)).range([(W-SIZE)/2 + padding*SIZE, (W-SIZE)/2 +(1-padding)*SIZE])
+		const yScale = scaleLinear().domain(extent(vms, n=>n.y)).range([(H-SIZE)/2 + padding*SIZE, (H-SIZE)/2 + (1-padding)*SIZE])
 
 		// property updates
 		vms.forEach(vm=>{
 
-			const x = xScale(vm.__data.x)
-			const y = yScale(vm.__data.y)
+			const x = xScale(vm.x)
+			const y = yScale(vm.y)
 
-			const {label} = vm.__data
+			const {label} = vm
 			TweenMax.killTweensOf(vm)
 
 			// direct changes
-			vm.update({label})
+			// vm.update({label})
 
 			// animated changes
 			TweenMax.to(vm, 1, {

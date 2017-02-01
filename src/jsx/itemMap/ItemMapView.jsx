@@ -194,7 +194,6 @@ class ItemSprite extends PIXI.Container {
 
 	click(event){
     event.stopPropagation()
-		console.table(toPairs(toJS(this.viewModel).__data))
 		console.table(toPairs(toJS(this.viewModel)))
 		this.clickAction(this.viewModel.id)
 	}
