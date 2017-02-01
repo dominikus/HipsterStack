@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
 import {observer} from 'mobx-react';
-import {autorun, observe, observable} from 'mobx';
+import {autorun, observe, observable, action} from 'mobx';
 
 import * as d3 from 'd3';
 
@@ -37,96 +37,65 @@ class ItemMapComponent extends Component {
 			// zooming: false
 		}
 
-		// any uiState change triggers data update
-		// could be more fine grained
-		autorun(() => {
-			this.updateData();
+		observe(dataAPI, "selectedItem", () => {
+			this.updateSelection(dataAPI.selectedItemId);
 		});
 
-		autorun(() => {
-			console.log("this.viewModels", this.viewModels);
-		});
-
-		autorun(() => {
-			console.log("selection change");
-			this.updateSelection(dataAPI.selectedItem);
-		});
 	}
 
 	componentWillMount() {
 		// initial update
-		this.updateData();
+		observe(this.props.items, (e)=>this.updateData(e), true)
 	}
 
-	updateSelection() {
-		console.log("update selection", dataAPI.selectedItem);
+	updateSelection(id) {
+		console.log("update selection", id);
 		this.viewModels.forEach(item => {
-			item.selected = item.id === (dataAPI.selectedItem || {}).id;
+			item.selected = item.id == id;
 		});
 	}
 
-	updateData() {
+	@action updateData(e) {
 
 		let {items} = this.props;
-		console.log("ItemMapComponent data update", items)
+		console.log("ItemMapComponent data update", items.length, e.type, e.added, e.removed)
 
-		let SIZE = Math.min(W, H) * SCALE_FACTOR;
-		let xScale = scaleLinear().domain(extent(items, n=>n.x)).range([(W-SIZE)/2 + padding*SIZE, (W-SIZE)/2 +(1-padding)*SIZE]);
-		let yScale = scaleLinear().domain(extent(items, n=>n.y)).range([(H-SIZE)/2 + padding*SIZE, (H-SIZE)/2 + (1-padding)*SIZE]);
+		// housekeeping
+		e.added.forEach(item=>{
+			this.viewModels.push(viewModel(item, itemViewModelTemplate))
+		})
 
-		let scaleBy = (n)=> 1;
-		let sizeScale = scaleLinear().domain(extent(items, scaleBy)).range([1, 1]);
+		e.removed.forEach(item=>{
+			this.viewModels.splice(this.viewModels.indexOf(viewModel(item)), 1)
+		})
 
-		let itemColor = (n)=> "#999999";
+		// visual mapping
+		const SIZE = Math.min(W, H) * SCALE_FACTOR;
+		const xScale = scaleLinear().domain(extent(items, n=>n.x)).range([(W-SIZE)/2 + padding*SIZE, (W-SIZE)/2 +(1-padding)*SIZE]);
+		const yScale = scaleLinear().domain(extent(items, n=>n.y)).range([(H-SIZE)/2 + padding*SIZE, (H-SIZE)/2 + (1-padding)*SIZE]);
 
-		switch(uiState.currentView){
-			case "default":
-				break;
-		}
-		// let animDuration = 2;
-
-		// assumption - node list doesn't change…
+		// property updates
 		items.forEach((n)=>{
 
 			const x            = xScale(n.x);
 			const y            = yScale(n.y);
-			// n.screenPosition = {x,y};
 
 			const {id, label} = n;
-			let scale = sizeScale(scaleBy(n));
-			n.scale = scale;
 
-			const nodeCol = "#999999";
-			const color = d3.hsl(nodeCol).rgb();
-
-			const vm = viewModel(n, itemViewModelTemplate);
-			// TweenMax.killTweensOf(vm);
+			const vm = viewModel(n);
+			TweenMax.killTweensOf(vm);
 
 			// direct changes
-			vm.update( {id, label});
+			vm.update( {label});
 
 			// animated changes
-			TweenMax.to(vm, 2, {
+			TweenMax.to(vm, 1, {
 				x,
 				y,
-				ease: Elastic.easeOut,
+				ease: Power2.easeOut,
 			});
 		});
-
-		this.viewModels.replace(items.map(n=> viewModel(n)));
-
-		// this.animateForTimeSpan(animDuration);
 	}
-
-	// animateForTimeSpan(secs){
-	// 	this.setState({isAnimating: true})
-	// 	TweenMax.killTweensOf(this);
-	// 	TweenMax.to(this, secs, {
-	// 		onComplete: ()=> {
-	// 			this.setState({isAnimating: false});
-	// 		}
-	// 	});
-	// }
 
 	render() {
 		console.log("ItemMapComponent render")
@@ -142,6 +111,7 @@ class ItemMapComponent extends Component {
 					// zooming={this.state.zooming}
 					width={W}
 					height={H}
+					setSelectedItemId={id => uiState.selectedItemId = id}
 				/>
 				</div>
 		);

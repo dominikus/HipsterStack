@@ -29,6 +29,7 @@ class App extends Component {
 		return (
 			<div>
 				<h1>Selection: {dataAPI.selectedItemLabel}</h1>
+				<h2>num items: {dataAPI.numItems}</h2>
 				{dataAPI.dataReady ?
 					<ItemMapComponent items={dataAPI.items}/>
 					:

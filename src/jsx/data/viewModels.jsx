@@ -9,7 +9,7 @@ export const viewModels = new Map();
 // assumption: one view model per data object
 // (otherwise use makeViewModel and manage them yourself)
 
-export function viewModel(o, template){
+export function viewModel(o, template={}){
 	let m = viewModels.get(o);
 	if(!m){
 		// no model yet, create new
@@ -27,6 +27,7 @@ export function makeViewModel(template, o){
 		update: action(function(o){
 			assign(this, o)
 		}),
-		__data: o
+		__data: o,
+		id: o.id
 	}, template)
 }
