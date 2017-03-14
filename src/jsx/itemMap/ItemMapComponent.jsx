@@ -14,7 +14,7 @@ import {TweenMax} from 'gsap'
 
 import ViewModelCollection from 'data/ViewModelCollection'
 import dataAPI from 'data/dataAPI'
-import {state} from 'lima-core'
+import {state} from 'lima/core'
 
 import ItemMapView from './ItemMapView'
 import itemViewModelTemplate from './ItemViewModelTemplate'

@@ -2421,9 +2421,9 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
-"lima-core@https://github.com/dominikus/lima-core.git":
-  version "0.0.1"
-  resolved "https://github.com/dominikus/lima-core.git#79ec3dd47519b3059df58ee551b1649debe07154"
+"lima@https://github.com/dominikus/lima.git#0.0.2":
+  version "0.0.2"
+  resolved "https://github.com/dominikus/lima.git#bc04d5cfeba865a6c64c28b91725bbd7fd05965c"
   dependencies:
     d3-queue "3"
     d3-request "1"

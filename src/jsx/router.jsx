@@ -1,7 +1,7 @@
 import {Router} from 'director'
 import {autorun} from 'mobx'
 
-import {state} from 'lima-core'
+import {state} from 'lima/core'
 
 const routes = {
 	':id': (id) => {

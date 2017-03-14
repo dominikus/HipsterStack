@@ -14,7 +14,9 @@ module.exports = {
 		root: [
 			path.resolve("./src")
 		],
-		alias: {}
+		alias: {
+			'lima': path.resolve('node_modules/lima/dist')
+		}
 	},
 	devServer: {
 		port: 8080,

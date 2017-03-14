@@ -1,6 +1,6 @@
 import {observable, computed, autorun, action, observe} from 'mobx'
 
-import {state} from 'lima-core';
+import {state} from 'lima/core';
 
 import {keyBy} from 'lodash'
 

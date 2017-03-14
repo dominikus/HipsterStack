@@ -9,7 +9,7 @@ import { startRouter } from 'router'
 
 import dataAPI from 'data/dataAPI'
 
-import {dataStore, state} from 'lima-core'
+import {dataStore, state} from 'lima/core'
 
 import ItemMapComponent from 'itemMap/ItemMapComponent'
 
