@@ -4,12 +4,12 @@ import {observer} from 'mobx-react'
 
 import {tsvParse} from 'd3';
 import {defaults} from 'lodash';
-import {when} from 'mobx';
+import {when, toJS, action, computed} from 'mobx';
 import { startRouter } from 'router'
 
 import dataAPI from 'data/dataAPI'
 
-import {dataStore} from 'lima-core'
+import {dataStore, state} from 'lima-core'
 
 import ItemMapComponent from 'itemMap/ItemMapComponent'
 
@@ -41,6 +41,13 @@ class App extends Component {
 		dataStore.init(datasets, () => {});
 		when(() => dataStore.ready, () => {
 			dataAPI.init(dataStore.getDataSet('items'));
+			state.init({
+				currentView: '',
+				selectedItemId: null
+			});
+			state.path = computed(() => `${state.selectedItemId || '/'}`);
+			state.jsObject = computed(() => toJS(state));
+			state.update = action((o) => assign(state, o));
 		});
 	}
 

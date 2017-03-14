@@ -1,14 +1,14 @@
 import {Router} from 'director'
 import {autorun} from 'mobx'
 
-import uiState from 'state/uiState'
+import {state} from 'lima-core'
 
 const routes = {
 	':id': (id) => {
-  	uiState.selectedItemId = id
+  	state.selectedItemId = id
   },
   '/': () => {
-  	uiState.selectedItemId = null
+  	state.selectedItemId = null
   },
 }
 
@@ -24,5 +24,5 @@ export function startRouter() {
 }
 
 autorun(()=>{
-	window.location.hash = uiState.path
+	window.location.hash = state.path
 })

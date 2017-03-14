@@ -14,7 +14,7 @@ import {TweenMax} from 'gsap'
 
 import ViewModelCollection from 'data/ViewModelCollection'
 import dataAPI from 'data/dataAPI'
-import uiState from 'state/uiState'
+import {state} from 'lima-core'
 
 import ItemMapView from './ItemMapView'
 import itemViewModelTemplate from './ItemViewModelTemplate'
@@ -103,7 +103,7 @@ class ItemMapComponent extends Component {
 					// zooming={this.state.zooming}
 					width={W}
 					height={H}
-					setSelectedItemId={id => uiState.selectedItemId = id}
+					setSelectedItemId={id => state.selectedItemId = id}
 				/>
 				</div>
 		)

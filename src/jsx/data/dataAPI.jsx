@@ -1,5 +1,6 @@
 import {observable, computed, autorun, action, observe} from 'mobx'
-import uiState from 'state/uiState'
+
+import {state} from 'lima-core';
 
 import {keyBy} from 'lodash'
 
@@ -28,11 +29,11 @@ class DataAPI {
 	}
 
 	@computed get selectedItemId(){
-		return uiState.selectedItemId
+		return state.selectedItemId
 	}
 
 	@computed get selectedItem(){
-		return this.items ? this.items.find(x=> x.id == uiState.selectedItemId): null
+		return this.items ? this.items.find(x=> x.id == state.selectedItemId): null
 	}
 
 	@computed get selectedItemLabel(){
