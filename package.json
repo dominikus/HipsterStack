@@ -36,6 +36,7 @@
     "d3": "^4.3.0",
     "director": "^1.2.8",
     "gsap": "^1.19.0",
+    "lima-core": "https://github.com/dominikus/lima-core.git",
     "lodash": "^4.17.2",
     "mobx": "3.0",
     "mobx-react": "^3.5.9",

@@ -1,6 +1,5 @@
 import {observable, computed, autorun, action, observe} from 'mobx'
 import uiState from 'state/uiState'
-import {getDataSet} from 'data/dataStore'
 
 import {keyBy} from 'lodash'
 
