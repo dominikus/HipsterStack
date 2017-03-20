@@ -2,12 +2,13 @@
   "name": "HIPSTER_STACK",
   "author": "Moritz Stefaner",
   "version": "0.1.0",
+  "client": "LIMA",
   "description": "",
   "repository": "",
   "scripts": {
     "dev": "webpack-dev-server --devtool source-map --progress --colors --inline --hot",
     "build": "cross-env NODE_ENV=production webpack -p",
-    "deploy": "rm -rf build; npm run build; cp -R build $npm_package_version; scp -r $npm_package_version starling@starling.columba.uberspace.de:/var/www/virtual/starling/html/_test_/; rm -rf $npm_package_version"
+    "deploy-preview": "rm -rf build; npm run build; cp -R build $npm_package_version; scp -r $npm_package_version starling@starling.columba.uberspace.de:/var/www/virtual/starling/html/$npm_package_client/; rm -rf $npm_package_version; echo Uploaded to http://clients.stefaner.eu/$npm_package_client/$npm_package_version; echo http://clients.stefaner.eu/$npm_package_client/$npm_package_version | pbcopy"
   },
   "devDependencies": {
     "babel-core": "^6.3.26",
