@@ -8,8 +8,6 @@ import * as d3 from 'd3'
 
 import {scaleLinear, scaleSqrt, extent, zoom, select, event, hcl} from 'd3'
 
-import {keyBy, assign,compact} from 'lodash'
-
 import {TweenMax} from 'gsap'
 
 import ViewModelCollection from 'data/ViewModelCollection'
@@ -99,8 +97,6 @@ class ItemMapComponent extends Component {
 					viewModels={this.viewModels}
 					scale={this.state.scale}
 					translate={this.state.translate}
-					// continuousUpdates={this.state.isAnimating}
-					// zooming={this.state.zooming}
 					width={W}
 					height={H}
 					setSelectedItemId={id => state.selectedItemId = id}
