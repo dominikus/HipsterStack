@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import ReactDOM from 'react-dom'
 
 import {observer} from 'mobx-react'
-import {autorun, observe, observable, action} from 'mobx'
+import {autorun, observe, observable, action, computed} from 'mobx'
 
 import * as d3 from 'd3'
 
@@ -25,17 +25,16 @@ let padding = .05
 
 @observer
 class ItemMapComponent extends Component {
+	@observable xTranslate = 0
+	@observable yTranslate = 0
+	@computed get translate() {
+		return [this.xTranslate, this.yTranslate]
+	}
 
+	@observable zoom = 0
+	@observable isAnimating = false
 	constructor(){
 		super()
-
-		this.state = {
-			viewModels: [],
-			scale: 1,
-			translate: [0,0],
-			isAnimating: false
-			// zooming: false
-		}
 
 		observe(dataAPI, 'selectedItem', () => {
 			this.updateSelection(dataAPI.selectedItemId)
@@ -89,14 +88,15 @@ class ItemMapComponent extends Component {
 
 	render() {
 		console.log('ItemMapComponent render')
+
 		return (
 
 			<div ref='view' key='item-map-component'>
 				<ItemMapView
 					key='item-map-view'
 					viewModels={this.viewModels}
-					scale={this.state.scale}
-					translate={this.state.translate}
+					scale={this.zoom}
+					translate={this.translate}
 					width={W}
 					height={H}
 					setSelectedItemId={id => state.selectedItemId = id}
@@ -105,22 +105,20 @@ class ItemMapComponent extends Component {
 		)
 	 }
 
+
 	 componentDidMount(prevProps, prevState) {
 
-	 	// set up zoom behavior
-	 	// TODO: implement bounds
-		select(this.refs.view).call(
-			zoom()
-			.on('zoom', (d)=>{
-				this.setState({
-					scale: event.transform.k,
-					translate: [event.transform.x, event.transform.y]
-				})
-			})
-			// .on('start', ()=> this.setState({zooming: true}))
-			// .on('end', ()=> this.setState({zooming: false}))
-		)
-	 }
+			select(this.refs.view).call(
+				zoom()
+				.on('zoom', action((d)=>{
+					this.zoom = event.transform.k
+					this.xTranslate = event.transform.x
+					this.yTranslate = event.transform.y
+				}))
+				// .on('start', ()=> this.setState({zooming: true}))
+				// .on('end', ()=> this.setState({zooming: false}))
+			)
+		}
 }
 
 export default ItemMapComponent
