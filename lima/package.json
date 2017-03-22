@@ -1,0 +1,55 @@
+{
+  "name": "lima-core",
+  "author": "Dominikus Baur, Moritz Stefaner",
+  "version": "0.0.2",
+  "description": "LIving MAps",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dominikus/lima.git"
+  },
+  "main": "dist/core.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "webpack --devtool source-map --progress --colors --watch",
+    "build": "cross-env NODE_ENV=production webpack -p",
+    "doc": "node node_modules/documentation/bin/documentation build src/jsx/** -f md > docs/API.md"
+  },
+  "devDependencies": {
+    "babel-core": "^6.3.26",
+    "babel-loader": "^6.2.0",
+    "babel-plugin-transform-class-properties": "^6.9.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-regenerator": "^6.16.1",
+    "babel-plugin-transform-runtime": "^6.15.0",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-preset-stage-1": "^6.5.0",
+    "cross-env": "^3.1.3",
+    "css-loader": "^0.23.1",
+    "d3-array": "^1.1.1",
+    "d3-queue": "3",
+    "d3-request": "1",
+    "d3-scale": "^1.0.5",
+    "documentation": "^4.0.0-beta.18",
+    "extract-loader": "^0.0.2",
+    "file-loader": "^0.8.5",
+    "gsap": "^1.19.1",
+    "html-loader": "^0.4.4",
+    "json-loader": "^0.5.4",
+    "lodash": "^4.17.4",
+    "mobx": "3",
+    "node-sass": "^3.4.2",
+    "pixi.js": "^4.4.1",
+    "react": "^15.4.2",
+    "sass-loader": "^3.1.2",
+    "socket.io-client": "^1.7.3",
+    "style-loader": "^0.13.0",
+    "transform-loader": "^0.2.3",
+    "webpack": "2",
+    "webpack-dev-server": "2"
+  },
+  "dependencies": {}
+}

@@ -12,7 +12,7 @@ import {TweenMax} from 'gsap'
 
 import ViewModelCollection from 'data/ViewModelCollection'
 import dataAPI from 'data/dataAPI'
-import {state} from 'lima/core'
+import {uiState} from 'lima/core'
 
 import ItemMapView from './ItemMapView'
 import itemViewModelTemplate from './ItemViewModelTemplate'
@@ -99,7 +99,7 @@ class ItemMapComponent extends Component {
 					translate={this.translate}
 					width={W}
 					height={H}
-					setSelectedItemId={id => state.selectedItemId = id}
+					setSelectedItemId={id => uiState.selectedItemId = id}
 				/>
 				</div>
 		)

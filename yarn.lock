@@ -1423,7 +1423,7 @@ d3-quadtree@1, d3-quadtree@1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/d3-quadtree/-/d3-quadtree-1.0.3.tgz#ac7987e3e23fe805a990f28e1b50d38fcb822438"
 
-d3-queue@3, d3-queue@3.0.5:
+d3-queue@3.0.5:
   version "3.0.5"
   resolved "https://registry.yarnpkg.com/d3-queue/-/d3-queue-3.0.5.tgz#0ceffe1f131c459b13b9f69f1056b41dfc33c00d"
 
@@ -1431,7 +1431,7 @@ d3-random@1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/d3-random/-/d3-random-1.0.3.tgz#6526c844aa5e7c457e29ddacd6f2734f845b42c1"
 
-d3-request@1, d3-request@1.0.5:
+d3-request@1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/d3-request/-/d3-request-1.0.5.tgz#4daae946d1dd0d57dfe01f022956354958d51f23"
   dependencies:
@@ -2421,14 +2421,8 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
-"lima@https://github.com/dominikus/lima.git#0.0.2":
+"lima@file:./lima":
   version "0.0.2"
-  resolved "https://github.com/dominikus/lima.git#bc04d5cfeba865a6c64c28b91725bbd7fd05965c"
-  dependencies:
-    d3-queue "3"
-    d3-request "1"
-    lodash "^4.17.4"
-    mobx "3"
 
 load-json-file@^1.0.0:
   version "1.1.0"
@@ -2502,7 +2496,7 @@ lodash.words@^3.0.0:
   dependencies:
     lodash._root "^3.0.0"
 
-lodash@^4.0.0, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.2.0:
+lodash@^4.0.0, lodash@^4.17.2, lodash@^4.2.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -2665,7 +2659,7 @@ mobx-utils@^1.1.2:
   version "1.1.6"
   resolved "https://registry.yarnpkg.com/mobx-utils/-/mobx-utils-1.1.6.tgz#6b94b66ffe3b3a314f60e2265be8f4e7450f3902"
 
-mobx@3, mobx@3.0:
+mobx@3.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-3.0.2.tgz#ade8e83434f7a73868d2632603b6d17da530427c"
 
