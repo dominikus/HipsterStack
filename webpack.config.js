@@ -15,7 +15,7 @@ module.exports = {
 			path.resolve("./src")
 		],
 		alias: {
-			'lima': path.resolve('node_modules/lima/dist')
+			'lima': path.resolve('lima/dist')
 		}
 	},
 	devServer: {
