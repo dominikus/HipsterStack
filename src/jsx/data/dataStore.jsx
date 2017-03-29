@@ -1,80 +1,76 @@
-import {queue, tsvParse, request} from 'd3';
-import {defaults, identity, find} from 'lodash';
+/* eslint-disable no-param-reassign, no-console */
+import { queue, tsvParse, request } from 'd3';
+import { defaults, identity, find } from 'lodash';
+
+import dataPath from '../../data/data.tsv';
 
 // import config from 'config/config';
 
 let allDataLoaded = false;
 let isLoading = false;
-let q = queue();
-let resolveQ = [];
+const q = queue();
+const resolveQ = [];
 
+const dataSets = [];
 
-export const loadAllDataSets = ()=>{
-  return new Promise((resolve, reject) => {
-    // resolve if we loaded all data already
-    if(allDataLoaded){
-      resolve(dataSets);
-      return;
-    } else if(!isLoading){
+function postProcess() {
+  dataSets.forEach(() => {
+  });
+}
 
-      console.info("init data store");
-      isLoading = true;
-      dataSets.forEach((d)=>{
-        q.defer(request, d.url);
-      });
+export const loadAllDataSets = () => new Promise((resolve, reject) => {
+  // resolve if we loaded all data already
+  if (allDataLoaded) {
+    resolve(dataSets);
+  } else if (!isLoading) {
+    console.info('init data store');
+    isLoading = true;
+    dataSets.forEach((d) => {
+      q.defer(request, d.url);
+    });
 
-      q.awaitAll((err, results) => {
-        isLoading = false;
-        if(err){
+    q.awaitAll((err, results) => {
+      isLoading = false;
+      if (err) {
+        reject(err);
+        // reject(`error loading ${failedDataset.url}`);
+      } else {
+        dataSets.forEach((d, i) => {
+          d.result = d.parser(results[i].response).map(d.parseItem || identity);
+        });
 
-          reject(`error loading ${failedDataset.url}`);
-        } else {
-           dataSets.forEach((d, i)=>{
-            d.result = d.parser(results[i].response).map(d.parseItem || identity);
-          });
-
-          try{
-            postProcess(reject);
-          } catch(e){
-            reject(e);
-          }
-
-          allDataLoaded = true;
-
-          console.info("* Done loading *")
-
-          resolve();
-          resolveQ.forEach((resolve)=>resolve.call(this));
+        try {
+          postProcess(reject);
+        } catch (e) {
+          reject(e);
         }
-      });
-    } else {
-      resolveQ.push(resolve);
-    }
-  });
-}
 
-function postProcess(){
-  dataSets.forEach((d) => {
+        allDataLoaded = true;
 
-  });
-}
+        console.info('* Done loading *');
 
-export const getDataSet = (id)=>{
-  let dataSet = find(dataSets, (x)=>x.id == id);
+        resolve();
+        resolveQ.forEach(reslve => reslve.call(this));
+      }
+    });
+  } else {
+    resolveQ.push(resolve);
+  }
+});
+
+export const getDataSet = (id) => {
+  const dataSet = find(dataSets, x => x.id === id);
   return dataSet.result;
-}
-
-let dataSets = [];
+};
 
 // SHARED
 
-import dataPath from "data/data.tsv"
-console.log(dataPath)
+console.log(dataPath);
 dataSets.push({
-  "url": dataPath,
-  "id": "first-dataset",
-  "parser": tsvParse,
-  "parseItem": (d)=> defaults({
-    "value": +d.value
-  }, d)
+  url: dataPath,
+  id: 'first-dataset',
+  parser: tsvParse,
+  parseItem: d => defaults({
+    value: +d.value,
+  }, d),
 });

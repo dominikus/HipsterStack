@@ -12,7 +12,7 @@
   },
   "rules": {
     "strict": 0,
-    "no-param-reassign": "warn"
+    "no-param-reassign": "error"
   },
   "extends": "airbnb",
   "plugins": [

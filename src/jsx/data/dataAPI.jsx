@@ -1,44 +1,43 @@
-import {observable, computed, action} from 'mobx';
-import uiState from 'state/uiState';
-import {getDataSet} from "data/dataStore"
+import { observable, computed, action } from 'mobx';
+import uiState from '../state/uiState';
 
 class DataAPI {
 
-	@observable ready = false
+  @observable ready = false
 
-	// deep observable - all items are observable
-	@observable items = []
+  // deep observable - all items are observable
+  @observable items = []
 
-	init(items){
-		this.addItems(items)
-		this.ready = true
-	}
+  init(items) {
+    this.addItems(items);
+    this.ready = true;
+  }
 
-	@action addItems(a){
-		a.forEach(o=>this.addItem(o))
-	}
+  @action addItems(a) {
+    a.forEach(o => this.addItem(o));
+  }
 
-	@action addItem(o){
-		this.items.push(o)
-	}
+  @action addItem(o) {
+    this.items.push(o);
+  }
 
-	@computed get numItems(){
-		return this.items.length
-	}
+  @computed get numItems() {
+    return this.items.length;
+  }
 
-	@computed get selectedItemId(){
-		return uiState.selectedItemId
-	}
+  @computed static get selectedItemId() {
+    return uiState.selectedItemId;
+  }
 
-	@computed get selectedItem(){
-		return this.items ? this.items.find(x=> x.id == uiState.selectedItemId): null
-	}
+  @computed get selectedItem() {
+    return this.items ? this.items.find(x => x.id === uiState.selectedItemId) : null;
+  }
 
-	@computed get selectedItemLabel(){
-		return this.selectedItem ? this.selectedItem.label : ''
-	}
+  @computed get selectedItemLabel() {
+    return this.selectedItem ? this.selectedItem.label : '';
+  }
 
 }
 
-let dataAPI = new DataAPI()
-export default dataAPI
+const dataAPI = new DataAPI();
+export default dataAPI;
