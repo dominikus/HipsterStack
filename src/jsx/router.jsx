@@ -9,10 +9,10 @@ let routes = {
   },
 }
 
-let config = {
-	notfound: () => "",
-  html5history: true
-};
+const config = {
+	notfound: () => '',
+  html5history: false
+}
 
 const router = new Router(routes).configure(config);
 
@@ -21,8 +21,5 @@ export function startRouter() {
 }
 
 autorun(()=>{
-	const path = uiState.path;
-	if (path !== window.location.pathname) {
-		window.history.pushState(null, null, path);
-	}
+	window.location.hash = uiState.path
 });
