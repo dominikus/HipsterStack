@@ -5,6 +5,7 @@ import DevTools from 'mobx-react-devtools';
 import uiState from "state/uiState"
 import {observer} from 'mobx-react';
 import {when} from 'mobx';
+import Visible from "util/visible"
 
 import {getDataSet, loadAllDataSets} from 'data/dataStore';
 import dataAPI from 'data/dataAPI';
@@ -26,8 +27,12 @@ class App extends Component {
 		return (
 			<div>
 				<h1>{uiState.currentView}</h1>
-				{dataAPI.ready && <h2>Data loaded — {dataAPI.items.length} items</h2>}
-				{!dataAPI.ready && <h2>Loading…</h2>}
+				<Visible if={dataAPI.ready}>
+					<h2>Data loaded — {dataAPI.items.length} items</h2>
+				</Visible>
+				<Visible if={!dataAPI.ready}>
+					<h2>Loading…</h2>
+				</Visible>
 			</div>
 		);
 	}
