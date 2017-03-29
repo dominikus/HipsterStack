@@ -27,12 +27,15 @@ class App extends Component {
 		return (
 			<div>
 				<h1>{uiState.currentView}</h1>
+
 				<Visible if={dataAPI.ready}>
 					<h2>Data loaded — {dataAPI.items.length} items</h2>
 				</Visible>
+
 				<Visible if={!dataAPI.ready}>
 					<h2>Loading…</h2>
 				</Visible>
+
 			</div>
 		);
 	}
