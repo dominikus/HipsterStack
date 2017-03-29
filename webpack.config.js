@@ -9,11 +9,8 @@ module.exports = {
 		filename: 'js/app.js'
 	},
 	resolve: {
-		extensions: ['', '.js', '.jsx'],
-		modulesDirectories: ["src/jsx", "node_modules"],
-		root: [
-			path.resolve("./src")
-		],
+		extensions: ['.js', '.jsx'],
+		modules: [path.resolve("src/jsx"), path.resolve("node_modules"), path.resolve("src")],
 		alias: {}
 	},
 	devServer: {
@@ -25,19 +22,50 @@ module.exports = {
 			{
 				exclude: /node_modules/,
 				test: /\.jsx?$/,
-				loader: "babel"
+				loader: 'babel-loader'
 			},
 			{
 				test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$|\.tsv$/,
-				loader: "file?name=[name]-[hash:6].[ext]"
+				loader: 'file-loader',
+				options: {
+					name: '[name]-[hash:6].[ext]'
+				}
 			},
 			{
         test: /\.html$/,
-        loader: 'file?name=[name].[ext]!extract-loader!html?interpolate=require'
+        use: [
+					{
+						loader: 'file-loader',
+						options: {
+							name: '[name].[ext]'
+						}
+					},
+					'extract-loader',
+					{
+						loader: 'html-loader',
+						options: {
+							interpolate: 'require'
+						}
+					}
+				]
       },
 			{
 				test: /\.sass$/,
-				loaders: ["style?name=[name]-[hash:6].[ext]", "css", "sass?indentedSyntax"]
+				use: [
+					{
+						loader: "style-loader",
+						options: {
+							name: '[name]-[hash:6].[ext]'
+						}
+					},
+					"css-loader", 
+					{
+						loader: "sass-loader",
+						options: {
+							indentedSyntax: true
+						}
+					}
+				]
 			}
 		]
 	},

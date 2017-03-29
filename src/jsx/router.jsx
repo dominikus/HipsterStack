@@ -1,4 +1,4 @@
-import {Router} from 'director';
+import {Router} from 'director/build/director';
 import {autorun} from 'mobx';
 
 import uiState from 'state/uiState';
