@@ -7,7 +7,7 @@
 		exports["lima-core"] = factory(require("mobx"), require("lodash"));
 	else
 		root["lima-core"] = factory(root["mobx"], root["_"]);
-})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_24__) {
+})(this, function(__WEBPACK_EXTERNAL_MODULE_2__, __WEBPACK_EXTERNAL_MODULE_18__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -73,12 +73,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 211);
+/******/ 	return __webpack_require__(__webpack_require__.s = 213);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 100:
+/***/ 102:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -93,11 +93,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _desc, _value, _class, _descriptor, _descriptor2, _descriptor3;
 
-var _d3Request = __webpack_require__(22);
+var _d3Request = __webpack_require__(23);
 
 var _mobx = __webpack_require__(2);
 
-var _config = __webpack_require__(215);
+var _config = __webpack_require__(210);
 
 var _config2 = _interopRequireDefault(_config);
 
@@ -266,7 +266,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 101:
+/***/ 103:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -281,11 +281,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _desc, _value, _class, _descriptor;
 
-var _d3Queue = __webpack_require__(41);
+var _d3Queue = __webpack_require__(43);
 
-var _d3Request = __webpack_require__(22);
+var _d3Request = __webpack_require__(23);
 
-var _lodash = __webpack_require__(24);
+var _lodash = __webpack_require__(18);
 
 var _mobx = __webpack_require__(2);
 
@@ -457,7 +457,9 @@ var _default = (_class = function () {
 
   }, {
     key: 'init',
-    value: function init(datasets, postProcess) {
+    value: function init(datasets) {
+      var postProcess = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : function () {};
+
       return this.loadAllDataSets(datasets, postProcess);
     }
 
@@ -507,196 +509,7 @@ exports.default = _default;
 
 /***/ }),
 
-/***/ 102:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-exports.default = undefined;
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _desc, _value, _class, _descriptor, _descriptor2, _descriptor3;
-
-var _mobx = __webpack_require__(2);
-
-var _lodash = __webpack_require__(24);
-
-function _initDefineProp(target, property, descriptor, context) {
-	if (!descriptor) return;
-	Object.defineProperty(target, property, {
-		enumerable: descriptor.enumerable,
-		configurable: descriptor.configurable,
-		writable: descriptor.writable,
-		value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
-	});
-}
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-	var desc = {};
-	Object['ke' + 'ys'](descriptor).forEach(function (key) {
-		desc[key] = descriptor[key];
-	});
-	desc.enumerable = !!desc.enumerable;
-	desc.configurable = !!desc.configurable;
-
-	if ('value' in desc || desc.initializer) {
-		desc.writable = true;
-	}
-
-	desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-		return decorator(target, property, desc) || desc;
-	}, desc);
-
-	if (context && desc.initializer !== void 0) {
-		desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-		desc.initializer = undefined;
-	}
-
-	if (desc.initializer === void 0) {
-		Object['define' + 'Property'](target, property, desc);
-		desc = null;
-	}
-
-	return desc;
-}
-
-function _initializerWarningHelper(descriptor, context) {
-	throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
-}
-
-var state = undefined;
-
-/**
- * State class
- * Encapsulates the state as a singleton object.
- * We're using the "Class+static get()" pattern instead of
- * "export default const state = new State()"
- * to keep ES6 from immediately constructing a state instance on import. This way, the state is only built once
- * we're accessing it via State.get() and we can use things like a loaded config-file to impact on the state etc.
- * @memberof internal
- * @namespace State
- */
-
-var _default = (_class = function () {
-	function _default() {
-		_classCallCheck(this, _default);
-
-		_initDefineProp(this, 'ready', _descriptor, this);
-
-		_initDefineProp(this, 'dataReady', _descriptor2, this);
-
-		_initDefineProp(this, 'configReady', _descriptor3, this);
-	}
-
-	/**
-  * Use this method to access the state singleton internally.
-  * @returns {State} state singleton
-  * @memberof internal.State
-  */
-
-
-	_createClass(_default, [{
-		key: 'init',
-
-
-		/**
-   * Initializes the state with a set of attributes and values.
-   * @param {Object} initialState 
-   */
-		value: function init() {
-			var _this = this;
-
-			var initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-			Object.keys(initialState).forEach(function (key) {
-				_this.extend(key, initialState[key]);
-			});
-			this.ready = true;
-		}
-	}, {
-		key: 'extend',
-		value: function extend(id, initialValue) {
-			var extension = {};
-			extension[id] = (0, _mobx.observable)(initialValue);
-			(0, _mobx.extendObservable)(this, extension);
-		}
-	}, {
-		key: 'set',
-		value: function set(o) {
-			var _this2 = this;
-
-			(0, _mobx.runInAction)(function () {
-				(0, _lodash.assign)(_this2, o);
-			});
-		}
-	}, {
-		key: 'updateState',
-
-
-		/**
-   * Takes an object, extracts all attributes that also exist in the
-   * current state and updates their values.
-   * @param {Object} the new state values 
-   */
-		value: function updateState(o) {
-			var _this3 = this;
-
-			(0, _mobx.runInAction)(function () {
-				Object.keys(o).forEach(function (key) {
-					if (_this3.hasOwnProperty(key)) {
-						_this3[key] = o[key];
-					}
-				});
-			});
-		}
-	}, {
-		key: 'encoded',
-		get: function get() {
-			return (0, _mobx.toJS)(this);
-		}
-	}], [{
-		key: 'get',
-		value: function get() {
-			if (typeof state != 'undefined') {
-				return state;
-			} else {
-				state = new this();
-				return state;
-			}
-		}
-	}]);
-
-	return _default;
-}(), (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'ready', [_mobx.observable], {
-	enumerable: true,
-	initializer: function initializer() {
-		return false;
-	}
-}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, 'dataReady', [_mobx.observable], {
-	enumerable: true,
-	initializer: function initializer() {
-		return false;
-	}
-}), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, 'configReady', [_mobx.observable], {
-	enumerable: true,
-	initializer: function initializer() {
-		return false;
-	}
-}), _applyDecoratedDescriptor(_class.prototype, 'encoded', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'encoded'), _class.prototype)), _class);
-
-exports.default = _default;
-;
-
-/***/ }),
-
-/***/ 103:
+/***/ 104:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -713,7 +526,7 @@ var _desc, _value, _class, _descriptor;
 
 var _mobx = __webpack_require__(2);
 
-var _MainLoop = __webpack_require__(52);
+var _MainLoop = __webpack_require__(54);
 
 var _MainLoop2 = _interopRequireDefault(_MainLoop);
 
@@ -886,22 +699,36 @@ exports.default = IdleManager;
 
 /***/ }),
 
-/***/ 19:
+/***/ 18:
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_18__;
+
+/***/ }),
+
+/***/ 2:
+/***/ (function(module, exports) {
+
+module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+
+/***/ }),
+
+/***/ 20:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_nest__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_nest__ = __webpack_require__(30);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "nest", function() { return __WEBPACK_IMPORTED_MODULE_0__src_nest__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_set__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_set__ = __webpack_require__(31);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "set", function() { return __WEBPACK_IMPORTED_MODULE_1__src_set__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_map__ = __webpack_require__(7);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "map", function() { return __WEBPACK_IMPORTED_MODULE_2__src_map__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_keys__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__src_keys__ = __webpack_require__(29);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "keys", function() { return __WEBPACK_IMPORTED_MODULE_3__src_keys__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_values__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__src_values__ = __webpack_require__(32);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "values", function() { return __WEBPACK_IMPORTED_MODULE_4__src_values__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_entries__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__src_entries__ = __webpack_require__(28);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "entries", function() { return __WEBPACK_IMPORTED_MODULE_5__src_entries__["a"]; });
 
 
@@ -913,14 +740,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 2:
+/***/ 210:
 /***/ (function(module, exports) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
+module.exports = [
+	{
+		"key": "ready",
+		"value": true
+	}
+];
 
 /***/ }),
 
-/***/ 211:
+/***/ 213:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -929,30 +761,32 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_2__;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.initLima = exports.IdleManagerClass = exports.MainLoopClass = exports.DataStoreClass = exports.ConfigClass = exports.StateClass = exports.idleManager = exports.mainLoop = exports.dataStore = exports.config = exports.uiState = undefined;
+exports.initLima = exports.IdleManagerClass = exports.MainLoopClass = exports.DataStoreClass = exports.ConfigClass = exports.StateClass = exports.idleManager = exports.mainLoop = exports.dataStore = exports.config = exports.uiState = exports.lima = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _desc, _value, _class, _descriptor;
 
 // /time
 
 
-var _Config = __webpack_require__(100);
+var _Config = __webpack_require__(102);
 
 var _Config2 = _interopRequireDefault(_Config);
 
-var _DataStore = __webpack_require__(101);
+var _DataStore = __webpack_require__(103);
 
 var _DataStore2 = _interopRequireDefault(_DataStore);
 
-var _State = __webpack_require__(102);
+var _State = __webpack_require__(25);
 
 var _State2 = _interopRequireDefault(_State);
 
-var _MainLoop = __webpack_require__(52);
+var _MainLoop = __webpack_require__(54);
 
 var _MainLoop2 = _interopRequireDefault(_MainLoop);
 
-var _IdleManager = __webpack_require__(103);
+var _IdleManager = __webpack_require__(104);
 
 var _IdleManager2 = _interopRequireDefault(_IdleManager);
 
@@ -960,7 +794,50 @@ var _mobx = __webpack_require__(2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _initDefineProp(target, property, descriptor, context) {
+  if (!descriptor) return;
+  Object.defineProperty(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
+}
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
+function _initializerWarningHelper(descriptor, context) {
+  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
 
 /**
  * Main
@@ -968,16 +845,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * @alias Lima
  * @namespace lima
  */
-var Lima = function () {
+var Lima = (_class = function () {
   function Lima() {
     _classCallCheck(this, Lima);
 
-    this.ready = (0, _mobx.observable)(false);
+    _initDefineProp(this, 'ready', _descriptor, this);
 
     // create singletons:
     this.dataStore = _DataStore2.default.get();
     this.config = _Config2.default.get();
-    this.state = _State2.default.get();
+    this.state = new _State2.default();
     this.mainLoop = _MainLoop2.default.get();
     this.idleManager = _IdleManager2.default.get();
   }
@@ -1026,7 +903,13 @@ var Lima = function () {
   }]);
 
   return Lima;
-}();
+}(), (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'ready', [_mobx.observable], {
+  enumerable: true,
+  initializer: function initializer() {
+    return false;
+  }
+})), _class);
+
 
 var l = new Lima();
 
@@ -1043,6 +926,7 @@ var initLima = function initLima(pathToConfig, datasets, postProcess, initialSta
 
 window.lima = l;
 
+exports.lima = l;
 exports.uiState = uiState;
 exports.config = config;
 exports.dataStore = dataStore;
@@ -1057,24 +941,12 @@ exports.initLima = initLima;
 
 /***/ }),
 
-/***/ 215:
-/***/ (function(module, exports) {
-
-module.exports = [
-	{
-		"key": "ready",
-		"value": true
-	}
-];
-
-/***/ }),
-
-/***/ 22:
+/***/ 23:
 /***/ (function(module, exports, __webpack_require__) {
 
 // https://d3js.org/d3-request/ Version 1.0.3. Copyright 2016 Mike Bostock.
 (function (global, factory) {
-   true ? factory(exports, __webpack_require__(19), __webpack_require__(33), __webpack_require__(35)) :
+   true ? factory(exports, __webpack_require__(20), __webpack_require__(35), __webpack_require__(37)) :
   typeof define === 'function' && define.amd ? define(['exports', 'd3-collection', 'd3-dispatch', 'd3-dsv'], factory) :
   (factory((global.d3 = global.d3 || {}),global.d3,global.d3,global.d3));
 }(this, (function (exports,d3Collection,d3Dispatch,d3Dsv) { 'use strict';
@@ -1292,14 +1164,176 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 /***/ }),
 
-/***/ 24:
-/***/ (function(module, exports) {
+/***/ 25:
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __WEBPACK_EXTERNAL_MODULE_24__;
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _desc, _value, _class, _descriptor, _descriptor2, _descriptor3;
+
+var _mobx = __webpack_require__(2);
+
+var _lodash = __webpack_require__(18);
+
+function _initDefineProp(target, property, descriptor, context) {
+	if (!descriptor) return;
+	Object.defineProperty(target, property, {
+		enumerable: descriptor.enumerable,
+		configurable: descriptor.configurable,
+		writable: descriptor.writable,
+		value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+	});
+}
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+	var desc = {};
+	Object['ke' + 'ys'](descriptor).forEach(function (key) {
+		desc[key] = descriptor[key];
+	});
+	desc.enumerable = !!desc.enumerable;
+	desc.configurable = !!desc.configurable;
+
+	if ('value' in desc || desc.initializer) {
+		desc.writable = true;
+	}
+
+	desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+		return decorator(target, property, desc) || desc;
+	}, desc);
+
+	if (context && desc.initializer !== void 0) {
+		desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+		desc.initializer = undefined;
+	}
+
+	if (desc.initializer === void 0) {
+		Object['define' + 'Property'](target, property, desc);
+		desc = null;
+	}
+
+	return desc;
+}
+
+function _initializerWarningHelper(descriptor, context) {
+	throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
+
+/**
+ * State class
+ * Encapsulates the state as a singleton object.
+ * We're using the "Class+static get()" pattern instead of
+ * "export default const state = new State()"
+ * to keep ES6 from immediately constructing a state instance on import. This way, the state is only built once
+ * we're accessing it via State.get() and we can use things like a loaded config-file to impact on the state etc.
+ * @memberof internal
+ * @namespace State
+ */
+var _default = (_class = function () {
+	function _default() {
+		_classCallCheck(this, _default);
+
+		_initDefineProp(this, 'ready', _descriptor, this);
+
+		_initDefineProp(this, 'dataReady', _descriptor2, this);
+
+		_initDefineProp(this, 'configReady', _descriptor3, this);
+	}
+
+	/**
+  * Initializes the state with a set of attributes and values.
+  * @param {Object} initialState 
+  */
+
+
+	_createClass(_default, [{
+		key: 'init',
+		value: function init() {
+			var _this = this;
+
+			var initialState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+			Object.keys(initialState).forEach(function (key) {
+				_this.extend(key, initialState[key]);
+			});
+			this.ready = true;
+		}
+	}, {
+		key: 'extend',
+		value: function extend(id, initialValue) {
+			var extension = {};
+			extension[id] = initialValue;
+			(0, _mobx.extendObservable)(this, extension);
+		}
+	}, {
+		key: 'set',
+		value: function set(o) {
+			var _this2 = this;
+
+			(0, _mobx.runInAction)(function () {
+				(0, _lodash.assign)(_this2, o);
+			});
+		}
+	}, {
+		key: 'updateState',
+
+
+		/**
+   * Takes an object, extracts all attributes that also exist in the
+   * current state and updates their values.
+   * @param {Object} the new state values 
+   */
+		value: function updateState(o) {
+			var _this3 = this;
+
+			(0, _mobx.runInAction)(function () {
+				Object.keys(o).forEach(function (key) {
+					if (_this3.hasOwnProperty(key)) {
+						_this3[key] = o[key];
+					}
+				});
+			});
+		}
+	}, {
+		key: 'encoded',
+		get: function get() {
+			return (0, _mobx.toJS)(this);
+		}
+	}]);
+
+	return _default;
+}(), (_descriptor = _applyDecoratedDescriptor(_class.prototype, 'ready', [_mobx.observable], {
+	enumerable: true,
+	initializer: function initializer() {
+		return false;
+	}
+}), _descriptor2 = _applyDecoratedDescriptor(_class.prototype, 'dataReady', [_mobx.observable], {
+	enumerable: true,
+	initializer: function initializer() {
+		return false;
+	}
+}), _descriptor3 = _applyDecoratedDescriptor(_class.prototype, 'configReady', [_mobx.observable], {
+	enumerable: true,
+	initializer: function initializer() {
+		return false;
+	}
+}), _applyDecoratedDescriptor(_class.prototype, 'encoded', [_mobx.computed], Object.getOwnPropertyDescriptor(_class.prototype, 'encoded'), _class.prototype)), _class);
+
+exports.default = _default;
+;
 
 /***/ }),
 
-/***/ 26:
+/***/ 28:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1312,7 +1346,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_24__;
 
 /***/ }),
 
-/***/ 27:
+/***/ 29:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1325,7 +1359,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_24__;
 
 /***/ }),
 
-/***/ 28:
+/***/ 30:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1407,7 +1441,7 @@ function setMap(map, key, value) {
 
 /***/ }),
 
-/***/ 29:
+/***/ 31:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1455,7 +1489,7 @@ function set(object, f) {
 
 /***/ }),
 
-/***/ 30:
+/***/ 32:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1468,19 +1502,19 @@ function set(object, f) {
 
 /***/ }),
 
-/***/ 33:
+/***/ 35:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_dispatch__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_dispatch__ = __webpack_require__(36);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "dispatch", function() { return __WEBPACK_IMPORTED_MODULE_0__src_dispatch__["a"]; });
 
 
 
 /***/ }),
 
-/***/ 34:
+/***/ 36:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1572,19 +1606,19 @@ function set(type, name, callback) {
 
 /***/ }),
 
-/***/ 35:
+/***/ 37:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_dsv__ = __webpack_require__(8);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "dsvFormat", function() { return __WEBPACK_IMPORTED_MODULE_0__src_dsv__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_csv__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__src_csv__ = __webpack_require__(38);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "csvParse", function() { return __WEBPACK_IMPORTED_MODULE_1__src_csv__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "csvParseRows", function() { return __WEBPACK_IMPORTED_MODULE_1__src_csv__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "csvFormat", function() { return __WEBPACK_IMPORTED_MODULE_1__src_csv__["c"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "csvFormatRows", function() { return __WEBPACK_IMPORTED_MODULE_1__src_csv__["d"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_tsv__ = __webpack_require__(37);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__src_tsv__ = __webpack_require__(39);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "tsvParse", function() { return __WEBPACK_IMPORTED_MODULE_2__src_tsv__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "tsvParseRows", function() { return __WEBPACK_IMPORTED_MODULE_2__src_tsv__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "tsvFormat", function() { return __WEBPACK_IMPORTED_MODULE_2__src_tsv__["c"]; });
@@ -1596,7 +1630,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /***/ }),
 
-/***/ 36:
+/***/ 38:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1617,7 +1651,7 @@ var csvFormatRows = csv.formatRows;
 
 /***/ }),
 
-/***/ 37:
+/***/ 39:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1638,19 +1672,19 @@ var tsvFormatRows = tsv.formatRows;
 
 /***/ }),
 
-/***/ 41:
+/***/ 43:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_queue__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__src_queue__ = __webpack_require__(45);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "queue", function() { return __WEBPACK_IMPORTED_MODULE_0__src_queue__["a"]; });
 
 
 
 /***/ }),
 
-/***/ 42:
+/***/ 44:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1660,11 +1694,11 @@ var slice = [].slice;
 
 /***/ }),
 
-/***/ 43:
+/***/ 45:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__array__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__array__ = __webpack_require__(44);
 /* harmony export (immutable) */ __webpack_exports__["a"] = queue;
 
 
@@ -1787,7 +1821,7 @@ function queue(concurrency) {
 
 /***/ }),
 
-/***/ 52:
+/***/ 54:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
