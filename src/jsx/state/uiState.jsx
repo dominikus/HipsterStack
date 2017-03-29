@@ -2,7 +2,6 @@ import {observable, computed} from 'mobx';
 
 class UiState {
 	@observable currentView = "";
-	@observable dataLoaded = false;
 
 	constructor() {
 	}
@@ -11,5 +10,6 @@ class UiState {
 		return `${this.currentView}`;
 	}
 };
+
 const uiState = new UiState();
 export default uiState;
