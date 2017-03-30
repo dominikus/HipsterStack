@@ -71,6 +71,8 @@ dataSets.push({
   id: 'first-dataset',
   parser: tsvParse,
   parseItem: d => defaults({
-    value: +d.value,
+    x: +d.x,
+    y: +d.y,
+    id: d.x + d.y + d.label,
   }, d),
 });

@@ -33,11 +33,13 @@ export default class ViewModelCollection {
   }
 
   makeViewModel(o) {
+    // update function to assign new values
+    function update(oo) {
+      assign(this, oo);
+    }
+
     return extendObservable({
-      // update function to assign new values
-      update: action((oo) => {
-        assign(this, oo);
-      }),
+      update,
       __data: o,
       id: o.id,
     }, this.template);

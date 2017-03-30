@@ -9,6 +9,7 @@ import { getDataSet, loadAllDataSets } from './data/dataStore';
 import dataAPI from './data/dataAPI';
 
 import startRouter from './router';
+import ContainerComponent from './components/ContainerComponent';
 
 @observer
 class App extends Component {
@@ -28,6 +29,7 @@ class App extends Component {
 
         <Visible if={dataAPI.ready}>
           <h2>Data loaded — {dataAPI.items.length} items</h2>
+          <ContainerComponent models={dataAPI.items} />
         </Visible>
 
         <Visible if={!dataAPI.ready}>
