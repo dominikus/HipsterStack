@@ -60,7 +60,7 @@ class View extends Component {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, this.props.width, this.props.height);
 
-    ctx.font = '24px Times New Roman';
+    ctx.font = '12px Arial';
     ctx.fillStyle = 'black';
 
     this.sprites.forEach((sprite) => {

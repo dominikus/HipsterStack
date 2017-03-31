@@ -5,9 +5,9 @@ import React, { Component } from 'react';
 import { observer, PropTypes } from 'mobx-react';
 import { observe, action } from 'mobx';
 
-import { scaleLinear, extent } from 'd3';
+import { forceSimulation, forceManyBody, forceCenter, forceCollide, forceX, forceY } from 'd3';
 
-import { TweenMax, Power2 } from 'gsap';
+// import { TweenMax, Power2 } from 'gsap';
 
 import ViewModelCollection from '../data/ViewModelCollection';
 import dataAPI from '../data/dataAPI';
@@ -22,14 +22,14 @@ class ContainerComponent extends Component {
   static propTypes = {
     W: React.PropTypes.number,
     H: React.PropTypes.number,
-    SCALE_FACTOR: React.PropTypes.number,
-    padding: React.PropTypes.number,
+    // SCALE_FACTOR: React.PropTypes.number,
+    // padding: React.PropTypes.number,
     models: PropTypes.observableArrayOf(React.PropTypes.object),
   }
 
   static defaultProps = {
-    W: 600,
-    H: 400,
+    W: 1200,
+    H: 800,
     SCALE_FACTOR: 1,
     padding: 0.05,
     models: [],
@@ -48,6 +48,8 @@ class ContainerComponent extends Component {
     this.viewModelCollection = new ViewModelCollection(this.props.models, viewModelTemplate);
     this.viewModels = this.viewModelCollection.viewModels;
     observe(this.viewModels, () => this.updateData(), true);
+    // const vms = this.viewModels
+      // console.log("x", vms[0].x, vms[0].y);
   }
 
   updateSelection(id) {
@@ -59,42 +61,18 @@ class ContainerComponent extends Component {
 
   @action updateData() {
     const vms = this.viewModels;
-
-    // visual mapping
-    const SIZE = Math.min(this.props.W, this.props.H) * this.props.SCALE_FACTOR;
-    const xScale = scaleLinear()
-      .domain(extent(vms, n => n.__data.x))
-      .range([
-        ((this.props.W - SIZE) / 2) + (this.props.padding * SIZE),
-        ((this.props.W - SIZE) / 2) + ((1 - this.props.padding) * SIZE),
-      ]);
-    const yScale = scaleLinear()
-      .domain(extent(vms, n => n.__data.y))
-      .range([
-        ((this.props.H - SIZE) / 2) + (this.props.padding * SIZE),
-        ((this.props.H - SIZE) / 2) + ((1 - this.props.padding) * SIZE),
-      ]);
-
-    // property updates
-    vms.forEach((vm) => {
-      const x = xScale(vm.__data.x);
-      const y = yScale(vm.__data.y);
-
-      const { label } = vm.__data;
-      TweenMax.killTweensOf(vm);
-
-      // direct changes
-      vm.update({ label });
-
-      // animated changes
-      TweenMax.to(vm, 1, {
-        x,
-        y,
-        ease: Power2.easeOut,
-      });
+    vms.forEach((v) => {
+      v.label = v.__data.label;
     });
-  }
 
+    this.sim = forceSimulation(vms)
+    .force('center', forceCenter(this.props.W / 2, this.props.H / 2))
+    .force('collide', forceCollide().radius(10).strength(0.5))
+    // .force('charge', forceManyBody().strength(1).distanceMin(5))
+    .force('x', forceX().x(n => 200 * (n.index % 5)))
+    .force('y', forceY().y(n => 200 * (n.index % 4)))
+    .on('tick', () => {});
+  }
   render() {
     return (
       <div key="container-component">

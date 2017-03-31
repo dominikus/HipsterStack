@@ -1,4 +1,4 @@
-import { observe, observable, extendObservable, action } from 'mobx';
+import { observe, observable, extendObservable } from 'mobx';
 import { assign } from 'lodash';
 
 export default class ViewModelCollection {

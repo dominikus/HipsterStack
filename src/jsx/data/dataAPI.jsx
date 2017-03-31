@@ -1,5 +1,7 @@
 import { observable, computed, action } from 'mobx';
+import { range, sample } from 'lodash';
 import uiState from '../state/uiState';
+
 
 class DataAPI {
 
@@ -8,8 +10,15 @@ class DataAPI {
   // deep observable - all items are observable
   @observable items = []
 
-  init(items) {
-    this.addItems(items);
+  @action init(items) {
+    // this.addItems(items);
+
+    this.addItems(range(1000).map(i => ({
+      label: sample(['•', '+', '-', 'x']),
+      x: Math.random() * 1000,
+      y: Math.random() * 1000,
+    })));
+
     this.ready = true;
   }
 
@@ -36,8 +45,8 @@ class DataAPI {
   @computed get selectedItemLabel() {
     return this.selectedItem ? this.selectedItem.label : '';
   }
-
 }
+
 
 const dataAPI = new DataAPI();
 export default dataAPI;
