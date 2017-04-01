@@ -5,14 +5,14 @@ import React, { Component } from 'react';
 import { observer, PropTypes } from 'mobx-react';
 import { observe, action } from 'mobx';
 
-import { forceSimulation, forceManyBody, forceCenter, forceCollide, forceX, forceY } from 'd3';
+import { forceSimulation, forceCenter, forceCollide, forceX, forceY } from 'd3';
 
 // import { TweenMax, Power2 } from 'gsap';
 
 import ViewModelCollection from '../data/ViewModelCollection';
 import dataAPI from '../data/dataAPI';
-
-import View from './View';
+import uiState from '../state/uiState';
+import PixiView from './PixiView';
 import viewModelTemplate from '../data/viewModelTemplate';
 
 
@@ -64,19 +64,26 @@ class ContainerComponent extends Component {
     vms.forEach((v) => {
       v.label = v.__data.label;
     });
-
+    // const fmb = forceManyBody().strength(1).distanceMin(5);
+    const fc = forceCenter(this.props.W / 2, this.props.H / 2)
     this.sim = forceSimulation(vms)
-    .force('center', forceCenter(this.props.W / 2, this.props.H / 2))
+    .force('center', fc)
     .force('collide', forceCollide().radius(10).strength(0.5))
-    // .force('charge', forceManyBody().strength(1).distanceMin(5))
+    // .force('charge', fmb)
     .force('x', forceX().x(n => 200 * (n.index % 5)))
     .force('y', forceY().y(n => 200 * (n.index % 4)))
     .on('tick', () => {});
+
+    // observe(uiState.mouse, "x", ()=>{
+    //   fc.x(uiState.mouse.x)
+    //   this.sim.alpha(1).restart()
+    // })
   }
+
   render() {
     return (
       <div key="container-component">
-        <View
+        <PixiView
           key="view"
           viewModels={this.viewModels}
           width={this.props.W}

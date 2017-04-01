@@ -10,13 +10,12 @@ class DataAPI {
   // deep observable - all items are observable
   @observable items = []
 
-  @action init(items) {
-    // this.addItems(items);
-
+  @action init() {
     this.addItems(range(1000).map(i => ({
       label: sample(['•', '+', '-', 'x']),
       x: Math.random() * 1000,
       y: Math.random() * 1000,
+      index: i,
     })));
 
     this.ready = true;

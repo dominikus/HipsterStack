@@ -6,12 +6,12 @@ import { findIndex } from 'lodash';
 
 class View extends Component {
 
-  static propTypes = {
-    viewModels: PropTypes.observableArrayOf(React.PropTypes.object),
-    width: React.PropTypes.number,
-    height: React.PropTypes.number,
-    setSelectedItemId: React.PropTypes.func,
-  }
+  // static propTypes = {
+  //   viewModels: PropTypes.observableArrayOf(React.PropTypes.object),
+  //   width: React.PropTypes.number,
+  //   height: React.PropTypes.number,
+  //   setSelectedItemId: React.PropTypes.func,
+  // }
 
   static defaultProps = {
     viewModels: [],
