@@ -68,7 +68,7 @@ class ContainerComponent extends Component {
     const fc = forceCenter(this.props.W / 2, this.props.H / 2)
     this.sim = forceSimulation(vms)
     .force('center', fc)
-    .force('collide', forceCollide().radius(10).strength(0.5))
+    .force('collide', forceCollide().radius((n) => 3+3*(n.index % 5) ).strength(0.2))
     // .force('charge', fmb)
     .force('x', forceX().x(n => 200 * (n.index % 5)))
     .force('y', forceY().y(n => 200 * (n.index % 4)))
