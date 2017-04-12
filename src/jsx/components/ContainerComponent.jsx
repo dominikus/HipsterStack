@@ -31,7 +31,7 @@ class ContainerComponent extends Component {
   constructor() {
     super();
 
-    this.viewModelCollection = new ViewModelCollection(this.models, viewModelTemplate);
+    this.viewModelCollection = new ViewModelCollection([], viewModelTemplate);
 
     observe(dataAPI, 'selectedItem', () => {
       this.updateSelection(dataAPI.selectedItemId);
