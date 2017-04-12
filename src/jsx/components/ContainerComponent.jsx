@@ -1,22 +1,15 @@
-/* eslint-disable no-param-reassign, no-underscore-dangle */
+/* eslint-disable no-param-reassign, no-console, no-underscore-dangle, react/no-unused-prop-types */
 
 import React, { Component } from 'react';
-
-import { observer, PropTypes } from 'mobx-react';
 import { observe, action } from 'mobx';
-
 import { scaleLinear, extent } from 'd3';
-
 import { TweenMax, Power2 } from 'gsap';
 
 import ViewModelCollection from '../data/ViewModelCollection';
 import dataAPI from '../data/dataAPI';
-
 import View from './View';
 import viewModelTemplate from '../data/viewModelTemplate';
 
-
-@observer
 class ContainerComponent extends Component {
 
   static propTypes = {
@@ -24,7 +17,7 @@ class ContainerComponent extends Component {
     H: React.PropTypes.number,
     SCALE_FACTOR: React.PropTypes.number,
     padding: React.PropTypes.number,
-    models: PropTypes.observableArrayOf(React.PropTypes.object),
+    models: React.PropTypes.arrayOf(React.PropTypes.object),
   }
 
   static defaultProps = {
@@ -38,16 +31,30 @@ class ContainerComponent extends Component {
   constructor() {
     super();
 
+    this.viewModelCollection = new ViewModelCollection(this.models, viewModelTemplate);
+
     observe(dataAPI, 'selectedItem', () => {
       this.updateSelection(dataAPI.selectedItemId);
     });
   }
 
   componentWillMount() {
-    // initial update
-    this.viewModelCollection = new ViewModelCollection(this.props.models, viewModelTemplate);
-    this.viewModels = this.viewModelCollection.viewModels;
-    observe(this.viewModels, () => this.updateData(), true);
+    console.log('ContainerComponent.componentDidMount');
+    this.updateModels(this.props);
+  }
+
+  componentWillUpdate(nextProps) {
+    console.log('ContainerComponent.componentWillUpdate');
+    this.updateModels(nextProps);
+  }
+
+  models = [];
+
+  @action updateModels(props) {
+    console.log('updateModels', props.models.slice());
+    this.models = props.models.slice();
+    this.viewModelCollection.updateModels(this.models);
+    this.updateData(props);
   }
 
   updateSelection(id) {
@@ -57,22 +64,25 @@ class ContainerComponent extends Component {
     });
   }
 
-  @action updateData() {
-    const vms = this.viewModels;
+
+  @action updateData(props) {
+    console.log('ContainerComponent.updateData');
+    const { W, H, SCALE_FACTOR, padding } = props;
+    const vms = this.viewModelCollection.viewModels;
 
     // visual mapping
-    const SIZE = Math.min(this.props.W, this.props.H) * this.props.SCALE_FACTOR;
+    const SIZE = Math.min(W, H) * SCALE_FACTOR;
     const xScale = scaleLinear()
       .domain(extent(vms, n => n.__data.x))
       .range([
-        ((this.props.W - SIZE) / 2) + (this.props.padding * SIZE),
-        ((this.props.W - SIZE) / 2) + ((1 - this.props.padding) * SIZE),
+        ((W - SIZE) / 2) + (padding * SIZE),
+        ((W - SIZE) / 2) + ((1 - padding) * SIZE),
       ]);
     const yScale = scaleLinear()
       .domain(extent(vms, n => n.__data.y))
       .range([
-        ((this.props.H - SIZE) / 2) + (this.props.padding * SIZE),
-        ((this.props.H - SIZE) / 2) + ((1 - this.props.padding) * SIZE),
+        ((H - SIZE) / 2) + (padding * SIZE),
+        ((H - SIZE) / 2) + ((1 - padding) * SIZE),
       ]);
 
     // property updates
@@ -96,13 +106,18 @@ class ContainerComponent extends Component {
   }
 
   render() {
+    console.log('ContainerComponent.render');
+
+    const { viewModels } = this.viewModelCollection;
+    const { W, H } = this.props;
+
     return (
       <div key="container-component">
         <View
           key="view"
-          viewModels={this.viewModels}
-          width={this.props.W}
-          height={this.props.H}
+          viewModels={viewModels}
+          width={W}
+          height={H}
           setSelectedItemId={(id) => { dataAPI.selectedItemId = id; }}
         />
       </div>

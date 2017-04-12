@@ -1,42 +1,43 @@
-import React, { Component } from 'react';
-import { observe } from 'mobx';
-import { PropTypes } from 'mobx-react';
+/* eslint-disable no-console */
 
-import { findIndex } from 'lodash';
+import React, { Component } from 'react';
+import { remove } from 'lodash';
 
 class View extends Component {
-
   static propTypes = {
-    viewModels: PropTypes.observableArrayOf(React.PropTypes.object),
+    viewModels: React.PropTypes.arrayOf(React.PropTypes.object),
     width: React.PropTypes.number,
     height: React.PropTypes.number,
     setSelectedItemId: React.PropTypes.func,
   }
 
   static defaultProps = {
-    viewModels: [],
+    viewModels: { enter: [], update: [], exit: [], all: [] },
     width: 600,
     height: 400,
     setSelectedItemId: () => {},
   }
 
   componentDidMount() {
-    const { viewModels } = this.props;
-
-    observe(viewModels, (x) => {
-      x.added.forEach((vm) => {
-        // add item
-        this.createSprite(vm, this.props.setSelectedItemId);
-      });
-
-      x.removed.forEach((vm) => {
-        // remove item
-        this.removeSprite(vm);
-      });
-    }, true);
-
+    this.updateSprites(this.props.viewModels);
     this.renderCanvas();
   }
+
+  componentWillUpdate(nextProps) {
+    this.updateSprites(nextProps.viewModels);
+  }
+
+  updateSprites(viewModels) {
+    console.log('view.updateSprites');
+
+    viewModels.filter(vm => vm.lifeCycleState === 'enter').forEach((vm) => {
+      this.createSprite(vm, this.props.setSelectedItemId);
+    });
+    viewModels.filter(vm => vm.lifeCycleState === 'exit').forEach((vm) => {
+      this.removeSprite(vm, this.props.setSelectedItemId);
+    });
+  }
+
 
   sprites = [];
 
@@ -48,10 +49,8 @@ class View extends Component {
   }
 
   removeSprite(vm) {
-    const spriteIndex = findIndex(this.sprites, x => x.label === vm.value);
-    if (spriteIndex) {
-      this.sprites.splice(spriteIndex, 1);
-    }
+    console.log('removeSprite', vm);
+    remove(this.sprites, x => x.vm === vm);
   }
 
   renderCanvas() {
@@ -73,8 +72,8 @@ class View extends Component {
   }
 
   render() {
+    console.log('view.render');
     const { width, height } = this.props;
-
     return (
       <div>
         <canvas

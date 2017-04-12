@@ -1,33 +1,58 @@
-import { observe, observable, extendObservable, action } from 'mobx';
-import { assign } from 'lodash';
+/* eslint-disable no-param-reassign, no-console */
+
+import { observable, extendObservable, action, computed } from 'mobx';
+import { assign, groupBy } from 'lodash';
 
 export default class ViewModelCollection {
-  @observable viewModels = [];
+  @observable viewModelMap = observable.shallowMap();
 
-  constructor(models, template) {
-    this.viewModelMap = new Map();
+  constructor(models = [], template = {}) {
     this.template = template;
+    this.updateModels(models);
+  }
 
-    observe(models, (e) => {
-      // housekeeping
-      e.added.forEach((item) => {
-        // console.log("++", item)
-        this.viewModels.push(this.viewModelForObject(item));
-      });
+  @action updateModels(models) {
+    this.viewModelMap.forEach((vm) => {
+      vm.lifeCycleState = 'exit';
+    });
 
-      e.removed.forEach((item) => {
-        // console.log("--", item)
-        this.viewModels.splice(this.viewModels.indexOf(this.viewModelMap.get(item)), 1);
-      });
-    }, true);
+    models.forEach((m) => {
+      if (!this.viewModelMap.has(m.id)) {
+        this.viewModelForObject(m).lifeCycleState = 'enter';
+      } else {
+        this.viewModelForObject(m).lifeCycleState = 'update';
+      }
+    });
+
+    this.log();
+  }
+  @computed get viewModels() {
+    return this.viewModelMap.values();
+  }
+
+  @computed get viewModelsByGroup() {
+    return assign({
+      enter: [],
+      update: [],
+      exit: [],
+      all: this.viewModelMap.values(),
+    }, groupBy(this.viewModelMap.values(), 'lifeCycleState'));
+  }
+
+  log() {
+    console.log('--');
+    this.viewModelMap.forEach(m => (
+      console.log([m.id, m.lifeCycleState].join(': '))
+    ));
+    console.log('--');
   }
 
   viewModelForObject(o) {
-    let m = this.viewModelMap.get(o);
+    let m = this.viewModelMap.get(o.id);
     if (!m) {
       // no model yet, create new
       m = this.makeViewModel(o);
-      this.viewModelMap.set(o, m);
+      this.viewModelMap.set(o.id, m);
     }
     return m;
   }
@@ -42,6 +67,19 @@ export default class ViewModelCollection {
       update,
       __data: o,
       id: o.id,
+      lifeCycleState: 'enter',
     }, this.template);
   }
 }
+
+// testing
+
+// const vmc = new ViewModelCollection();
+
+// vmc.updateModels([
+//   {id: 1}, {id: 2}
+// ]);
+
+// vmc.updateModels([
+//   {id: 2}, {id: 3}
+// ]);

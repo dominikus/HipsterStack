@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import React, { Component } from 'react';
 
 import { observer } from 'mobx-react';
@@ -23,13 +25,15 @@ class App extends Component {
   }
 
   render() {
+    console.log('App.render', dataAPI.items);
+    const { itemsArray } = dataAPI;
     return (
       <div>
         <h1>{uiState.currentView}</h1>
 
         <Visible if={dataAPI.ready}>
-          <h2>Data loaded — {dataAPI.items.length} items</h2>
-          <ContainerComponent models={dataAPI.items} />
+          <h2>Data loaded — {itemsArray.length} items</h2>
+          <ContainerComponent models={itemsArray} />
         </Visible>
 
         <Visible if={!dataAPI.ready}>
