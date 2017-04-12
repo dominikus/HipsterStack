@@ -48,12 +48,9 @@ class ContainerComponent extends Component {
     this.updateModels(nextProps);
   }
 
-  models = [];
-
   @action updateModels(props) {
-    console.log('updateModels', props.models.slice());
-    this.models = props.models.slice();
-    this.viewModelCollection.updateModels(this.models);
+    console.log('updateModels', props.models);
+    this.viewModelCollection.updateModels(props.models);
     this.updateData(props);
   }
 
