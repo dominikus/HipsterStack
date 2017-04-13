@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { remove } from 'lodash';
 
-class View extends Component {
+class CanvasView extends Component {
   static propTypes = {
     viewModels: React.PropTypes.arrayOf(React.PropTypes.object),
     width: React.PropTypes.number,
@@ -13,8 +13,8 @@ class View extends Component {
 
   static defaultProps = {
     viewModels: { enter: [], update: [], exit: [], all: [] },
-    width: 600,
-    height: 400,
+    width: 1200,
+    height: 800,
     setSelectedItemId: () => {},
   }
 
@@ -65,7 +65,10 @@ class View extends Component {
     this.sprites.forEach((sprite) => {
       const x = sprite.vm.x;
       const y = sprite.vm.y;
-      ctx.fillText(sprite.vm.label, x, y);
+      // ctx.fillText("•", x, y);
+      ctx.beginPath();
+      ctx.arc(x, y, 3, 0, Math.PI * 2);
+      ctx.fill();
     });
 
     requestAnimationFrame(() => this.renderCanvas());
@@ -87,4 +90,4 @@ class View extends Component {
   }
 }
 
-export default View;
+export default CanvasView;

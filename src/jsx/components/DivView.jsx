@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
 import React, { Component } from 'react';
-import { remove } from 'lodash';
 import { observer } from 'mobx-react';
 
 class DivView extends Component {
@@ -9,7 +8,7 @@ class DivView extends Component {
     viewModels: React.PropTypes.arrayOf(React.PropTypes.object),
     width: React.PropTypes.number,
     height: React.PropTypes.number,
-    setSelectedItemId: React.PropTypes.func,
+    // setSelectedItemId: React.PropTypes.func,
   }
 
   static defaultProps = {
@@ -24,31 +23,34 @@ class DivView extends Component {
     const { width, height, viewModels } = this.props;
     const els = viewModels.map(vm => (
       <Item viewModel={vm} key={vm.id} />
-    ))
+    ));
     return (
-      <div style={{
-        width,
-        height,
-        // position: 'relative',
-      }}>
+      <div
+        style={{
+          width,
+          height,
+          // position: 'relative',
+        }}
+      >
         {els}
       </div>
     );
   }
 }
 
-@observer
-class Item extends React.Component{
-  render() {
-    const {label, x, y, id} = this.props.viewModel;
-     return (
-      <div style={{
-        key: {id},
+const Item = observer((props) => {
+  const { label, x, y, id } = props.viewModel;
+  return (
+    <div
+      style={{
+        key: { id },
         position: 'absolute',
         transform: `translate(${x}px, ${y}px)`,
-      }}>{label}</div>
-    )
-  }
-}
+      }}
+    >{label}</div>
+  );
+},
+);
+
 
 export default DivView;

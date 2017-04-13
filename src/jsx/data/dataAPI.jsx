@@ -52,25 +52,22 @@ class DataAPI {
 const dataAPI = new DataAPI();
 export default dataAPI;
 
-const o = { id: 71, label: '***', x: 2, y: 2 };
-setTimeout(() => {
-  dataAPI.addItem(o);
-}, 2000);
+let index = 0;
+const interval = setInterval(() => {
+  dataAPI.addItems(range(10).map(() => {
+    index += 1;
+    return {
+      index,
+      id: (100 + index),
+      label: index,
+    };
+  }));
+  if (dataAPI.items.length > 1000) clearInterval(interval);
+}, 30);
 
-
-setTimeout(() => {
-  console.log('TEST 2');
-  dataAPI.addItem({ id: 74, label: 'XXX', x: 3, y: 2 });
-  o.label = 'NUHU';
-  o.y = -1;
-}, 3000);
-
-
-setTimeout(() => {
-  dataAPI.addItems(range(100).map(i => (
-    { id: 100 + i, label: i, x: Math.random(), y: Math.random()})
-  ))
-}, 4000);
+// setInterval(() => {
+//   dataAPI.removeItemByID(100 + Math.floor(Math.random() * 1000));
+// }, 1000);
 
 // setTimeout(()=>{
 //   console.log('updating single item')

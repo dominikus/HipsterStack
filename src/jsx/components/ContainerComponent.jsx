@@ -2,12 +2,15 @@
 
 import React, { Component } from 'react';
 import { observe, action } from 'mobx';
-import { scaleLinear, extent } from 'd3';
-import { TweenMax, Power2 } from 'gsap';
+// import { scaleLinear, extent } from 'd3';
+// import { TweenMax, Power2 } from 'gsap';
+import { forceSimulation, forceCenter, forceCollide, forceX, forceY } from 'd3';
 
 import ViewModelCollection from '../data/ViewModelCollection';
 import dataAPI from '../data/dataAPI';
-import View from './View';
+
+import CanvasView from './CanvasView';
+import PixiView from './PixiView';
 import DivView from './DivView';
 import viewModelTemplate from '../data/viewModelTemplate';
 
@@ -22,8 +25,8 @@ class ContainerComponent extends Component {
   }
 
   static defaultProps = {
-    W: 600,
-    H: 400,
+    W: 800,
+    H: 600,
     SCALE_FACTOR: 1,
     padding: 0.05,
     models: [],
@@ -41,6 +44,14 @@ class ContainerComponent extends Component {
 
   componentWillMount() {
     console.log('ContainerComponent.componentDidMount');
+    const fc = forceCenter(400, 300);
+    this.sim = forceSimulation()
+    .force('center', fc)
+    .force('collide', forceCollide().radius(25).strength(0.01))
+
+    .alphaDecay(0.001)
+    .alphaMin(0.1);
+
     this.updateModels(this.props);
   }
 
@@ -50,7 +61,7 @@ class ContainerComponent extends Component {
   }
 
   @action updateModels(props) {
-    console.log('updateModels', props.models);
+    // console.log('updateModels', props.models);
     this.viewModelCollection.updateModels(props.models);
     this.updateData(props);
   }
@@ -65,43 +76,48 @@ class ContainerComponent extends Component {
 
   @action updateData(props) {
     console.log('ContainerComponent.updateData');
-    const { W, H, SCALE_FACTOR, padding } = props;
-    const vms = this.viewModelCollection.viewModels;
+    const { W, H } = props;
 
-    // visual mapping
-    const SIZE = Math.min(W, H) * SCALE_FACTOR;
-    const xScale = scaleLinear()
-      .domain(extent(vms, n => n.__data.x))
-      .range([
-        ((W - SIZE) / 2) + (padding * SIZE),
-        ((W - SIZE) / 2) + ((1 - padding) * SIZE),
-      ]);
-    const yScale = scaleLinear()
-      .domain(extent(vms, n => n.__data.y))
-      .range([
-        ((H - SIZE) / 2) + (padding * SIZE),
-        ((H - SIZE) / 2) + ((1 - padding) * SIZE),
-      ]);
+    const vms = this.viewModelCollection.viewModels;
+    this.sim.force('x', forceX(d => ((d.index * 200) % W)).strength(0.03));
+    this.sim.force('y', forceY(d => ((d.index * 400) % H)).strength(0.03));
+    this.sim.nodes(vms, ({ id }) => id);
+
+    this.sim.restart(1);
+
+    // // visual mapping
+    // const SIZE = Math.min(W, H) * SCALE_FACTOR;
+    // const xScale = scaleLinear()
+    //   .domain(extent(vms, n => n.__data.x))
+    //   .range([
+    //     ((W - SIZE) / 2) + (padding * SIZE),
+    //     ((W - SIZE) / 2) + ((1 - padding) * SIZE),
+    //   ]);
+    // const yScale = scaleLinear()
+    //   .domain(extent(vms, n => n.__data.y))
+    //   .range([
+    //     ((H - SIZE) / 2) + (padding * SIZE),
+    //     ((H - SIZE) / 2) + ((1 - padding) * SIZE),
+    //   ]);
 
     // property updates
     vms.forEach((vm) => {
-      const x = xScale(vm.__data.x);
-      const y = yScale(vm.__data.y);
+      // const x = xScale(vm.__data.x);
+      // const y = yScale(vm.__data.y);
 
       const { label } = vm.__data;
-      TweenMax.killTweensOf(vm);
+      // TweenMax.killTweensOf(vm);
 
       // direct changes
       vm.update({ label });
 
       // animated changes
-      TweenMax.to(vm, 1, {
-        x,
-        y,
-        ease: Power2.easeOut,
-      });
+      // TweenMax.to(vm, 1, {
+      //   x,
+      //   y,
+      //   ease: Power2.easeOut,
+      // });
     });
-    // this.setState(this.state);
   }
 
   render() {
@@ -112,20 +128,31 @@ class ContainerComponent extends Component {
 
     return (
       <div key="container-component">
-        <View
-          key="view"
+        { true && <CanvasView
+          key="canvas-view"
           viewModels={viewModels}
           width={W}
           height={H}
           setSelectedItemId={(id) => { dataAPI.selectedItemId = id; }}
         />
-        <DivView
-          key="div-view"
+        }
+        { true && <PixiView
+          key="pixi-view"
           viewModels={viewModels}
           width={W}
           height={H}
           setSelectedItemId={(id) => { dataAPI.selectedItemId = id; }}
         />
+        }
+        {
+          false && <DivView
+            key="div-view"
+            viewModels={viewModels}
+            width={W}
+            height={H}
+            setSelectedItemId={(id) => { dataAPI.selectedItemId = id; }}
+          />
+        }
       </div>
     );
   }
