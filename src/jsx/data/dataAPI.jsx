@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 
 import { observable, computed, action } from 'mobx';
+import { range } from 'lodash';
 import uiState from '../state/uiState';
 
 class DataAPI {
@@ -66,8 +67,9 @@ setTimeout(() => {
 
 
 setTimeout(() => {
-  console.log('TEST 3');
-  dataAPI.removeItemByID(74);
+  dataAPI.addItems(range(100).map(i => (
+    { id: 100 + i, label: i, x: Math.random(), y: Math.random()})
+  ))
 }, 4000);
 
 // setTimeout(()=>{

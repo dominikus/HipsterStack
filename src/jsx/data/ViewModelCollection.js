@@ -24,7 +24,7 @@ export default class ViewModelCollection {
       }
     });
 
-    this.log();
+    // this.log();
   }
   @computed get viewModels() {
     return this.viewModelMap.values();

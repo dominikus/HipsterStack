@@ -8,6 +8,7 @@ import { TweenMax, Power2 } from 'gsap';
 import ViewModelCollection from '../data/ViewModelCollection';
 import dataAPI from '../data/dataAPI';
 import View from './View';
+import DivView from './DivView';
 import viewModelTemplate from '../data/viewModelTemplate';
 
 class ContainerComponent extends Component {
@@ -100,6 +101,7 @@ class ContainerComponent extends Component {
         ease: Power2.easeOut,
       });
     });
+    // this.setState(this.state);
   }
 
   render() {
@@ -112,6 +114,13 @@ class ContainerComponent extends Component {
       <div key="container-component">
         <View
           key="view"
+          viewModels={viewModels}
+          width={W}
+          height={H}
+          setSelectedItemId={(id) => { dataAPI.selectedItemId = id; }}
+        />
+        <DivView
+          key="div-view"
           viewModels={viewModels}
           width={W}
           height={H}
