@@ -63,7 +63,7 @@ class ContainerComponent extends Component {
   @action updateModels(props) {
     // console.log('updateModels', props.models);
     this.viewModelCollection.updateModels(props.models);
-    this.updateData(props);
+    this.updateLayout(props);
   }
 
   updateSelection(id) {
@@ -74,8 +74,8 @@ class ContainerComponent extends Component {
   }
 
 
-  @action updateData(props) {
-    console.log('ContainerComponent.updateData');
+  @action updateLayout(props) {
+    console.log('ContainerComponent.updateLayout');
     const { W, H } = props;
 
     const vms = this.viewModelCollection.viewModels;
@@ -128,7 +128,7 @@ class ContainerComponent extends Component {
 
     return (
       <div key="container-component">
-        { true && <CanvasView
+        { false && <CanvasView
           key="canvas-view"
           viewModels={viewModels}
           width={W}
