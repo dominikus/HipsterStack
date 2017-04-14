@@ -76,9 +76,10 @@ class ContainerComponent extends Component {
 
   @action updateLayout(props) {
     console.log('ContainerComponent.updateLayout');
-    const { W, H } = props;
 
+    const { W, H } = props;
     const vms = this.viewModelCollection.viewModels;
+
     this.sim.force('x', forceX(d => ((d.index * 200) % W)).strength(0.03));
     this.sim.force('y', forceY(d => ((d.index * 400) % H)).strength(0.03));
     this.sim.nodes(vms, ({ id }) => id);
