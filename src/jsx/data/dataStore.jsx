@@ -1,78 +1,74 @@
 /* eslint-disable no-param-reassign, no-console */
-import { queue, tsvParse, request } from 'd3';
-import { defaults, identity, find } from 'lodash';
+import { observable, computed, when } from 'mobx';
+import { fromPromise } from 'mobx-utils';
+import { tsv } from 'd3-fetch';
+import { fromPairs, defaults, identity } from 'lodash';
 
 import dataPath from '../../data/data.tsv';
+import dataPath2 from '../../data/data2.tsv';
 
-// import config from 'config/config';
+class DataStore {
+  dataSetSpecs = [];
+  @observable dataSetLoaders = observable.map();
+  @observable startedLoading = false;
 
-let allDataLoaded = false;
-let isLoading = false;
-const q = queue();
-const resolveQ = [];
+  // { id, url, parser, parseItem }
+  addDataSetSpec({ id, url, loader, parseItem }) {
+    const load = () => {
+      this.dataSetLoaders.set(id, fromPromise(loader(url).then(data => (
+        {
+          id,
+          data: data.map(parseItem || identity),
+        }
+      ))));
+    };
+    this.dataSetSpecs.push({ id, url, loader, parseItem, load });
+  }
 
-const dataSets = [];
+  loadAll() {
+    this.dataSetSpecs.forEach(dsp => dsp.load());
+    this.startedLoading = true;
+  }
 
-function postProcess() {
-  dataSets.forEach(() => {
-  });
+  @computed get loadedDataSets() {
+    return this.dataSetLoaders.values().filter(x => x.state === 'fulfilled');
+  }
+
+  @computed get dataSets() {
+    return observable.map(fromPairs(this.loadedDataSets.map(o => [o.value.id, o.value.data])));
+  }
+
+  @computed get ready() {
+    return this.startedLoading && this.loadedDataSets.length === this.dataSetSpecs.length;
+  }
 }
 
-export const loadAllDataSets = () => new Promise((resolve, reject) => {
-  // resolve if we loaded all data already
-  if (allDataLoaded) {
-    resolve(dataSets);
-  } else if (!isLoading) {
-    console.info('init data store');
-    isLoading = true;
-    dataSets.forEach((d) => {
-      q.defer(request, d.url);
-    });
+const dataStore = new DataStore();
+export default dataStore;
 
-    q.awaitAll((err, results) => {
-      isLoading = false;
-      if (err) {
-        reject(err);
-        // reject(`error loading ${failedDataset.url}`);
-      } else {
-        dataSets.forEach((d, i) => {
-          d.result = d.parser(results[i].response).map(d.parseItem || identity);
-        });
 
-        try {
-          postProcess(reject);
-        } catch (e) {
-          reject(e);
-        }
-
-        allDataLoaded = true;
-
-        console.info('* Done loading *');
-
-        resolve();
-        resolveQ.forEach(reslve => reslve.call(this));
-      }
-    });
-  } else {
-    resolveQ.push(resolve);
-  }
+when(() => dataStore.ready, () => {
+  console.log('dataSets', dataStore.dataSets);
 });
 
-export const getDataSet = (id) => {
-  const dataSet = find(dataSets, x => x.id === id);
-  return dataSet.result;
-};
+// DATA SETS
 
-// SHARED
-
-console.log(dataPath);
-dataSets.push({
+dataStore.addDataSetSpec({
   url: dataPath,
   id: 'first-dataset',
-  parser: tsvParse,
+  loader: tsv,
   parseItem: d => defaults({
     x: +d.x,
     y: +d.y,
-    id: d.x + d.y + d.label,
+  }, d),
+});
+
+dataStore.addDataSetSpec({
+  url: dataPath2,
+  id: 'second-dataset',
+  loader: tsv,
+  parseItem: d => defaults({
+    x: +d.x,
+    y: +d.y,
   }, d),
 });
