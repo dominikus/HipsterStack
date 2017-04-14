@@ -13,16 +13,16 @@ class DataStore {
   @observable startedLoading = false;
 
   // { id, url, parser, parseItem }
-  addDataSetSpec({ id, url, loader, parseItem }) {
+  addDataSetSpec({ id, url, loader, parseItem = identity }) {
     const load = () => {
       this.dataSetLoaders.set(id, fromPromise(loader(url).then(data => (
         {
           id,
-          data: data.map(parseItem || identity),
+          data: data.map(parseItem),
         }
       ))));
     };
-    this.dataSetSpecs.push({ id, url, loader, parseItem, load });
+    this.dataSetSpecs.push({ id, url, load });
   }
 
   loadAll() {
@@ -35,7 +35,8 @@ class DataStore {
   }
 
   @computed get dataSets() {
-    return observable.map(fromPairs(this.loadedDataSets.map(o => [o.value.id, o.value.data])));
+    const pairs = this.loadedDataSets.map(({ value: { id, data } }) => [id, data]);
+    return observable.map(fromPairs(pairs));
   }
 
   @computed get ready() {
