@@ -31,15 +31,15 @@ class App extends Component {
   }
 
   render() {
-    console.log('App.render', dataAPI.items);
-    const { itemsArray } = dataAPI;
+    console.log('App.render', uiState.dimensions);
+    const { items } = dataAPI;
     return (
       <div>
         <h1>{uiState.currentView}</h1>
 
         <Visible if={dataAPI.ready}>
-          <h2>Data loaded — {itemsArray.length} items</h2>
-          <ContainerComponent models={itemsArray} />
+          <h2>Data loaded — {items.length} items</h2>
+          <ContainerComponent />
         </Visible>
 
         <Visible if={!dataAPI.ready}>

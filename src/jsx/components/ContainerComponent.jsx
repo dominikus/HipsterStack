@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign, no-console, no-underscore-dangle, react/no-unused-prop-types */
 
 import React, { Component } from 'react';
-import { observe, action } from 'mobx';
+import { observe, action, reaction } from 'mobx';
 // import { scaleLinear, extent } from 'd3';
 // import { TweenMax, Power2 } from 'gsap';
 import { forceSimulation, forceCenter, forceCollide, forceX, forceY } from 'd3';
@@ -17,16 +17,16 @@ import viewModelTemplate from '../data/viewModelTemplate';
 class ContainerComponent extends Component {
 
   static propTypes = {
-    W: React.PropTypes.number,
-    H: React.PropTypes.number,
+    width: React.PropTypes.number,
+    height: React.PropTypes.number,
     SCALE_FACTOR: React.PropTypes.number,
     padding: React.PropTypes.number,
     models: React.PropTypes.arrayOf(React.PropTypes.object),
   }
 
   static defaultProps = {
-    W: 800,
-    H: 600,
+    width: 800,
+    height: 600,
     SCALE_FACTOR: 1,
     padding: 0.05,
     models: [],
@@ -40,30 +40,26 @@ class ContainerComponent extends Component {
     observe(dataAPI, 'selectedItem', () => {
       this.updateSelection(dataAPI.selectedItemId);
     });
+
+    reaction(() => dataAPI.itemsHash, () => {
+      this.updateViewModels();
+      this.updateLayout();
+    });
   }
 
   componentWillMount() {
-    console.log('ContainerComponent.componentDidMount');
+    console.log('ContainerComponent.componentWillMount');
     const fc = forceCenter(400, 300);
     this.sim = forceSimulation()
     .force('center', fc)
     .force('collide', forceCollide().radius(25).strength(0.01))
-
     .alphaDecay(0.001)
     .alphaMin(0.1);
-
-    this.updateModels(this.props);
   }
 
-  componentWillUpdate(nextProps) {
-    console.log('ContainerComponent.componentWillUpdate');
-    this.updateModels(nextProps);
-  }
-
-  @action updateModels(props) {
-    // console.log('updateModels', props.models);
-    this.viewModelCollection.updateModels(props.models);
-    this.updateLayout(props);
+  updateViewModels() {
+    console.log('updateViewModels', dataAPI.items);
+    this.viewModelCollection.updateModels(dataAPI.items);
   }
 
   updateSelection(id) {
@@ -73,15 +69,14 @@ class ContainerComponent extends Component {
     });
   }
 
-
-  @action updateLayout(props) {
+  @action updateLayout() {
     console.log('ContainerComponent.updateLayout');
 
-    const { W, H } = props;
+    const { width, height } = this.props;
     const vms = this.viewModelCollection.viewModels;
 
-    this.sim.force('x', forceX(d => ((d.index * 200) % W)).strength(0.03));
-    this.sim.force('y', forceY(d => ((d.index * 400) % H)).strength(0.03));
+    this.sim.force('x', forceX(d => ((d.index * 200) % width)).strength(0.03));
+    this.sim.force('y', forceY(d => ((d.index * 400) % height)).strength(0.03));
     this.sim.nodes(vms, ({ id }) => id);
 
     this.sim.restart(1);
@@ -125,23 +120,23 @@ class ContainerComponent extends Component {
     console.log('ContainerComponent.render');
 
     const { viewModels } = this.viewModelCollection;
-    const { W, H } = this.props;
+    const { width, height } = this.props;
 
     return (
       <div key="container-component">
         { false && <CanvasView
           key="canvas-view"
           viewModels={viewModels}
-          width={W}
-          height={H}
+          width={width}
+          height={height}
           setSelectedItemId={(id) => { dataAPI.selectedItemId = id; }}
         />
         }
         { true && <PixiView
           key="pixi-view"
           viewModels={viewModels}
-          width={W}
-          height={H}
+          width={width}
+          height={height}
           setSelectedItemId={(id) => { dataAPI.selectedItemId = id; }}
         />
         }
@@ -149,8 +144,8 @@ class ContainerComponent extends Component {
           false && <DivView
             key="div-view"
             viewModels={viewModels}
-            width={W}
-            height={H}
+            width={width}
+            height={height}
             setSelectedItemId={(id) => { dataAPI.selectedItemId = id; }}
           />
         }

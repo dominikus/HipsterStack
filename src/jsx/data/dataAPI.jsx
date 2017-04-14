@@ -1,13 +1,14 @@
 /* eslint-disable no-console */
 
 import { observable, computed, action } from 'mobx';
+import { map } from 'lodash';
 import uiState from '../state/uiState';
 
 class DataAPI {
 
   @observable ready = false
   // deep observable - all items are observable
-  @observable.shallow items = []
+  @observable items = []
 
   init(dataSets) {
     this.items = dataSets.get('first-dataset');
@@ -30,8 +31,9 @@ class DataAPI {
     return this.items.length;
   }
 
-  @computed get itemsArray() {
-    return this.items.slice();
+  @computed get itemsHash() {
+    console.log("*");
+    return map(this.items, 'id');
   }
 
   @computed static get selectedItemId() {
@@ -50,18 +52,18 @@ class DataAPI {
 const dataAPI = new DataAPI();
 export default dataAPI;
 
-// let index = 0;
-// const interval = setInterval(() => {
-//   dataAPI.addItems(range(10).map(() => {
-//     index += 1;
-//     return {
-//       index,
-//       id: (100 + index),
-//       label: index,
-//     };
-//   }));
-//   if (dataAPI.items.length > 1000) clearInterval(interval);
-// }, 30);
+let index = 0;
+const interval = setInterval(() => {
+  dataAPI.addItems([1,2,3].map(() => {
+    index += 1;
+    return {
+      index,
+      id: (100 + index),
+      label: index,
+    };
+  }));
+  if (dataAPI.items.length > 1000) clearInterval(interval);
+}, 5);
 
 // setInterval(() => {
 //   dataAPI.removeItemByID(100 + Math.floor(Math.random() * 1000));
