@@ -52,7 +52,7 @@ class ContainerComponent extends Component {
     const fc = forceCenter(400, 300);
     this.sim = forceSimulation()
     .force('center', fc)
-    .force('collide', forceCollide().radius(25).strength(0.01))
+    .force('collide', forceCollide().radius(20).strength(0.1))
     .alphaDecay(0.001)
     .alphaMin(0.1);
   }
@@ -75,8 +75,8 @@ class ContainerComponent extends Component {
     const { width, height } = this.props;
     const vms = this.viewModelCollection.viewModels;
 
-    this.sim.force('x', forceX(d => ((d.index * 200) % width)).strength(0.03));
-    this.sim.force('y', forceY(d => ((d.index * 400) % height)).strength(0.03));
+    this.sim.force('x', forceX(d => ((d.index * 200) % width)).strength(0.01));
+    this.sim.force('y', forceY(d => ((d.index * 400) % height)).strength(0.01));
     this.sim.nodes(vms, ({ id }) => id);
 
     this.sim.restart(1);
@@ -132,7 +132,7 @@ class ContainerComponent extends Component {
           setSelectedItemId={(id) => { dataAPI.selectedItemId = id; }}
         />
         }
-        { true && <PixiView
+        { false && <PixiView
           key="pixi-view"
           viewModels={viewModels}
           width={width}
@@ -141,7 +141,7 @@ class ContainerComponent extends Component {
         />
         }
         {
-          false && <DivView
+          true && <DivView
             key="div-view"
             viewModels={viewModels}
             width={width}

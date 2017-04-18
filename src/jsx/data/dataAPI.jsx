@@ -59,10 +59,10 @@ const interval = setInterval(() => {
     return {
       index,
       id: (100 + index),
-      label: index,
+      label: "Label " + index,
     };
   }));
-  if (dataAPI.items.length > 1000) clearInterval(interval);
+  if (dataAPI.items.length > 100) clearInterval(interval);
 }, 5);
 
 // setInterval(() => {

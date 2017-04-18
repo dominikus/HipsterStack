@@ -42,6 +42,7 @@ const Item = observer((props) => {
   const { label, x, y, id } = props.viewModel;
   return (
     <div
+      className="item"
       style={{
         key: { id },
         position: 'absolute',
