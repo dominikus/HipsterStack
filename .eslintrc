@@ -12,8 +12,15 @@
   },
   "rules": {
     "strict": 0,
-    "no-param-reassign": "error"
+
+    "no-param-reassign": "error",
+    "react/prefer-stateless-function": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn",
+
+    "arrow-parens": "off",
+    "react/prop-types": "off"
   },
+
   "extends": "airbnb",
   "plugins": [
     "react",
