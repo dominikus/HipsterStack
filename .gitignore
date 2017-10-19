@@ -7,3 +7,4 @@ js/build/*
 css/build/*
 bower_components/
 .ftppass
+/package-lock.json
