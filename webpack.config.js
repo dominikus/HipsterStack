@@ -28,14 +28,14 @@ module.exports = {
   module: {
     rules: [
       // linting:
-      {
-        test: /\.jsx?$/,
-        enforce: 'pre',
-        loader: 'eslint-loader',
-        options: {
-          emitWarning: true,
-        },
-      },
+      // {
+      //   test: /\.jsx?$/,
+      //   enforce: 'pre',
+      //   loader: 'eslint-loader',
+      //   options: {
+      //     emitWarning: true,
+      //   },
+      // },
       // babel compile:
       {
         exclude: /node_modules/,
