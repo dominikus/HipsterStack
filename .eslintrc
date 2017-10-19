@@ -16,6 +16,7 @@
     "no-param-reassign": "error",
     "react/prefer-stateless-function": "warn",
     "jsx-a11y/no-static-element-interactions": "warn",
+    "class-methods-use-this": "warn",
 
     "arrow-parens": "off",
     "react/prop-types": "off"
