@@ -20,15 +20,20 @@ class App extends Component {
 
   render() {
     console.log('App.render', dataAPI.items);
-    const { items } = dataAPI;
+    const { nodes, edges } = dataAPI;
     return (
       <div>
-        <h1>Currentview: {uiState.currentView}</h1>
+        {/*<h1>Currentview: {uiState.currentView}</h1>*/}
 
         {dataAPI.ready && (
           <div>
-            <h2>Data loaded — {items.length} items</h2>
-            <VisComponent data={dataAPI.items} />
+            {/*<h2>Data loaded — {nodes.length} nodes</h2>*/}
+            <VisComponent
+              nodes={nodes}
+              edges={edges}
+              width={800}
+              height={800}
+            />
           </div>
         )}
       </div>

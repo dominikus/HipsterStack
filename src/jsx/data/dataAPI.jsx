@@ -9,17 +9,22 @@ import uiState from '../state/uiState';
 class DataAPI {
   @computed
   get ready() {
-    return this.items.length > 0;
+    return this.nodes.length > 0;
   }
 
   @computed
-  get items() {
-    return dataSet.current();
+  get nodes() {
+    return dataSet.current().nodes;
+  }
+
+  @computed
+  get edges() {
+    return dataSet.current().edges;
   }
 
   @computed
   get selectedItem() {
-    return find(this.items, ({ id }) => id === uiState.selectedItemId);
+    return find(this.nodes, ({ id }) => id === uiState.selectedItemId);
   }
 }
 

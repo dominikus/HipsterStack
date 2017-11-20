@@ -4,14 +4,9 @@ import { json } from 'd3';
 
 import dataPath from 'file-loader!../../data/data.json';
 
-export const dataSet = lazyObservable(sink => {
-  return json(dataPath, result => {
-    sink(
-      result
-        ? result.map(d => ({
-            id: String(d.id),
-          }))
-        : [],
-    );
-  });
-}, []);
+export const dataSet = lazyObservable(
+	sink => {
+		return json(dataPath, sink);
+	},
+	{ nodes: [], edges: [] },
+);
