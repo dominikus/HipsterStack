@@ -1,16 +1,23 @@
-@import '~open-color/open-color.scss';
+// @import '~open-color/open-color.scss';
 
-$textCol: $oc-gray-8
-$bgCol: $oc-gray-1
+$textCol: #CCF
+$bgCol: #333340
+$line-height: 1.4
+$line-height-rem: 1.4rem
+$line-height-em: 1.4em
 
 body
+	font-family: Atlas Grotesk, sans
+	font-weight: 300
 	background: $bgCol
 	color: $textCol
+	line-height: $line-height
+	margin: 0
+	padding: $line-height-rem
 
 canvas
 	display: block
 
-.item
-	background: #FFF
-	padding: .2em
-	box-shadow: rgba(#000, .1) 0px 0px 15px
+div
+	font-size: 1.2em
+	margin: $line-height-em 0

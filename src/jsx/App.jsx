@@ -1,44 +1,33 @@
-/* eslint-disable no-console */
-
-import React, { Component } from 'react';
-
+import React from 'react';
+import { observable } from 'mobx';
 import { observer } from 'mobx-react';
-
-import uiState from './state/uiState';
-
-import dataAPI from './data/dataAPI';
-
-import startRouter from './router';
-import VisComponent from './components/VisComponent';
+// import { scaleLinear } from 'd3';
 
 @observer
-class App extends Component {
-  constructor() {
-    super();
-    startRouter();
-  }
+export default class App extends React.Component {
+	@observable counter = 0;
+	constructor(props) {
+		super(props);
+	}
 
-  render() {
-    console.log('App.render', dataAPI.items);
-    const { nodes, edges } = dataAPI;
-    return (
-      <div>
-        {/*<h1>Currentview: {uiState.currentView}</h1>*/}
-
-        {dataAPI.ready && (
-          <div>
-            {/*<h2>Data loaded — {nodes.length} nodes</h2>*/}
-            <VisComponent
-              nodes={nodes}
-              edges={edges}
-              width={800}
-              height={800}
-            />
-          </div>
-        )}
-      </div>
-    );
-  }
+	render() {
+		// const xx = scaleLinear();
+		return (
+			<div>
+				asdasdasdasd Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+				sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
+				aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
+				dolores et ea rebum.asdasd Stet clita kasd gubergren, no sea takimata
+				sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+				consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+				labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
+				accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no
+				sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor
+				sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+				invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
+				vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
+				gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+			</div>
+		);
+	}
 }
-
-export default App;
