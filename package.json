@@ -5,14 +5,12 @@
   "description": "",
   "repository": "",
   "staging_server_URL": "http://clients.stefaner.eu",
-  "staging_server_path":
-    "starling@starling.columba.uberspace.de:/var/www/virtual/starling/html",
+  "staging_server_path": "starling@starling.columba.uberspace.de:/var/www/virtual/starling/html",
   "staging_server_directory": "_test",
   "scripts": {
     "dev": "parcel -p 8080 ./src/index.html",
     "build": "parcel build ./src/index.html",
-    "deploy-preview":
-      "rm -rf build; npm run build; cp -R build $npm_package_version; scp -r $npm_package_version $npm_package_staging_server_path/$npm_package_staging_server_directory/; rm -rf $npm_package_version; echo Uploaded to $npm_package_staging_server_URL/$npm_package_staging_server_directory/$npm_package_version; echo $npm_package_staging_server_URL/$npm_package_staging_server_directory/$npm_package_version | pbcopy",
+    "deploy-preview": "rm -rf build; npm run build; cp -R build $npm_package_version; scp -r $npm_package_version $npm_package_staging_server_path/$npm_package_staging_server_directory/; rm -rf $npm_package_version; echo Uploaded to $npm_package_staging_server_URL/$npm_package_staging_server_directory/$npm_package_version; echo $npm_package_staging_server_URL/$npm_package_staging_server_directory/$npm_package_version | pbcopy",
     "lint": "eslint src"
   },
   "devDependencies": {

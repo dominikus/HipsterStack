@@ -1,1 +1,0 @@
-{"dependencies":[{"name":"../sass/main.sass"}],"generated":{"js":"\"use strict\";\n\nrequire(\"../sass/main.sass\");\n\n// import App from './App';\n\n// useStrict(true);\n\n// ReactDOM.render(<App />, document.getElementById('app'));\nconsole.log('sure!'); // import React from 'react';\n// import ReactDOM from 'react-dom';"},"hash":"12c8648080354ed28e6c86c71f6d3e04"}
