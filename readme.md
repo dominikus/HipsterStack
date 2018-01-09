@@ -14,7 +14,14 @@ to build a development version and serve it from [http://localhost:8080/](http:/
 
 Run
 ```
-npm run deploy
+npm run build
+```
+to build a deployment version (into the build directory)
+
+
+Run
+```
+npm run build
 ```
 to build a deployment version (into the build directory)
 
