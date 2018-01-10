@@ -10,3 +10,6 @@ bower_components/
 /package-lock.json
 dist/*
 .cache/*
+.vscode/*
+*.code-workspace
+
