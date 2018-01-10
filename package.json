@@ -5,15 +5,13 @@
   "description": "",
   "repository": "",
   "staging_server_URL": "http://clients.stefaner.eu",
-  "staging_server_path":
-    "starling@starling.columba.uberspace.de:/var/www/virtual/starling/html",
+  "staging_server_path": "starling@starling.columba.uberspace.de:/var/www/virtual/starling/html",
   "staging_server_directory": "_test",
   "scripts": {
     "dev": "parcel -p 8080 ./src/index.html",
-    "build":
-      "rm -rf build; parcel build ./src/index.html --out-dir build --public-url ./; open build",
-    "deploy-preview":
-      "rm -rf build; npm run build; cp -R build $npm_package_version; scp -r $npm_package_version $npm_package_staging_server_path/$npm_package_staging_server_directory/; rm -rf $npm_package_version; echo Uploaded to $npm_package_staging_server_URL/$npm_package_staging_server_directory/$npm_package_version; echo $npm_package_staging_server_URL/$npm_package_staging_server_directory/$npm_package_version | pbcopy"
+    "nvm": "~/.nvm/nvm-exec which node | xargs -J % ln -sf % ./.nvm-node && chmod +x ./.nvm-node",
+    "build": "rm -rf build; parcel build ./src/index.html --out-dir build --public-url ./; open build",
+    "deploy-preview": "rm -rf build; npm run build; cp -R build $npm_package_version; scp -r $npm_package_version $npm_package_staging_server_path/$npm_package_staging_server_directory/; rm -rf $npm_package_version; echo Uploaded to $npm_package_staging_server_URL/$npm_package_staging_server_directory/$npm_package_version; echo $npm_package_staging_server_URL/$npm_package_staging_server_directory/$npm_package_version | pbcopy"
   },
   "devDependencies": {
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -25,8 +23,10 @@
   },
   "dependencies": {
     "d3": "^4.12.2",
+    "director": "^1.2.8",
     "mobx": "^3.4.1",
     "mobx-react": "^4.3.5",
+    "mobx-utils": "^3.2.2",
     "node-sass": "^4.7.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
