@@ -1,7 +1,8 @@
 {
-	"presets": [
-		"env",
-		"react"
-	],
-	"plugins": ["transform-decorators-legacy", "transform-class-properties", "react-hot-loader/babel"]
+  "presets": ["env", "react"],
+  "plugins": [
+    "transform-decorators-legacy",
+    "transform-class-properties",
+    "react-hot-loader/babel"
+  ]
 }
