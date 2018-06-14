@@ -18,9 +18,12 @@
     "react/no-multi-comp": "off",
     "react/sort-comp": "off",
     "no-mixed-operators": "off",
-    "jsx-a11y/no-static-element-interactions": "warn",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
     "class-methods-use-this": "warn",
     "arrow-parens": "off",
+    "class-methods-use-this": "warn",
+    "import/prefer-default-export": "warn",
     "react/prop-types": "off"
   },
 

@@ -38,7 +38,7 @@ class UiState {
   }
 
   @action
-  updateFromHash(_p) {
+  updateFromHash() {
     const p = location.hash
       .replace('#', '')
       .split('/')

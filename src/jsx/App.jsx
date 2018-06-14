@@ -12,10 +12,6 @@ import VisComponent from './components/VisComponent';
 
 @observer
 class App extends Component {
-  constructor() {
-    super();
-  }
-
   render() {
     console.log('App.render', dataAPI.items);
     const { items } = dataAPI;
