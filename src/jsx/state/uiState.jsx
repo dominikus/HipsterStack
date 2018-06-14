@@ -1,7 +1,7 @@
 import { observable, computed, action } from 'mobx';
 
 class UiState {
-  @observable currentView = null;
+  @observable currentView = '';
   // @observable mouse = { x: 0, y: 0 };
   @observable selectedItemId = null;
   @observable
@@ -29,14 +29,15 @@ class UiState {
       this.currentView,
       this.selectedItemId,
     ]
-      .map(x => (x != null ? encodeURIComponent(x) : ''))
+      .map(encodeURIComponent)
       .join('/');
   }
 
   @action
   setFromUrlFragment(_p) {
     const p = _p.split('/').map(decodeURIComponent);
-    this.currentView = p.shift();
+    console.log(p);
+    this.currentView = p.shift() || '';
     try {
       this.setSelectedItemId(p.shift());
     } catch (e) {

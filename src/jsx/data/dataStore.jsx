@@ -1,12 +1,12 @@
 /* eslint-disable no-param-reassign, no-console */
 import { lazyObservable } from 'mobx-utils';
-import { json } from 'd3';
+import { tsv } from 'd3';
 
-import dataPath from '../../data/data.json';
+import dataPath from '../../data/data.tsv';
 
 export const dataSet = lazyObservable(
   sink =>
-    json(dataPath, result => {
+    tsv(dataPath, result => {
       sink(result ? result.map(d => ({ id: String(d.id) })) : []);
     }),
   [],
