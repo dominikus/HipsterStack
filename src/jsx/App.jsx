@@ -8,14 +8,12 @@ import uiState from './state/uiState';
 
 import dataAPI from './data/dataAPI';
 
-import startRouter from './router';
 import VisComponent from './components/VisComponent';
 
 @observer
 class App extends Component {
   constructor() {
     super();
-    startRouter();
   }
 
   render() {

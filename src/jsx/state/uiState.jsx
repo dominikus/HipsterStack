@@ -1,4 +1,5 @@
-import { observable, computed, action } from 'mobx';
+import { observable, computed, action, autorun } from 'mobx';
+import location from 'mobx-location';
 
 class UiState {
   @observable currentView = '';
@@ -11,15 +12,18 @@ class UiState {
   };
 
   constructor() {
-    /* document.body.onmousemove = e => {
-      this.mouse.x = e.pageX;
-      this.mouse.y = e.pageY;
-    };  */
-
     window.onresize = () => {
       this.dimensions.width = document.body.clientWidth;
       this.dimensions.height = document.body.clientHeight;
     };
+
+    autorun(() => {
+      this.updateFromHash();
+    });
+
+    autorun(() => {
+      window.location.hash = this.urlFragment;
+    });
   }
 
   @computed
@@ -34,10 +38,13 @@ class UiState {
   }
 
   @action
-  setFromUrlFragment(_p) {
-    const p = _p.split('/').map(decodeURIComponent);
-    console.log(p);
-    this.currentView = p.shift() || '';
+  updateFromHash(_p) {
+    const p = location.hash
+      .replace('#', '')
+      .split('/')
+      .map(decodeURIComponent);
+
+    this.currentView = p.shift();
     try {
       this.setSelectedItemId(p.shift());
     } catch (e) {
