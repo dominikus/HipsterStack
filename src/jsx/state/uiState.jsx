@@ -3,8 +3,10 @@ import location from 'mobx-location';
 
 class UiState {
   @observable currentView = '';
-  // @observable mouse = { x: 0, y: 0 };
+  @observable mouse = { x: 0, y: 0 };
   @observable selectedItemId = null;
+  @observable hoveredItemId = null;
+
   @observable
   dimensions = {
     width: document.body.clientWidth,
@@ -17,6 +19,10 @@ class UiState {
       this.dimensions.height = document.body.clientHeight;
     };
 
+    document.onmousemove = e => {
+      this.setMousePos(e.pageX, e.pageY);
+    };
+
     autorun(() => {
       this.updateFromHash();
     });
@@ -24,6 +30,12 @@ class UiState {
     autorun(() => {
       window.location.hash = this.urlFragment;
     });
+  }
+
+  @action
+  setMousePos(x, y) {
+    this.mouse.x = x;
+    this.mouse.y = y;
   }
 
   @computed
@@ -55,6 +67,16 @@ class UiState {
   @action
   setSelectedItemId(id) {
     this.selectedItemId = String(id);
+  }
+
+  @action
+  clearSelectedItemId() {
+    this.setSelectedItemId();
+  }
+
+  @action
+  setHoveredItemId(id) {
+    this.hoveredItemId = String(id);
   }
 }
 

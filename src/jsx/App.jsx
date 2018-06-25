@@ -9,6 +9,8 @@ import uiState from './state/uiState';
 import dataAPI from './data/dataAPI';
 
 import VisComponent from './components/VisComponent';
+import MouseTip from './components/MouseTip';
+import SidePanel from './components/SidePanel';
 
 @observer
 class App extends Component {
@@ -17,13 +19,21 @@ class App extends Component {
     const { items } = dataAPI;
     return (
       <div>
-        <h1>Currentview: {uiState.currentView}</h1>
-
-        {dataAPI.ready && (
+        <h1>App</h1>
+        {dataAPI.ready ? (
           <div>
-            <h2>Data loaded — {items.length} items</h2>
+            <p>Data loaded</p>
+            <p>Currentview: {uiState.currentView}</p>
             <VisComponent data={dataAPI.items} />
+            <MouseTip visible>
+              {dataAPI.hoveredItem && dataAPI.hoveredItem.id}
+            </MouseTip>
+            <SidePanel visible>
+              {dataAPI.selectedItem && dataAPI.selectedItem.id}
+            </SidePanel>
           </div>
+        ) : (
+          <div>Loading…</div>
         )}
       </div>
     );

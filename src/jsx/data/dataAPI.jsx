@@ -20,6 +20,11 @@ class DataAPI {
   get selectedItem() {
     return find(this.items, ({ id }) => id === uiState.selectedItemId);
   }
+
+  @computed
+  get hoveredItem() {
+    return find(this.items, ({ id }) => id === uiState.hoveredItemId);
+  }
 }
 
 const dataAPI = new DataAPI();
