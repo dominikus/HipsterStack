@@ -3,8 +3,9 @@
   "author": "Moritz Stefaner, Dominikus Baur",
   "version": "0.1.2018",
   "description": "",
-  "repository": "",
+  "repository": "https://github.com/dominikus/HipsterStack",
   "scripts": {
+    "start": "npm run dev",
     "dev": "parcel -p 8080 ./src/index.html",
     "nvm": "~/.nvm/nvm-exec which node | xargs -J % ln -sf % ./.nvm-node && chmod +x ./.nvm-node",
     "build": "rm -rf build; parcel build ./src/index.html --out-dir build --public-url ./; open build"
@@ -23,9 +24,11 @@
     "d3": "^5.7",
     "lodash": "^4.17",
     "mobx": "^5.5",
+    "mobx-location": "^0.6.6",
     "mobx-react": "^5.3",
     "mobx-utils": "^5.0",
     "react": "^16.5",
-    "react-dom": "^16.5"
+    "react-dom": "^16.5",
+    "react-hot-loader": "^4.3"
   }
 }
