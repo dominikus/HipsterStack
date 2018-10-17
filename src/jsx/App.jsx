@@ -14,15 +14,19 @@ import VisComponent from './components/VisComponent';
 @observer
 class App extends Component {
   render() {
-    console.log('App.render', dataAPI.items);
+    // console.log('App.render', dataAPI.items);
     const { items } = dataAPI;
     return (
       <div>
         <h1>Äpp</h1>
         {dataAPI.ready ? (
           <div>
-            <p>Currentview: {uiState.currentView}</p>
             <VisComponent data={dataAPI.items} />
+            <p>
+              {uiState.hoveredItemId
+                ? `Hovering over ${uiState.hoveredItemId}`
+                : ''}
+            </p>
           </div>
         ) : (
           <div>Loading…</div>
