@@ -6,8 +6,18 @@ import dataPath from '../../data/data.tsv';
 
 export const dataSet = lazyObservable(
   sink =>
-    tsv(dataPath, result => {
-      sink(result ? result.map(d => Object.assign(d, { id: String(d.id) })) : [],);
+    tsv(dataPath).then(result => {
+      sink(
+        result
+          ? result.map(d =>
+              Object.assign(d, {
+                id: String(d.id),
+                x: Math.random(),
+                y: Math.random(),
+              }),
+            )
+          : [],
+      );
     }),
   [],
 );
