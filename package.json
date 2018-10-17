@@ -24,7 +24,6 @@
     "d3": "^5.7",
     "lodash": "^4.17",
     "mobx": "^5.5",
-    "mobx-location": "^0.6.6",
     "mobx-react": "^5.3",
     "mobx-utils": "^5.0",
     "react": "^16.5",
