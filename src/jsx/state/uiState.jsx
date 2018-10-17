@@ -1,11 +1,10 @@
 import { observable, computed, action, autorun } from 'mobx';
-import location from 'mobx-location';
 
 class UiState {
-  @observable currentView = '';
-  @observable mouse = { x: 0, y: 0 };
-  @observable selectedItemId = null;
-  @observable hoveredItemId = null;
+  @observable
+  selectedItemId = null;
+  @observable
+  hoveredItemId = null;
 
   @observable
   dimensions = {
@@ -19,45 +18,32 @@ class UiState {
       this.dimensions.height = document.body.clientHeight;
     };
 
-    document.onmousemove = e => {
-      this.setMousePos(e.pageX, e.pageY);
-    };
-
-    autorun(() => {
+    window.onhashchange = () => {
       this.updateFromHash();
-    });
+    };
+    // catch the state from the initial hash:
+    this.updateFromHash();
 
     autorun(() => {
       window.location.hash = this.urlFragment;
     });
   }
 
-  @action
-  setMousePos(x, y) {
-    this.mouse.x = x;
-    this.mouse.y = y;
-  }
-
   @computed
   get urlFragment() {
-    return [
-      // this.selectedTag,
-      this.currentView,
-      this.selectedItemId,
-    ]
+    return [this.selectedItemId ? this.selectedItemId : '']
       .map(encodeURIComponent)
       .join('/');
   }
 
   @action
   updateFromHash() {
-    const p = location.hash
-      .replace('#', '')
-      .split('/')
-      .map(decodeURIComponent);
-
-    this.currentView = p.shift();
     try {
+      const p = window.location.hash
+        .replace('#', '')
+        .split('/')
+        .map(decodeURIComponent);
+
       this.setSelectedItemId(p.shift());
     } catch (e) {
       this.selectedItemId = null;
@@ -76,7 +62,7 @@ class UiState {
 
   @action
   setHoveredItemId(id) {
-    this.hoveredItemId = String(id);
+    this.hoveredItemId = id ? String(id) : null;
   }
 }
 
