@@ -29,13 +29,25 @@ export default class VisComponentElement extends React.Component {
     } = this.props;
 
     return (
-      <div
-        onClick={this.onClick}
-        onMouseOver={this.onOver}
-        onMouseOut={this.onOut}
+      <g
+        style={{
+          transform: `translate(${this.props.xScale(
+            this.props.data.x,
+          )}px, ${this.props.yScale(this.props.data.y)}px)`,
+        }}
       >
-        id: {id} {this.selected ? '*' : ''}
-      </div>
+        <circle
+          onClick={this.onClick}
+          onMouseOver={this.onOver}
+          onMouseOut={this.onOut}
+          r="8"
+          stroke={this.selected ? '#ef0000' : '#fff'}
+          fill={this.selected ? '#ef9f9f' : '#999'}
+        />
+        <text y="4" className={this.selected ? 'selected' : ''}>
+          {id}
+        </text>
+      </g>
     );
   }
 }
