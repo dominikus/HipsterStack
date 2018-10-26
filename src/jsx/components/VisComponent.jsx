@@ -1,11 +1,11 @@
-import React from 'react';
+import { extent, scaleLinear } from 'd3';
 import { observer } from 'mobx-react';
-import { scaleLinear, extent } from 'd3';
-
+import React from 'react';
 import VisComponentElement from './VisComponentElement';
 
+
 @observer
-export default class VisComponent extends React.Component {
+class VisComponent extends React.Component {
   constructor() {
     super();
     this.state = VisComponent.getDefaultScales();
@@ -18,7 +18,7 @@ export default class VisComponent extends React.Component {
     };
   }
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props) {
     if (props.data && props.data.length > 0) {
       const xScale = scaleLinear()
         .domain(extent(props.data, d => d.x))
@@ -37,19 +37,27 @@ export default class VisComponent extends React.Component {
 
   render() {
     const { data } = this.props;
+    const { xScale, yScale } = this.props;
     const els = data.map(d => (
       <VisComponentElement
         key={d.id}
         data={d}
-        xScale={this.state.xScale}
-        yScale={this.state.yScale}
+        xScale={xScale}
+        yScale={yScale}
       />
     ));
     return (
       <div>
-        <p>Vis: {data.length} items</p>
+        <p>
+          Vis:
+          {' '}
+          {data.length}
+          {' '}
+          items
+        </p>
         <svg id="viz">{els}</svg>
       </div>
     );
   }
 }
+export default VisComponent;

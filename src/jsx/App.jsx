@@ -16,17 +16,19 @@ class App extends Component {
   render() {
     // console.log('App.render', dataAPI.items);
     const { items } = dataAPI;
+    const { hoveredItemId } = uiState;
     return (
       <div>
         <h1>Äpp</h1>
         {dataAPI.ready ? (
           <div>
-            <VisComponent data={dataAPI.items} />
-            <p>
-              {uiState.hoveredItemId
-                ? `Hovering over ${uiState.hoveredItemId}`
-                : ''}
-            </p>
+            <VisComponent data={items} />
+            {
+              hoveredItemId && (
+              <p>
+                {`Hovering over ${hoveredItemId}`}
+              </p>
+              )}
           </div>
         ) : (
           <div>Loading…</div>

@@ -1,8 +1,11 @@
-import { observable, computed, action, autorun } from 'mobx';
+import {
+  observable, computed, action, autorun,
+} from 'mobx';
 
 class UiState {
   @observable
   selectedItemId = null;
+
   @observable
   hoveredItemId = null;
 

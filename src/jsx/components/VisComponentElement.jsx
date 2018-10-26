@@ -1,17 +1,23 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import uiState from '../state/uiState';
 import { computed } from 'mobx';
+import uiState from '../state/uiState';
 
 @observer
-export default class VisComponentElement extends React.Component {
+class VisComponentElement extends React.Component {
   onClick = () => {
-    uiState.setSelectedItemId(this.props.data.id);
+    const {
+      data: { id },
+    } = this.props;
+    uiState.setSelectedItemId(id);
   };
 
   onOver = () => {
-    uiState.setHoveredItemId(this.props.data.id);
+    const {
+      data: { id },
+    } = this.props;
+    uiState.setHoveredItemId(id);
   };
 
   onOut = () => {
@@ -20,26 +26,32 @@ export default class VisComponentElement extends React.Component {
 
   @computed
   get selected() {
-    return uiState.selectedItemId === this.props.data.id;
+    const {
+      data: { id },
+    } = this.props;
+    return uiState.selectedItemId === id;
   }
 
   render() {
     const {
-      data: { id },
+      xScale, yScale,
+      data: { id, x, y },
     } = this.props;
 
     return (
       <g
         style={{
-          transform: `translate(${this.props.xScale(
-            this.props.data.x,
-          )}px, ${this.props.yScale(this.props.data.y)}px)`,
+          transform: `translate(${xScale(
+            x,
+          )}px, ${yScale(y)}px)`,
         }}
       >
         <circle
           onClick={this.onClick}
           onMouseOver={this.onOver}
+          onFocus={this.onOver}
           onMouseOut={this.onOut}
+          onBlur={this.onOut}
           r="8"
           stroke={this.selected ? '#ef0000' : '#fff'}
           fill={this.selected ? '#ef9f9f' : '#999'}
@@ -51,3 +63,4 @@ export default class VisComponentElement extends React.Component {
     );
   }
 }
+export default VisComponentElement;

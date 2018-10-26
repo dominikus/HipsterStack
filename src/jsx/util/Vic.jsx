@@ -1,6 +1,7 @@
 /* eslint-disable max-len, no-param-reassign, no-console */
 export class Point {
   x = 0;
+
   y = 0;
 
   constructor(_x = 0, _y = 0) {
@@ -58,14 +59,12 @@ export class Matrix {
 
     const { x, y } = pos;
 
-    newPos.x =
-      this.d * id * x +
-      -this.c * id * y +
-      (this.ty * this.c - this.tx * this.d) * id;
-    newPos.y =
-      this.a * id * y +
-      -this.b * id * x +
-      (-this.ty * this.a + this.tx * this.b) * id;
+    newPos.x = this.d * id * x
+      + -this.c * id * y
+      + (this.ty * this.c - this.tx * this.d) * id;
+    newPos.y = this.a * id * y
+      + -this.b * id * x
+      + (-this.ty * this.a + this.tx * this.b) * id;
 
     return newPos;
   }
@@ -125,10 +124,8 @@ export class Matrix {
 }
 
 export function rotateBy(point, angleInRadians) {
-  const x =
-    point.x * Math.cos(angleInRadians) - point.y * Math.sin(angleInRadians);
-  const y =
-    point.x * Math.sin(angleInRadians) + point.y * Math.cos(angleInRadians);
+  const x = point.x * Math.cos(angleInRadians) - point.y * Math.sin(angleInRadians);
+  const y = point.x * Math.sin(angleInRadians) + point.y * Math.cos(angleInRadians);
   point.set(x, y);
 }
 
