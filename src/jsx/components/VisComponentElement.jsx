@@ -37,7 +37,6 @@ class VisComponentElement extends React.Component {
       xScale, yScale,
       data: { id, x, y },
     } = this.props;
-
     return (
       <g
         style={{
