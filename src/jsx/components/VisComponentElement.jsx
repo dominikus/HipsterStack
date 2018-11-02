@@ -1,28 +1,32 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 
-import { computed } from 'mobx';
+import { computed, action } from 'mobx';
 import uiState from '../state/uiState';
 
 @observer
 class VisComponentElement extends React.Component {
-  onClick = () => {
+  @action.bound
+  onClick() {
     const {
       data: { id },
     } = this.props;
     uiState.setSelectedItemId(id);
-  };
+  }
 
-  onOver = () => {
+  @action.bound
+  onOver() {
     const {
       data: { id },
     } = this.props;
     uiState.setHoveredItemId(id);
-  };
+  }
 
-  onOut = () => {
+  @action.bound
+  // eslint-disable-next-line class-methods-use-this
+  onOut() {
     uiState.setHoveredItemId();
-  };
+  }
 
   @computed
   get selected() {
