@@ -23,7 +23,7 @@ class App extends Component {
 
     return (
       <div>
-        <h1>App title</h1>
+        <h1><%= title %></h1>
         <div className="controls">
           <TabBar
             data={uiState.modes}
