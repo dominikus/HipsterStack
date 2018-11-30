@@ -10,25 +10,48 @@ import uiState from './state/uiState';
 import dataAPI from './data/dataAPI';
 
 import VisComponent from './components/VisComponent';
+import TabBar from './components/TabBar';
+import Toggle from './components/Toggle';
+
+import MouseTip from './components/MouseTip';
+import SidePanel from './components/SidePanel';
 
 @observer
 class App extends Component {
   render() {
-    // console.log('App.render', dataAPI.items);
     const { items } = dataAPI;
-    const { hoveredItemId } = uiState;
+
     return (
       <div>
-        <h1>Äpp</h1>
+        <h1>App title</h1>
+        <div className="controls">
+          <TabBar
+            data={uiState.modes}
+            property={uiState.mode}
+            onChange={id => {
+              uiState.mode = id;
+            }}
+          >
+            Mode
+          </TabBar>
+          <Toggle
+            selected={uiState.toggleMode}
+            onChange={() => {
+              uiState.toggleMode = !uiState.toggleMode;
+            }}
+          >
+            toggle
+          </Toggle>
+        </div>
         {dataAPI.ready ? (
           <div>
             <VisComponent data={items} />
-            {
-              hoveredItemId && (
-              <p>
-                {`Hovering over ${hoveredItemId}`}
-              </p>
-              )}
+            <MouseTip visible>
+              {dataAPI.hoveredItem && dataAPI.hoveredItem.id}
+            </MouseTip>
+            <SidePanel visible>
+              {dataAPI.selectedItem && dataAPI.selectedItem.id}
+            </SidePanel>
           </div>
         ) : (
           <div>Loading…</div>

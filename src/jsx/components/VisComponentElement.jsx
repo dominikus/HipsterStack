@@ -38,31 +38,17 @@ class VisComponentElement extends React.Component {
 
   render() {
     const {
-      xScale, yScale,
-      data: { id, x, y },
+      data: { id },
     } = this.props;
     return (
-      <g
-        style={{
-          transform: `translate(${xScale(
-            x,
-          )}px, ${yScale(y)}px)`,
-        }}
+      <div
+        className={this.selected ? 'selected' : ''}
+        onClick={this.onClick}
+        onMouseOver={this.onOver}
+        onMouseOut={this.onOut}
       >
-        <circle
-          onClick={this.onClick}
-          onMouseOver={this.onOver}
-          onFocus={this.onOver}
-          onMouseOut={this.onOut}
-          onBlur={this.onOut}
-          r="8"
-          stroke={this.selected ? '#ef0000' : '#fff'}
-          fill={this.selected ? '#ef9f9f' : '#999'}
-        />
-        <text y="4" className={this.selected ? 'selected' : ''}>
-          {id}
-        </text>
-      </g>
+        {id}
+      </div>
     );
   }
 }
