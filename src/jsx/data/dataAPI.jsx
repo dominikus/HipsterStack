@@ -1,14 +1,19 @@
 /* eslint-disable no-console */
 import { find } from 'lodash';
 import { computed } from 'mobx';
-import { dataSet } from './dataStore';
+import { layers } from './dataStore';
 
 import uiState from '../state/uiState';
 
 class DataAPI {
   @computed
   get ready() {
-    return this.items.length > 0;
+    return true //this.items.length > 0;
+  }
+
+  @computed
+  get layers() {
+    return layers;
   }
 
   @computed

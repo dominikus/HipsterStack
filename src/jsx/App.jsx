@@ -9,7 +9,7 @@ import { hot } from 'react-hot-loader';
 import uiState from './state/uiState';
 import dataAPI from './data/dataAPI';
 
-import VisComponent from './components/VisComponent';
+import MapboxView from './components/MapboxView';
 import TabBar from './components/TabBar';
 import Toggle from './components/Toggle';
 
@@ -19,7 +19,7 @@ import SidePanel from './components/SidePanel';
 @observer
 class App extends Component {
   render() {
-    const { items } = dataAPI;
+    const { layers } = dataAPI;
 
     return (
       <div>
@@ -45,13 +45,19 @@ class App extends Component {
         </div>
         {dataAPI.ready ? (
           <div>
-            <VisComponent data={items} />
-            <MouseTip visible>
+            <MapboxView
+              layers={layers}
+              zoom={10}
+              bearing={0}
+              pitch={45}
+              center={[8.8, 53.1]}
+            />
+            {/* <MouseTip visible>
               {dataAPI.hoveredItem && dataAPI.hoveredItem.id}
             </MouseTip>
             <SidePanel visible>
               {dataAPI.selectedItem && dataAPI.selectedItem.id}
-            </SidePanel>
+            </SidePanel> */}
           </div>
         ) : (
           <div>Loading…</div>
