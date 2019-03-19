@@ -11,6 +11,9 @@
     "build": "rm -rf build; parcel build ./src/index.html --out-dir build --public-url ./; open build",
     "deploy-preview": "rm -rf build; npm run build; cp -R build $npm_package_version; scp -r $npm_package_version $npm_package_staging_server_path/$npm_package_staging_server_directory/; rm -rf $npm_package_version; echo Uploaded to $npm_package_staging_server_URL/$npm_package_staging_server_directory/$npm_package_version; echo $npm_package_staging_server_URL/$npm_package_staging_server_directory/$npm_package_version | pbcopy"
   },
+  "alias": {
+    "react-dom": "@hot-loader/react-dom"
+  },
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.3.0",
@@ -28,8 +31,10 @@
     "parcel-bundler": "^1.11.0"
   },
   "dependencies": {
+    "@hot-loader/react-dom": "^16.8.2",
+    "@material-ui/core": "^3.9.2",
     "d3": "^5.9.1",
-    "lodash": "^4.17",
+    "lodash": "^4.17.11",
     "mobx": "^5.9.0",
     "mobx-react": "^5.4.3",
     "mobx-utils": "^5.0",
