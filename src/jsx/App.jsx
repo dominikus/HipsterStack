@@ -15,6 +15,7 @@ import Toggle from './components/Toggle';
 
 import MouseTip from './components/MouseTip';
 import SidePanel from './components/SidePanel';
+import DynamicMapContainer from './components/DynamicMapContainer';
 
 @observer
 class App extends Component {
@@ -23,8 +24,7 @@ class App extends Component {
 
     return (
       <div>
-        <h1>App title</h1>
-        <div className="controls">
+        {/* <div className="controls">
           <TabBar
             data={uiState.modes}
             property={uiState.mode}
@@ -42,16 +42,17 @@ class App extends Component {
           >
             toggle
           </Toggle>
-        </div>
+        </div> */}
         {dataAPI.ready ? (
           <div>
-            <VisComponent data={items} />
-            <MouseTip visible>
+            <DynamicMapContainer data={items} width={1920} height={1080} />
+            {/* <VisComponent data={items} /> */}
+            {/* <MouseTip visible>
               {dataAPI.hoveredItem && dataAPI.hoveredItem.id}
             </MouseTip>
             <SidePanel visible>
               {dataAPI.selectedItem && dataAPI.selectedItem.id}
-            </SidePanel>
+            </SidePanel> */}
           </div>
         ) : (
           <div>Loading…</div>
