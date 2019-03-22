@@ -47,9 +47,9 @@ class App extends Component {
           <div>
             <MapboxView
               layers={layers}
-              zoom={10}
+              zoom={7}
               bearing={0}
-              pitch={45}
+              pitch={30}
               center={[8.8, 53.1]}
             />
             {/* <MouseTip visible>

@@ -12,7 +12,7 @@ const MAPBOX_KEY = 'pk.eyJ1IjoibW9yaXR6c3RlZmFuZXIiLCJhIjoiUGs4LU1VZyJ9.oJh_Gi3g
 const Map = ReactMapboxGl({
   accessToken: MAPBOX_KEY,
   dragPan: false,
-  interactive: false,
+  interactive: true,
 });
 
 @observer
@@ -22,6 +22,7 @@ class MapboxView extends React.Component {
       layers, center, zoom, bearing, pitch,
     } = this.props;
     console.log(layers);
+    // layers.features = layers.features.slice(0, 10);
     return (
       <div className="content">
         <Map
@@ -42,9 +43,20 @@ class MapboxView extends React.Component {
         >
           <GeoJSONLayer
             data={layers}
-            // fillLayout={{}}
-            // fillPaint={{ 'fill-color': '#990000' }}
-            
+            fillExtrusionPaint={{
+              'fill-extrusion-color': [
+                'interpolate',
+                ['cubic-bezier', 0, 0.5, 1, 0.5],
+                ['get', 'time'],
+                0,
+                '#2400AB',
+                10000,
+                '#B6FFFF',
+              ],
+              'fill-extrusion-opacity': 0.8,
+              'fill-extrusion-height': ['*', 5, ['-', 10000, ['get', 'time']]],
+            }}
+            fillExtrusionLayout={{}}
           />
         </Map>
       </div>
