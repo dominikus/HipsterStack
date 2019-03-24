@@ -45,13 +45,15 @@ class App extends Component {
         </div>
         {dataAPI.ready ? (
           <div>
-            <MapboxView
-              layers={layers}
-              zoom={7}
-              bearing={0}
-              pitch={30}
-              center={[8.8, 53.1]}
-            />
+            {layers && (
+              <MapboxView
+                layers={layers}
+                zoom={9}
+                bearing={0}
+                pitch={30}
+                center={[8.8, 53.1]}
+              />
+            )}
             {/* <MouseTip visible>
               {dataAPI.hoveredItem && dataAPI.hoveredItem.id}
             </MouseTip>

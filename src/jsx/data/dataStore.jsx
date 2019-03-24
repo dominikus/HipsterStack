@@ -1,26 +1,15 @@
 /* eslint-disable no-param-reassign, no-console */
 import { lazyObservable } from 'mobx-utils';
-import { tsv } from 'd3';
-import layers from '../../data/layers.json';
+import { json } from 'd3';
+// import layers from '../../data/3600.geojson';
+import layers from '../../data/10k.geojson';
+// import layers from '../../data/10-layers.geojson';
 
 // import dataPath from '../../data/data.tsv';
 
-// const dataSet = lazyObservable(
-//   sink => tsv(dataPath).then(result => {
-//     sink(
-//       result
-//         ? result.map(d => Object.assign(d, {
-//           id: String(d.id),
-//           x: Math.random(),
-//           y: Math.random(),
-//         }))
-//         : [],
-//     );
-//   }),
-//   [],
-// );
+const dataSet = lazyObservable(sink => json(layers).then(sink));
 
 // test if dynamic updates work
 // setInterval(() => dataSet.refresh(), 5000);
 
-export { layers }; // eslint-disable-line
+export { dataSet }; // eslint-disable-line
