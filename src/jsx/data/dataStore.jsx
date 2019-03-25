@@ -2,8 +2,8 @@
 import { lazyObservable } from 'mobx-utils';
 import { json } from 'd3';
 // import layers from '../../data/3600.geojson';
-import layers from '../../data/10k.geojson';
-// import layers from '../../data/10-layers.geojson';
+// import layers from '../../data/10k.geojson';
+import layers from '../../data/10-layers.geojson';
 
 // import dataPath from '../../data/data.tsv';
 

@@ -30,7 +30,7 @@ class MapboxView extends React.Component {
 
     const colorScale = scaleLinear()
       .domain([0, maxTime * 0.9, maxTime])
-      .range(['#A900C0', '#B6FFFF', '#FFFFFF']);
+      .range(['#5E00C6', '#B6FFFF', '#FFFFFF']);
 
     layers.features = layers.features.map((l, i) => {
       l.properties.height = heightScale(l.properties.time);
