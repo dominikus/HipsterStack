@@ -1,0 +1,29 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Atlas Grotesk, sans-serif;
+  font-weight: 300;
+  background: #F5F4F1;
+  color: #555;
+  line-height: 1.4;
+  margin: 0;
+  padding: 1.4rem;
+}
+
+svg {
+  border: 1px solid #333;
+  background-color: white;
+}
+svg text {
+  pointer-events: none;
+  font-variant: small-caps;
+  font-weight: 900;
+  font-size: 12px;
+  text-anchor: middle;
+  fill: white;
+}
+svg text.selected {
+  fill: #ef0000;
+}

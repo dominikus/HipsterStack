@@ -4,36 +4,27 @@
   "version": "0.1.2018",
   "description": "",
   "repository": "https://github.com/dominikus/HipsterStack",
-  "scripts": {
-    "start": "npm run dev",
-    "dev": "parcel -p 8080 ./src/index.html",
-    "nvm": "~/.nvm/nvm-exec which node | xargs -J % ln -sf % ./.nvm-node && chmod +x ./.nvm-node",
-    "build": "rm -rf build; parcel build ./src/index.html --out-dir build --public-url ./; open build"
-  },
   "devDependencies": {
-    "babel-core": "^6.26",
-    "babel-plugin-transform-class-properties": "^6.24",
-    "babel-plugin-transform-decorators": "^6.24",
-    "babel-plugin-transform-decorators-legacy": "^1.3",
-    "babel-preset-env": "^1.7",
-    "babel-preset-react": "^6.24",
-    "eslint": "^5.8.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-react": "^7.11.1",
-    "node-sass": "^4.9.4",
-    "parcel-bundler": "^1.10",
-    "babel-eslint": "^10.0.1"
+    "npm-run-all": "^4.1.5",
+    "rollup": "^1.10.1",
+    "rollup-plugin-commonjs": "^9.3.4",
+    "rollup-plugin-livereload": "^1.0.0",
+    "rollup-plugin-node-resolve": "^4.2.3",
+    "rollup-plugin-svelte": "^5.0.3",
+    "rollup-plugin-terser": "^4.0.4",
+    "svelte": "^3.0.0"
   },
   "dependencies": {
-    "d3": "^5.7",
-    "lodash": "^4.17",
-    "mobx": "^5.5",
-    "mobx-react": "^5.3",
-    "mobx-utils": "^5.0",
-    "react": "^16.5",
-    "react-dom": "^16.5",
-    "react-hot-loader": "^4.3"
+    "d3": "^5.9.2",
+    "lodash": "^4.17.11",
+    "rollup-plugin-sass": "^1.2.2",
+    "sirv-cli": "^0.4.4"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "autobuild": "rollup -c -w",
+    "dev": "run-p start:dev autobuild",
+    "start": "sirv public --single",
+    "start:dev": "sirv public --single --dev"
   }
 }

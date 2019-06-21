@@ -12,4 +12,4 @@ dist/*
 .cache/*
 .vscode/*
 *.code-workspace
-
+public/bundle.*
