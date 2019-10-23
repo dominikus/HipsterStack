@@ -4,6 +4,10 @@
   "version": "0.1.0",
   "description": "",
   "repository": "https://github.com/dominikus/HipsterStack",
+  "staging_server_URL": "http://clients.stefaner.eu",
+  "staging_server_path": "starling@starling.columba.uberspace.de:/var/www/virtual/starling/html",
+  "staging_server_directory": "_tmp",
+  "browserslist": "last 2 Firefox versions, last 2 Chrome versions, last 2 Edge versions, last 2 Safari versions",
   "scripts": {
     "start": "npm run dev",
     "dev": "parcel -p 8080 ./src/index.html",
@@ -15,29 +19,29 @@
     "react-dom": "@hot-loader/react-dom"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/plugin-proposal-class-properties": "^7.4.4",
-    "@babel/plugin-proposal-decorators": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/core": "^7.6.4",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-decorators": "^7.6.0",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
+    "@hot-loader/react-dom": "^16.9.0",
     "babel-eslint": "^10.0.3",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react": "^7.16.0",
     "node-sass": "^4.12.0",
-    "parcel-bundler": "^1.12.3"
+    "parcel-bundler": "^1.12.4"
   },
   "dependencies": {
-    "@hot-loader/react-dom": "^16.9.0",
-    "d3": "^5.11.0",
+    "d3": "^5.12.0",
     "lodash": "^4.17.15",
-    "mobx": "^5.13.0",
+    "mobx": "^5.14.2",
     "mobx-react": "^5.4.4",
-    "mobx-utils": "^5.4.1",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-hot-loader": "^4.12.12"
+    "mobx-utils": "^5.5.1",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-hot-loader": "^4.12.15"
   }
 }
