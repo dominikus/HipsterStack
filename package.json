@@ -15,9 +15,6 @@
     "build": "rm -rf build; parcel build ./src/index.html --out-dir build --public-url ./; open build",
     "deploy-preview": "rm -rf build; npm run build; cp -R build $npm_package_version; scp -r $npm_package_version $npm_package_staging_server_path/$npm_package_staging_server_directory/; rm -rf $npm_package_version; echo Uploaded to $npm_package_staging_server_URL/$npm_package_staging_server_directory/$npm_package_version; echo $npm_package_staging_server_URL/$npm_package_staging_server_directory/$npm_package_version | pbcopy"
   },
-  "alias": {
-    "react-dom": "@hot-loader/react-dom"
-  },
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
@@ -32,7 +29,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
     "node-sass": "^4.12.0",
-    "parcel-bundler": "^1.12.4"
+    "parcel-bundler": "^1.11.0"
   },
   "dependencies": {
     "d3": "^5.12.0",

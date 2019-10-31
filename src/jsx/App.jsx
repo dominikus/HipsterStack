@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
+import { hot } from 'react-hot-loader';
 
 import React, { Component } from 'react';
 
 import { observer } from 'mobx-react';
 // hot reloading:
-import { hot } from 'react-hot-loader';
 
 import uiState from './state/uiState';
 import dataAPI from './data/dataAPI';
