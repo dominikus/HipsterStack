@@ -28,7 +28,8 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
     "node-sass": "^4.11.0",
-    "parcel-bundler": "^1.11.0"
+    "parcel-bundler": "^1.11.0",
+    "sass": "^1.25.0"
   },
   "dependencies": {
     "@hot-loader/react-dom": "^16.8.2",
@@ -38,10 +39,11 @@
     "mobx": "^5.9.0",
     "mobx-react": "^5.4.3",
     "mobx-utils": "^5.0",
-    "pixi.js": "^4.8.6",
+    "pixi.js": "^4.8.9",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
     "react-hot-loader": "^4.6.5",
+    "react-pixi-fiber": "^1.0.0-beta.0",
     "three": "^0.102.1"
   }
 }

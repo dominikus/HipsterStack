@@ -1,12 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import {
-  autorun, observable, computed, extendObservable, action,
-} from 'mobx';
+import { autorun, observable, computed, extendObservable, action } from 'mobx';
 import { now } from 'mobx-utils';
-import {
-  random, range, memoize, keyBy,
-} from 'lodash';
+import { random, range, memoize, keyBy } from 'lodash';
 import {
   interpolateMagma,
   scaleLinear,
@@ -18,10 +14,11 @@ import {
   forceManyBody,
 } from 'd3';
 
-import DynamicMapThree from './DynamicMapThree';
-import DynamicMapPixi from './DynamicMapPixi';
-import DynamicMapHtml from './DynamicMapHtml';
-import DynamicMapSVG from './DynamicMapSVG';
+// import DynamicMap from './DynamicMapThree';
+// import DynamicMap from './DynamicMapPixi';
+import DynamicMap from './DynamicMapPixiFiber';
+// import DynamicMap from './DynamicMapHtml';
+// import DynamicMap from './DynamicMapSVG';
 import dataAPI from '../data/dataAPI';
 import StationsAndConnectionsView from './StationsAndConnectionsView';
 
@@ -72,8 +69,9 @@ class DynamicMapContainer extends React.Component {
         this.displayItems.forEach(d => {
           d.target.x = (Math.floor(Math.random() * 10) / 10) * this.props.width;
           d.target.y = (Math.floor(Math.random() * 5) / 5) * this.props.height;
-          d.target.radius = this.radiusExtent[0]
-            + (this.radiusExtent[1] - this.radiusExtent[0]) * Math.random() ** 10;
+          d.target.radius =
+            this.radiusExtent[0] +
+            (this.radiusExtent[1] - this.radiusExtent[0]) * Math.random() ** 10;
         });
         break;
       case 2:
@@ -87,8 +85,9 @@ class DynamicMapContainer extends React.Component {
         this.displayItems.forEach(d => {
           d.target.x = Math.random() * Math.random() * this.props.width;
           d.target.y = Math.random() * Math.random() * this.props.height;
-          d.target.radius = this.radiusExtent[0]
-            + (this.radiusExtent[1] - this.radiusExtent[0]) * Math.random() ** 10;
+          d.target.radius =
+            this.radiusExtent[0] +
+            (this.radiusExtent[1] - this.radiusExtent[0]) * Math.random() ** 10;
         });
         break;
       case 4:
@@ -150,18 +149,12 @@ class DynamicMapContainer extends React.Component {
   }
 
   render() {
-    const {
-      data, children, width, height,
-    } = this.props;
+    const { data, children, width, height } = this.props;
     // console.log(this.displayItems.length);
     return (
       <div style={{ display: 'flex' }}>
         <div style={{ position: 'relative' }}>
-          <DynamicMapPixi
-            data={this.displayItems}
-            width={width}
-            height={height}
-          />
+          <DynamicMap data={this.displayItems} width={width} height={height} />
         </div>
       </div>
     );
